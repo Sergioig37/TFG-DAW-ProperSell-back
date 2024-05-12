@@ -47,6 +47,14 @@ public class Cliente {
 		this.id = id;
 	}
 
+	public List<AgenteCliente> getAgenteCliente() {
+		return agenteCliente;
+	}
+
+	public void setAgenteCliente(List<AgenteCliente> agenteCliente) {
+		this.agenteCliente = agenteCliente;
+	}
+
 	public String getNombre() {
 		return nombre;
 	}

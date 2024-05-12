@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.start.role.Role;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -21,11 +21,14 @@ import lombok.Builder;
 
 @Entity
 @Builder
-
 public class Usuario implements UserDetails{
 
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	private String usuario;
 	private String password;
@@ -34,8 +37,8 @@ public class Usuario implements UserDetails{
 	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name="users_roles",
-            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
+            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="id")})
     private List<Role> roles = new ArrayList<>();
 	
 	
