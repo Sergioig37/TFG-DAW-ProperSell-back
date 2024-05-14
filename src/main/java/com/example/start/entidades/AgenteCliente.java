@@ -2,7 +2,7 @@ package com.example.start.entidades;
 
 
 
-import com.spring.start.agentecliente.AgenteClienteKey;
+import com.example.start.agentecliente.AgenteClienteKey;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

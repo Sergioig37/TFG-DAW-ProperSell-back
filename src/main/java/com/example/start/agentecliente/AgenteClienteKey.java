@@ -1,4 +1,4 @@
-package com.spring.start.agentecliente;
+package com.example.start.agentecliente;
 
 import java.io.Serializable;
 import java.util.Objects;
