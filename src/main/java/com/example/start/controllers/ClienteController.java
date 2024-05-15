@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,16 +20,18 @@ import com.example.start.entidades.Cliente;
 
 import jakarta.validation.Valid;
 
-
+@CrossOrigin(origins = "*")
 @Controller
 public class ClienteController {
 
 	@Autowired
 	ClienteDAO clienteDAO;
 	
+	 
 	@GetMapping("/cliente")
 	public ResponseEntity<List<Cliente>> getClientes(){
 		
+	
 		
 		return ResponseEntity.status(HttpStatus.OK).body((List<Cliente>)clienteDAO.findAll());
 	}
