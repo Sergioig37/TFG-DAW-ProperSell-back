@@ -25,6 +25,9 @@ public class Cliente {
 	
 	private String nombre;
 
+	private String correo;
+	
+	private String numeroTelefono;
 	
 	@OneToMany(mappedBy="propietario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -38,6 +41,32 @@ public class Cliente {
 	public String toString() {
 		return "Cliente [id=" + id + ", nombre=" + nombre + "]";
 	}
+	
+	
+
+	public String getCorreo() {
+		return correo;
+	}
+
+
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
+
+
+	public String getNumeroTelefono() {
+		return numeroTelefono;
+	}
+
+
+
+	public void setNumeroTelefono(String numeroTelefono) {
+		this.numeroTelefono = numeroTelefono;
+	}
+
+
 
 	public Long getId() {
 		return id;

@@ -22,7 +22,7 @@ public class Propiedad {
 	
 	private String localizacion;
 	
-	private int precio;
+	private String precio;
 	
 	@JoinColumn(name = "FK_PROPIETARIO")
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -62,11 +62,11 @@ public class Propiedad {
 		this.localizacion = localizacion;
 	}
 
-	public int getPrecio() {
+	public String getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(int precio) {
+	public void setPrecio(String precio) {
 		this.precio = precio;
 	}
 

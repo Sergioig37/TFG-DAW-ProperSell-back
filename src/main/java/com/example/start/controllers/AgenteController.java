@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,9 +81,9 @@ public class AgenteController {
 			   
 	}
 	
-	/*
+	
 	@PostMapping("/agente/save")
-	public ResponseEntity<Agente> saveAgente(@RequestBody @Valid Agente agente, BindingResult bindingResult) {
+	public ResponseEntity<Agente> saveAgente(@RequestBody Agente agente, BindingResult bindingResult) {
 		
 		
 		if(bindingResult.hasErrors()) {
@@ -97,16 +98,20 @@ public class AgenteController {
 		return ResponseEntity.status(HttpStatus.OK).body(agente);
 	}
 	
-	@GetMapping("/agente/edit/{id}")
+	@PutMapping("/agente/edit/{id}")
 	public ResponseEntity<Agente> editAgente(@RequestBody Agente agente, @PathVariable Long id){
 		
-		
+		System.out.println("Encontrando agente");
 		Optional<Agente> agenteExiste = agenteDAO.findById(id);
 		
 		if(agenteExiste.isPresent()) {
-			
+			System.out.println("Agente Encontrado");
+			System.out.println("Actualizando");
 			agenteExiste.get().setNombre(agente.getNombre());
 			agenteExiste.get().setNumeroTelefono(agente.getNumeroTelefono());
+			agenteExiste.get().setCorreo(agente.getCorreo());
+			System.out.println("Actuaklizado...");
+			System.out.println("Guardando...");
 			agenteDAO.save(agenteExiste.get());
 			return ResponseEntity.status(HttpStatus.OK).body(agenteExiste.get());
 		}
@@ -114,5 +119,5 @@ public class AgenteController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	
 	}
-	*/
+	
 }

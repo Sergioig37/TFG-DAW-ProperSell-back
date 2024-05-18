@@ -9,10 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.start.dao.ClienteDAO;
 import com.example.start.entidades.Agente;
@@ -21,7 +24,7 @@ import com.example.start.entidades.Cliente;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
-@Controller
+@RestController
 public class ClienteController {
 
 	@Autowired
@@ -45,7 +48,7 @@ public class ClienteController {
 	}
 	
 	
-	@GetMapping("/cliente/del/{id}")
+	@DeleteMapping("/cliente/del/{id}")
 	public ResponseEntity<Cliente> delCliente(@PathVariable Long id) {
 		
 		
@@ -76,7 +79,7 @@ public class ClienteController {
 		
 	}
 	
-	@GetMapping("/cliente/edit/{id}")
+	@PutMapping("/cliente/edit/{id}")
 	public ResponseEntity<Cliente> editCliente(@RequestBody @Valid Cliente cliente, @PathVariable Long id){
 		
 		Optional<Cliente> clienteExiste =  clienteDAO.findById(id);
@@ -84,6 +87,8 @@ public class ClienteController {
 		if(clienteExiste.isPresent()) {
 			
 			clienteExiste.get().setNombre( cliente.getNombre());
+			clienteExiste.get().setCorreo(cliente.getCorreo());
+			clienteExiste.get().setNumeroTelefono(cliente.getNumeroTelefono());
 			clienteDAO.save(clienteExiste.get());
 			return ResponseEntity.status(HttpStatus.OK).body(clienteExiste.get());
 		}

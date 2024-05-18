@@ -10,10 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.start.dao.InmobiliariaDAO;
 import com.example.start.entidades.Inmobiliaria;
@@ -21,7 +24,7 @@ import com.example.start.entidades.Inmobiliaria;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
-@Controller
+@RestController
 public class InmobiliariaController {
 
 	@Autowired 
@@ -42,7 +45,7 @@ public class InmobiliariaController {
 	}
 	
 	
-	@GetMapping("/inmobiliaria/del/{id}")
+	@DeleteMapping("/inmobiliaria/del/{id}")
 	public ResponseEntity<Inmobiliaria> delInmobiliarias(@PathVariable Long id) {
 		
 		
@@ -70,7 +73,7 @@ public class InmobiliariaController {
 		return ResponseEntity.status(HttpStatus.OK).body(inmobiliaria);
 	}
 	
-	@GetMapping("/inmobiliaria/edit/{id}")
+	@PutMapping("/inmobiliaria/edit/{id}")
 	public ResponseEntity<Inmobiliaria> editInmobiliaria(@RequestBody Inmobiliaria inmobiliaria, @PathVariable Long id){
 		
 		

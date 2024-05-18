@@ -12,24 +12,24 @@ import com.example.start.entidades.Propiedad;
 public final class MetodosPropiedad {
 
 	private MetodosPropiedad() {
-		
+
 	}
-	
+
 	public static MetodosPropiedad getInstancia() {
 		return new MetodosPropiedad();
 	}
-	
+
 	public void desenlazarPropietario(Propiedad propiedad, ClienteDAO clienteDAO) {
-		
-		Optional<Cliente> cliente = clienteDAO.findById(propiedad.getPropietario().getId());
 
-		
-		List<Propiedad> propiedades = cliente.get().getPropiedades();
-		propiedades.remove(propiedad);
-		cliente.get().setPropiedades(propiedades);
+		if (propiedad.getPropietario() != null) {
+			Optional<Cliente> cliente = clienteDAO.findById(propiedad.getPropietario().getId());
 
-		clienteDAO.save(cliente.get());
-		
-		
+			List<Propiedad> propiedades = cliente.get().getPropiedades();
+			propiedades.remove(propiedad);
+			cliente.get().setPropiedades(propiedades);
+
+			clienteDAO.save(cliente.get());
+		}
+
 	}
 }

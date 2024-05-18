@@ -24,6 +24,16 @@ public class Agente {
 	
 	private String nombre;
 	
+	private String correo;
+	
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
 	@JoinColumn(name = "FK_INMOBILIARIA")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference
