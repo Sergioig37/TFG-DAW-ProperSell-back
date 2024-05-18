@@ -35,7 +35,7 @@ public class Propiedad {
 	
 	@Override
 	public String toString() {
-		return "Propiedad [id=" + id + ", tipo=" + tipo + ", localizacion=" + localizacion + ", precio=" + precio + "]";
+		return "Propiedad [id=" + id + ", tipo=" + tipo + ", localizacion=" + localizacion + ", precio=" + precio + " " + propietario +"]";
 	}
 
 	public Long getId() {

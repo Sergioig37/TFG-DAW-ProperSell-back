@@ -9,10 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.start.dao.AgenteDAO;
 import com.example.start.dao.InmobiliariaDAO;
@@ -20,16 +23,18 @@ import com.example.start.entidades.Agente;
 import com.example.start.entidades.Inmobiliaria;
 import com.example.start.utilidades.MetodosAgente;
 
-import jakarta.validation.Valid;
 
+
+
+@RestController
 @CrossOrigin(origins = "*")
-@Controller
 public class AgenteController {
 
 	@Autowired 
 	AgenteDAO agenteDAO;
 	@Autowired
 	InmobiliariaDAO inmobiDAO;
+	
 	
 	@GetMapping("/agente")
 	public ResponseEntity<List<Agente>> getAgentes(){
@@ -47,16 +52,25 @@ public class AgenteController {
 	}
 	
 	
-	@GetMapping("/agente/del/{id}")
+	@DeleteMapping("/agente/del/{id}")
 	public ResponseEntity<Agente> delAgente(@PathVariable Long id) {
 		
+		System.out.println("Empezando delete");
+		
+		System.out.println("Empezando delete");
+
 		
 		Optional<Agente> agenteOptional = agenteDAO.findById(id);
-	    
+		System.out.println("Buscando agente para borrar");
 	    if (agenteOptional.isPresent()) {
-	    	
+	    	System.out.println("Agente encontrado");
+	    	System.out.println("Desvinculando");
 	    	MetodosAgente.getInstancia().desenlazarInmobiliaria(agenteOptional.get(), inmobiDAO);
+	    	System.out.println("Agente desvinculado");
+	    	
+	    	System.out.println("Borrando...");
 	        agenteDAO.delete(agenteOptional.get());
+	        System.out.println("Agente borrado...");
 	        return ResponseEntity.status(HttpStatus.OK).body(agenteOptional.get());
 	    }
 	    else {

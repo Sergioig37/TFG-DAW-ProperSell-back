@@ -30,7 +30,6 @@ public class InmobiliariaController {
 	@GetMapping("/inmobiliaria")
 	public ResponseEntity<List<Inmobiliaria>> getInmobiliarias(){
 		
-		System.out.println(inmobiDAO.findAll());
 		
 		return ResponseEntity.status(HttpStatus.OK).body((List<Inmobiliaria>)inmobiDAO.findAll());
 	}
