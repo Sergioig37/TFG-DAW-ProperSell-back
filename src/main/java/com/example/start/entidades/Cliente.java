@@ -15,8 +15,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
+import lombok.Setter;
+
 
 @Entity
+@Data
 public class Cliente {
 
 	@Id
@@ -36,70 +40,11 @@ public class Cliente {
 	
 	@OneToMany(targetEntity=AgenteCliente.class, mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<AgenteCliente> agenteCliente;
+
 	
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", nombre=" + nombre + "]";
-	}
 	
 	
 
-	public String getCorreo() {
-		return correo;
-	}
-
-
-
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-
-
-
-	public String getNumeroTelefono() {
-		return numeroTelefono;
-	}
-
-
-
-	public void setNumeroTelefono(String numeroTelefono) {
-		this.numeroTelefono = numeroTelefono;
-	}
-
-
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public List<AgenteCliente> getAgenteCliente() {
-		return agenteCliente;
-	}
-
-	public void setAgenteCliente(List<AgenteCliente> agenteCliente) {
-		this.agenteCliente = agenteCliente;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public List<Propiedad> getPropiedades() {
-		return propiedades;
-	}
-
-	public void setPropiedades(List<Propiedad> propiedades) {
-		this.propiedades = propiedades;
-	}
-	
 	
 	
 }

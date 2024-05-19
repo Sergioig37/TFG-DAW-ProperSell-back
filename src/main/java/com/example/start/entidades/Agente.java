@@ -13,9 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 
 @Entity
+@Data
 public class Agente {
 
 	@Id
@@ -25,14 +27,7 @@ public class Agente {
 	private String nombre;
 	
 	private String correo;
-	
-	public String getCorreo() {
-		return correo;
-	}
 
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
 
 	@JoinColumn(name = "FK_INMOBILIARIA")
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -45,53 +40,9 @@ public class Agente {
 	private List<AgenteCliente> agenteCliente;
 	
 
-	public List<AgenteCliente> getAgenteCliente() {
-		return agenteCliente;
-	}
 
-	public void setAgenteCliente(List<AgenteCliente> agenteCliente) {
-		this.agenteCliente = agenteCliente;
-	}
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getNumeroTelefono() {
-		return numeroTelefono;
-	}
-
-	public void setNumeroTelefono(String numeroTelefono) {
-		this.numeroTelefono = numeroTelefono;
-	}
-
-	public Inmobiliaria getInmobiliaria() {
-		return inmobiliaria;
-	}
-
-	public void setInmobiliaria(Inmobiliaria inmobiliaria) {
-		this.inmobiliaria = inmobiliaria;
-	}
-
-	@Override
-	public String toString() {
-		return "Agente [id=" + id + ", nombre=" + nombre + ", inmobiliaria=" + inmobiliaria + ", numeroTelefono="
-				+ numeroTelefono + "]";
-	}
-
-	
 	
 	
 	
