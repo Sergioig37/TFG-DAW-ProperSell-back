@@ -28,7 +28,7 @@ import com.example.start.utilidades.MetodosAgente;
 
 
 @RestController
-@CrossOrigin(origins = "*")
+
 public class AgenteController {
 
 	@Autowired 

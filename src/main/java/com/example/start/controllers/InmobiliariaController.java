@@ -23,7 +23,7 @@ import com.example.start.entidades.Inmobiliaria;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 public class InmobiliariaController {
 

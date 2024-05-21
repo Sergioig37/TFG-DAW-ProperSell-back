@@ -18,8 +18,7 @@ import com.example.start.dao.AgenteDAO;
 import com.example.start.dao.ClienteDAO;
 import com.example.start.entidades.AgenteCliente;
 
-//Esto evita que el navegador bloquee el fetch por la política de CORS
-@CrossOrigin(origins = "*")
+
 @Controller
 public class AgenteClienteController {
 

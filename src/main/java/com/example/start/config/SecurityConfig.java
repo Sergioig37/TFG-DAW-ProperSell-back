@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -32,13 +34,26 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
 				authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-						.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN").requestMatchers("/").permitAll()
+						.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 						.requestMatchers("/agente", "/agenteCliente", "/cliente").authenticated()
 						.requestMatchers("/cliente/del/**", "/agente/del/**", "/agenteCliente/del/**",
 								"/cliente/edit/**", "/agente/edit/**", "/agenteCliente/edit/**")
 						.hasAuthority("ADMIN").anyRequest().authenticated())
-				.formLogin(formLogin -> formLogin.permitAll());
-
+				.formLogin(formLogin -> formLogin.permitAll())
+				.logout(logout -> logout.permitAll());
 		return http.build();
 	}
+	
+	@Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowCredentials(true);
+            }
+        };
+    }
 }

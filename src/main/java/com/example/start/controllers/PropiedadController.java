@@ -27,7 +27,7 @@ import com.example.start.utilidades.MetodosPropiedad;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 public class PropiedadController {
 
