@@ -29,18 +29,30 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<version>8.3.0</version>
 		</dependency>
-		
+
 		<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-		<version>1.18.32</version>
-		<scope>provided</scope>
-	</dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.32</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
+
+		<!--
+		https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,14 +60,14 @@
 			<version>3.2.2</version>
 		</dependency>
 
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.18.28</version>
 			<scope>provided</scope>
-	</dependency>
-		
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -74,7 +86,7 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>3.2.4</version>
 		</dependency>
-			
+
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
