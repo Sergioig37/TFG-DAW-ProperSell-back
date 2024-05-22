@@ -12,12 +12,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Builder
-@Table(name = "Usuario", uniqueConstraints = {@UniqueConstratin(columnNames = {"usuario"})})
+//Para que no se pueda repetur
+@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario"})})
 public class Usuario implements UserDetails{
 
 	
