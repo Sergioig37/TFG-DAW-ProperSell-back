@@ -8,27 +8,28 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.start.dao.UsuarioDAO;
-import com.example.start.entidades.Usuario;
+import com.example.start.user.Usuario;
+import com.example.start.user.UsuarioDAO;
 
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
-	UsuarioDAO usuarioDAO;
+	 UsuarioDAO usuarioDAO;
 	
 	@Override
-	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Optional<Usuario> usuario = usuarioDAO.findById(id);
+		Optional<Usuario> usuario = usuarioDAO.findByUser(nombre);
 		
 		if(usuario.isPresent()) {
-			return (UserDetails)usuario.get();
+			return 	(UserDetails)usuario.get();
+					
 		}
 		
-		throw new UsernameNotFoundException(id);
+		throw new UsernameNotFoundException("El usuario " + nombre +" no existe");
 		
 	}
 }

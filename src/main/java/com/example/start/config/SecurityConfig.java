@@ -34,12 +34,12 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable).authorizeHttpRequests(
 				authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
+						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
 						.requestMatchers("/agente", "/agenteCliente", "/cliente").authenticated()
 						.requestMatchers("/cliente/del/**", "/agente/del/**", "/agenteCliente/del/**",
 								"/cliente/edit/**", "/agente/edit/**", "/agenteCliente/edit/**")
 						.hasAuthority("ADMIN").anyRequest().authenticated())
-				.formLogin(formLogin -> formLogin.permitAll())
 				.logout(logout -> logout.permitAll());
 		return http.build();
 	}

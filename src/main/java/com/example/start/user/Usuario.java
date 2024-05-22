@@ -1,4 +1,4 @@
-package com.example.start.entidades;
+package com.example.start.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,17 +8,43 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
+@Builder
+@Table(name = "Usuario", uniqueConstraints = {@UniqueConstratin(columnNames = {"usuario"})})
 public class Usuario implements UserDetails{
 
 	
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String usuario;
 	private String password;
+	private String correo;
+	private String nombreReal;
+	private Role role;
 	
+	
+	
+	public String getCorreo() {
+		return correo;
+	}
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+	public String getNombreReal() {
+		return nombreReal;
+	}
+	public void setNombreReal(String nombreReal) {
+		this.nombreReal = nombreReal;
+	}
 	public String getUsuario() {
 		return usuario;
 	}
