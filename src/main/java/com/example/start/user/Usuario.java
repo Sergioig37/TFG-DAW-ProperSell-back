@@ -2,12 +2,15 @@ package com.example.start.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,7 +20,6 @@ import lombok.Builder;
 import lombok.Data;
 
 @Entity
-@Builder
 //Para que no se pueda repetur
 @Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario"})})
 public class Usuario implements UserDetails{
@@ -31,7 +33,9 @@ public class Usuario implements UserDetails{
 	private String password;
 	private String correo;
 	private String nombreReal;
+	@Enumerated(EnumType.STRING)
 	private Role role;
+	
 	
 	
 	
@@ -64,17 +68,7 @@ public class Usuario implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		ArrayList<SimpleGrantedAuthority> permisos = new ArrayList<SimpleGrantedAuthority>();
-		SimpleGrantedAuthority permiso;
-		if(usuario.compareTo("SergioAdmin")==0) {
-			 permiso = new  SimpleGrantedAuthority("ADMIN");
-		}
-		else {
-			permiso = new SimpleGrantedAuthority("USER");
-		}
-		permisos.add(permiso);
-		return permisos;
-	
+		return List.of(new SimpleGrantedAuthority((role.name())));
 	}
 	@Override
 	public String getUsername() {
@@ -100,6 +94,18 @@ public class Usuario implements UserDetails{
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	
