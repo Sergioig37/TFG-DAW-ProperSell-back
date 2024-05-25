@@ -36,12 +36,15 @@ public class JwtService {
 
 	private String getToken(Map<String, Object> extraClaims, UserDetails user) {
 		// TODO Auto-generated method stub
+		
+		
 		return Jwts.builder()
 				.claims(extraClaims)
 				.subject(user.getUsername())
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis()+ jwtExpiration))
 				.signWith(getKey())
+				.claim("role", user.getAuthorities())
 				.compact();
 	}
 
