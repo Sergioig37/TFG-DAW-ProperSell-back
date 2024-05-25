@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +23,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
+	private final static String SECRET_KEY = "2af73203581a1dd684c7c33b0a6000693276fa0a5819342b20cda963ebb119bd";
 	
-	private static final String SECRET_KEY = "9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9";
+	
+	@Value("${security.jwt.expiration-time}")
+    private long jwtExpiration;
 	
 	public String getToken(UserDetails user) {
 		// TODO Auto-generated method stub
@@ -31,15 +37,15 @@ public class JwtService {
 	private String getToken(Map<String, Object> extraClaims, UserDetails user) {
 		// TODO Auto-generated method stub
 		return Jwts.builder()
-				.setClaims(extraClaims)
-				.setSubject(user.getUsername())
-				.setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
-				.signWith(getKey(), SignatureAlgorithm.HS256)
+				.claims(extraClaims)
+				.subject(user.getUsername())
+				.issuedAt(new Date(System.currentTimeMillis()))
+				.expiration(new Date(System.currentTimeMillis()+ jwtExpiration))
+				.signWith(getKey())
 				.compact();
 	}
 
-	private Key getKey() {
+	private SecretKey getKey() {
 		// TODO Auto-generated method stub
 		byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
 		
@@ -54,21 +60,21 @@ public class JwtService {
 
 	public boolean isTokenValid(String token, UserDetails userDetails) {
 		// TODO Auto-generated method stub
-		final String username = getUsernameFromToken(token);
+		String username = getUsernameFromToken(token);
 		return (username.equals(userDetails.getUsername())&& !isTokenExpired(token));
 	}
 
 	private Claims getAllClaims(String token) {
 		
 		return Jwts.parser()
-				.setSigningKey(getKey())
+				.verifyWith(getKey())
 				.build()
-				.parseClaimsJws(token)
-				.getBody();
+				.parseSignedClaims(token)
+				.getPayload();
 	}
 	
 	public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaims(token);
+		 Claims claims = getAllClaims(token);
 		return claimsResolver.apply(claims);
 	}
 	

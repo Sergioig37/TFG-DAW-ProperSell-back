@@ -29,7 +29,7 @@ public class Usuario implements UserDetails{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String usuario;
+	private String username;
 	private String password;
 	private String correo;
 	private String nombreReal;
@@ -52,10 +52,10 @@ public class Usuario implements UserDetails{
 		this.nombreReal = nombreReal;
 	}
 	public String getUsuario() {
-		return usuario;
+		return username;
 	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setUsername(String usuario) {
+		this.username = usuario;
 	}
 	public String getPassword() {
 		return password;
@@ -73,7 +73,7 @@ public class Usuario implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return usuario;
+		return username;
 	}
 	@Override
 	public boolean isAccountNonExpired() {

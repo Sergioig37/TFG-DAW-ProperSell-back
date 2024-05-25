@@ -23,7 +23,7 @@ public class ApplicationConfig {
 	UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+	public PasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	

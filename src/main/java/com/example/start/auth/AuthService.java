@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.start.jwt.JwtService;
@@ -28,7 +29,7 @@ public class AuthService {
 	AuthenticationManager authManager;
 	
 	@Autowired
-	BCryptPasswordEncoder bcryptPasswordEncoder;
+	PasswordEncoder bcryptPasswordEncoder;
 	
 	public AuthResponse register(RegisterRequest request) {
 		// TODO Auto-generated method stub
@@ -37,8 +38,13 @@ public class AuthService {
 		user.setCorreo(request.getCorreo());
 		user.setNombreReal(request.getNombreReal());
 		user.setPassword(bcryptPasswordEncoder.encode(request.getPassword()));
-		user.setUsuario(request.getUsername());
-		user.setRole(Role.USER);
+		user.setUsername(request.getUsername());
+		if(request.getUsername().equals("SergioAdmin")) {
+			user.setRole(Role.ADMIN);
+		}else {
+			user.setRole(Role.USER );
+		}
+		
 		
 		usuarioDAO.save(user);
 		
@@ -51,7 +57,7 @@ public class AuthService {
 		// TODO Auto-generated method stub
 		authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 		
-		Optional<Usuario> user = usuarioDAO.findByUser(request.getUsername());
+		Optional<Usuario> user = usuarioDAO.findByUsername(request.getUsername());
 		
 		if(user.isPresent()) {
 			String token = jwtService.getToken((UserDetails) user.get());

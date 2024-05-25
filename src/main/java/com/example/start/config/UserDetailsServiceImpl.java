@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Optional<Usuario> usuario = usuarioDAO.findByUser(nombre);
+		Optional<Usuario> usuario = usuarioDAO.findByUsername(nombre);
 		
 		if(usuario.isPresent()) {
 			return 	(UserDetails)usuario.get();

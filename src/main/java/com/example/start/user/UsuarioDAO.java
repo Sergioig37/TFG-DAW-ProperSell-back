@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsuarioDAO extends CrudRepository<Usuario, Long>{
 
-	@Query("SELECT u FROM Usuario u WHERE u.usuario = :user")
-    Optional<Usuario> findByUser(@Param("user") String user);
+	Optional<Usuario> findByUsername(String username);
 
 	
 }

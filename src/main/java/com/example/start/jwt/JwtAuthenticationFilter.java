@@ -33,18 +33,23 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		final String token = getTokenFromRequest(request);
-		final String username;
-		if(token==null) {
+		String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+		String jwt;
+		String username;
+		if(authHeader == null || !authHeader.startsWith("Bearer ")) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		username = jwtService.getUsernameFromToken(token);
+		System.out.println(authHeader);
+		jwt  = authHeader.substring(7); 
+		
+		System.out.println(jwt);
+		
+		username = jwtService.getUsernameFromToken(jwt);
 		
 		if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 			UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
-			if(jwtService.isTokenValid(token, userDetails)) {
+			if(jwtService.isTokenValid(jwt, userDetails)) {
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 				
 				
@@ -58,15 +63,6 @@ public class JwtAuthenticationFilter  extends OncePerRequestFilter{
 		
 	}
 	
-	private String getTokenFromRequest(HttpServletRequest request) {
-		final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-		
-		if(StringUtils.hasText(authHeader) && authHeader.startsWith("bearer ")) {
-			return authHeader.substring(7);
-		}
-		return null;
-	}
-
 	
 	
 }
