@@ -15,10 +15,12 @@
 	<artifactId>ProperSell</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ProperSell</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Aplicación tipo página fotocasa</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
