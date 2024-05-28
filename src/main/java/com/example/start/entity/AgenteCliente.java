@@ -1,8 +1,6 @@
-package com.example.start.entidades;
+package com.example.start.entity;
 
 
-
-import java.util.List;
 
 import com.example.start.agentecliente.AgenteClienteKey;
 

@@ -1,15 +1,11 @@
-package com.example.start.utilidades;
+package com.example.start.utility;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.example.start.dao.AgenteDAO;
 import com.example.start.dao.InmobiliariaDAO;
-import com.example.start.entidades.Agente;
-import com.example.start.entidades.Inmobiliaria;
+import com.example.start.entity.Agente;
+import com.example.start.entity.Inmobiliaria;
 
 
 public final class MetodosAgente {

@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.example.start.agentecliente.AgenteClienteKey;
-import com.example.start.entidades.AgenteCliente;
+import com.example.start.entity.AgenteCliente;
 
 
 

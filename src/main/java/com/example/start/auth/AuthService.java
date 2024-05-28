@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.start.jwt.JwtService;
 import com.example.start.user.Role;
-import com.example.start.user.Usuario;
-import com.example.start.user.UsuarioDAO;
+import com.example.start.entity.Usuario;
+import com.example.start.dao.UsuarioDAO;
 
 
 @Service

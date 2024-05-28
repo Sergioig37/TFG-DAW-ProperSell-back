@@ -1,11 +1,10 @@
-package com.example.start.controllers;
+package com.example.start.controller;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,7 @@ import com.example.start.agentecliente.AgenteClienteKey;
 import com.example.start.dao.AgenteClienteDAO;
 import com.example.start.dao.AgenteDAO;
 import com.example.start.dao.ClienteDAO;
-import com.example.start.entidades.AgenteCliente;
+import com.example.start.entity.AgenteCliente;
 
 
 @Controller

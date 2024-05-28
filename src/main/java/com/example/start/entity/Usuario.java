@@ -1,9 +1,9 @@
-package com.example.start.user;
+package com.example.start.entity;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.example.start.user.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +16,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import lombok.Builder;
-import lombok.Data;
 
 @Entity
 //Para que no se pueda repetur
