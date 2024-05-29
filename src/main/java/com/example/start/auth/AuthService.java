@@ -47,9 +47,7 @@ public class AuthService {
 		
 		usuarioDAO.save(user);
 		
-		return AuthResponse.builder()
-				.token(jwtService.getToken(user))
-				.build();
+		return null;
 	}
 
 	public AuthResponse login(LoginRequest request) throws Exception{
