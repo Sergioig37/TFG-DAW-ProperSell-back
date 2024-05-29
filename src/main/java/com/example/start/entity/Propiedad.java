@@ -1,6 +1,4 @@
-package com.example.start.entidades;
-
-import java.util.List;
+package com.example.start.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -11,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Entity

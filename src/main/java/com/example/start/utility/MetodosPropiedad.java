@@ -1,13 +1,11 @@
-package com.example.start.utilidades;
+package com.example.start.utility;
 
 import java.util.List;
 import java.util.Optional;
 
 import com.example.start.dao.ClienteDAO;
-import com.example.start.entidades.Agente;
-import com.example.start.entidades.Cliente;
-import com.example.start.entidades.Inmobiliaria;
-import com.example.start.entidades.Propiedad;
+import com.example.start.entity.Cliente;
+import com.example.start.entity.Propiedad;
 
 public final class MetodosPropiedad {
 

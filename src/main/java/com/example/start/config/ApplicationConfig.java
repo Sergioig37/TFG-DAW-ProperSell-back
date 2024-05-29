@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.start.user.UsuarioDAO;
+import com.example.start.dao.UsuarioDAO;
 
 @Service
 public class ApplicationConfig {

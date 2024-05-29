@@ -1,4 +1,4 @@
-package com.example.start.exceptions;
+package com.example.start.exception;
 
 public class EmailNotFoundException extends Exception{
 
