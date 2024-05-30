@@ -19,7 +19,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 //Para que no se pueda repetur
-@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario"})})
+@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class Usuario implements UserDetails{
 
 	

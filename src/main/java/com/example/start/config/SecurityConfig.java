@@ -3,6 +3,7 @@ package com.example.start.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,7 +33,16 @@ public class SecurityConfig {
 						.requestMatchers("/auth/**")
 						.permitAll()
 						.anyRequest()
-						.authenticated())
+						.authenticated().requestMatchers(HttpMethod.GET,"/cliente/{id}").hasAnyAuthority("ADMIN", "CLIENTE")
+						.requestMatchers("/agente/**").hasAnyAuthority("ADMIN")
+						.requestMatchers("/inmobiliaria/**").hasAnyAuthority("ADMIN")
+						.requestMatchers("/propiedad/**").hasAnyAuthority("ADMIN")
+						.requestMatchers("/usuario/**").hasAuthority("ADMIN")
+						.requestMatchers("/cliente/{id}", "/cliente/edit/{id}", "/propiedad/**").hasAnyAuthority( "CLIENTE")
+						.requestMatchers("/cliente/{id}").hasAnyAuthority( "INMOBILIARIA")
+						.requestMatchers("/inmobiliaria/**").hasAnyAuthority("ADMIN", "INMOBILIARIA")
+						.requestMatchers("/propiedad/**").hasAnyAuthority("ADMIN", "CLIENTE")
+						.requestMatchers("/usuario/**").hasAuthority("ADMIN"))
 				.sessionManagement(
 						sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authProvider)
