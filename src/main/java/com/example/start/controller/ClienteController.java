@@ -21,7 +21,7 @@ import com.example.start.entity.Cliente;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = "*")
+
 @RestController
 public class ClienteController {
 
