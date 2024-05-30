@@ -31,17 +31,21 @@ public class ClienteController {
 	 
 	@GetMapping("/cliente")
 	public ResponseEntity<List<Cliente>> getClientes(){
-		
-	
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body((List<Cliente>)clienteDAO.findAll());
 	}
 	
 	
 	@GetMapping("/cliente/{id}")
 	public ResponseEntity<Cliente> getCliente(@PathVariable Long id){
-		
-		return ResponseEntity.status(HttpStatus.OK).body(clienteDAO.findById(id).get());
+
+		Optional<Cliente> clienteOptional = clienteDAO.findById(id);
+
+		if(clienteOptional.isPresent()){
+			return ResponseEntity.status(HttpStatus.OK).body(clienteOptional.get());
+		}
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		
 	}
 	
@@ -67,7 +71,7 @@ public class ClienteController {
 	public ResponseEntity<Cliente> saveCliente(@RequestBody @Valid Cliente cliente, BindingResult bindingResult){
 		
 		if(bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(cliente);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cliente);
 		}
 		
 		clienteDAO.save(cliente);

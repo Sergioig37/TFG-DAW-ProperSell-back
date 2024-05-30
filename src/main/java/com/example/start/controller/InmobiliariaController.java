@@ -36,8 +36,14 @@ public class InmobiliariaController {
 	
 	@GetMapping("/inmobiliaria/{id}")
 	public ResponseEntity<Inmobiliaria> getInmobiliaria(@PathVariable Long id){
-		
-		return ResponseEntity.status(HttpStatus.OK).body(inmobiDAO.findById(id).get());
+
+		Optional<Inmobiliaria> inmobiliariaOptional = inmobiDAO.findById(id);
+
+		if(inmobiliariaOptional.isPresent()){
+			return ResponseEntity.status(HttpStatus.OK).body(inmobiliariaOptional.get());
+		}
+
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		
 	}
 	
@@ -62,7 +68,7 @@ public class InmobiliariaController {
 		
 		
 		if(bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(inmobiliaria);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(inmobiliaria);
 		}
 		
 		inmobiDAO.save(inmobiliaria);
