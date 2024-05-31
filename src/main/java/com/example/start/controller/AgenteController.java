@@ -3,6 +3,8 @@ package com.example.start.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.start.dto.AgenteDTO;
+import com.example.start.entity.Inmobiliaria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +26,6 @@ import com.example.start.utility.MetodosAgente;
 
 
 @RestController
-
 public class AgenteController {
 
 	@Autowired 
@@ -79,14 +80,27 @@ public class AgenteController {
 	
 	
 	@PostMapping("/agente/save")
-	public ResponseEntity<Agente> saveAgente(@RequestBody Agente agente, BindingResult bindingResult) {
-		
+	public ResponseEntity<Agente> saveAgente(@RequestBody AgenteDTO agenteDTO, BindingResult bindingResult) {
+
+		Agente agente = new Agente();
+
+
 		
 		if(bindingResult.hasErrors()) {
 			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(agente);
 		}
-		
-		System.out.println(agente.getInmobiliaria());
+
+		agente.setNombre(agenteDTO.getNombre());
+		agente.setCorreo(agenteDTO.getCorreo());
+		agente.setNumeroTelefono(agenteDTO.getNumeroTelefono());
+		// Crear el agente
+		// Asignar otros datos del agente desde request
+
+		// Asignar la inmobiliaria al agente
+		Inmobiliaria inmobiliaria = inmobiDAO.findById(Long.valueOf(agenteDTO.getInmobiliaria())).orElse(null);
+		inmobiliaria.getAgentes().add(agente);
+		inmobiDAO.save(inmobiliaria);
+		agente.setInmobiliaria(inmobiliaria);
 		
 		
 		agenteDAO.save(agente);

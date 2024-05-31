@@ -13,37 +13,40 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
-@Data
 public class Agente {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Getter
 	private Long id;
 	
-	private String nombre;
-	
+	@Setter
+	@Getter
+    private String nombre;
+	@Setter
+	@Getter
 	private String correo;
 
 
 	@JoinColumn(name = "FK_INMOBILIARIA")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference
+
+	@Setter
+	@Getter
 	private Inmobiliaria inmobiliaria;
-	
+	@Setter
+	@Getter
 	private String numeroTelefono;
 	
 	@OneToMany(targetEntity=AgenteCliente.class, mappedBy = "agente", cascade = CascadeType.ALL)
+	@Setter
+	@Getter
 	private List<AgenteCliente> agenteCliente;
-	
 
-
-
-
-	
-	
-	
 }
