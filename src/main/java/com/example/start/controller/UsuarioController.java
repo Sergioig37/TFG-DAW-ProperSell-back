@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.start.auth.AuthResponse;
+import com.example.start.auth.AuthService;
+import com.example.start.auth.LoginRequest;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.entity.Usuario;
 import com.example.start.jwt.JwtService;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -41,6 +44,12 @@ public class UsuarioController {
 
     @Autowired
     AuthenticationManager authManager;
+
+    @Autowired
+    AuthService authService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
 
     @GetMapping("/usuario")
@@ -75,31 +84,28 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuario/edit/{username}")
-    public ResponseEntity<AuthResponse> editUsername(@RequestBody @Valid Usuario usuario, @PathVariable String username){
+    public ResponseEntity<AuthResponse> editUsername(@RequestBody @Valid Usuario usuario, @PathVariable String username) throws Exception {
+        Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
+        if (usuarioOptional.isPresent()) {
+            Usuario existingUser = usuarioOptional.get();
+            existingUser.setCorreo(usuario.getCorreo());
+            existingUser.setUsername(usuario.getUsername());
+            if(usuario.getPassword()!=""){
+                existingUser.setPassword(passwordEncoder.encode(usuario.getPassword()));
+            }
+            existingUser.setNombreReal(usuario.getNombreReal());
+            usuarioDAO.save(existingUser);
 
-        Optional<Usuario> usuarioOptional =  usuarioDAO.findByUsername(username);
+            LoginRequest loginRequest = new LoginRequest();
+            loginRequest.setUsername(usuario.getUsername());
+            loginRequest.setPassword(usuario.getPassword());
 
-        if(usuarioOptional.isPresent()) {
 
-            usuarioOptional.get().setNombreReal(usuarioOptional.get().getNombreReal());
-            usuarioOptional.get().setCorreo(usuario.getCorreo());
-            usuarioOptional.get().setPassword((usuario.getPassword()));
-            usuarioOptional.get().setUsername(usuario.getUsername());
-            usuarioDAO.save(usuarioOptional.get());
-
-            Optional<Usuario> user = usuarioDAO.findByUsername(usuarioOptional.get().getUsername());
-
-            authManager.authenticate(new UsernamePasswordAuthenticationToken(user.get().getUsername(), user.get().getPassword()));
-
-            String token = jwtService.getToken( user.get());
-
-            return ResponseEntity.status(HttpStatus.OK).body(AuthResponse.builder().token(token).build());
-
+             return ResponseEntity.status(HttpStatus.OK).body(authService.login(loginRequest));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-
-
     }
+
 
 }
