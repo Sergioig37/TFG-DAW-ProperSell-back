@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public final class MetodosPropiedad {
 
-	@Autowired
-	PropiedadDAO propiedadDAO;
-
 	private MetodosPropiedad() {
 
 	}
@@ -37,7 +34,7 @@ public final class MetodosPropiedad {
 
 	}
 
-	public List<Propiedad> filtrarPropiedad(String localizacion, String precioMin, String precioMax) {
+	public List<Propiedad> filtrarPropiedad(String localizacion, String precioMin, String precioMax, PropiedadDAO propiedadDAO) {
 
 		List<Propiedad> propiedades;
 
@@ -63,7 +60,7 @@ public final class MetodosPropiedad {
 		} else {
 			if (precioMin.equals("void") && precioMax.equals("void")) {
 				// Búsqueda solo por localización
-				propiedades = propiedadDAO.findByLocalizacionAndPrecioRange(localizacion, null, null);
+				propiedades = propiedadDAO.findByLocalizacion(localizacion);
 				return propiedades;
 			} else if (precioMin.equals("void")) {
 				// Búsqueda por localización y rango máximo de precio

@@ -80,32 +80,30 @@ public class AgenteController {
 	
 	
 	@PostMapping("/agente/save")
-	public ResponseEntity<Agente> saveAgente(@RequestBody AgenteDTO agenteDTO, BindingResult bindingResult) {
-
+	public ResponseEntity saveAgente(@RequestBody AgenteDTO agenteDTO) {
+		System.out.println("HOLA, ENTRANDO");
 		Agente agente = new Agente();
 
 
-		
-		if(bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(agente);
-		}
-
+		System.out.println("EMPEZANDO A SETEAR");
 		agente.setNombre(agenteDTO.getNombre());
 		agente.setCorreo(agenteDTO.getCorreo());
 		agente.setNumeroTelefono(agenteDTO.getNumeroTelefono());
+		System.out.println("SETTEADO");
 		// Crear el agente
 		// Asignar otros datos del agente desde request
 
 		// Asignar la inmobiliaria al agente
 		Inmobiliaria inmobiliaria = inmobiDAO.findById(Long.valueOf(agenteDTO.getInmobiliaria())).orElse(null);
-		inmobiliaria.getAgentes().add(agente);
 		inmobiDAO.save(inmobiliaria);
+		System.out.println("SETEANDO INMOBILIARIA");
 		agente.setInmobiliaria(inmobiliaria);
+		System.out.println("GAURDADNO");
 		
 		
 		agenteDAO.save(agente);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(agente);
+		System.out.println("LIST");
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 	@PutMapping("/agente/edit/{id}")
