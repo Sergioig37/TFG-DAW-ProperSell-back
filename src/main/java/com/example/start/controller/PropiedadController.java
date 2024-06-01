@@ -103,6 +103,15 @@ public class PropiedadController {
 		
 		
 	}
+
+	@GetMapping("/propiedad/{localizacion}/{precioMin}/{precioMax}")
+	public ResponseEntity<List<Propiedad>> getPropiedadByPrecioYLocalizacion(@PathVariable String localizacion, @PathVariable String precioMin, @PathVariable String precioMax) {
+		List<Propiedad> propiedades = MetodosPropiedad.getInstancia().filtrarPropiedad(localizacion, precioMin, precioMax);
+		if (propiedades.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok().body(propiedades);
+	}
 	
 	
 	
