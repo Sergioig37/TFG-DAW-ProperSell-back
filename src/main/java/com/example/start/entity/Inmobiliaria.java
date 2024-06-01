@@ -26,7 +26,7 @@ public class Inmobiliaria {
 	
 	private String nombre;
 	
-	private String numeroEmpleados;
+	private Long numeroEmpleados;
 	
 	private String direccion;
 	

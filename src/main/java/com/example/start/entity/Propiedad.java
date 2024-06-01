@@ -23,7 +23,7 @@ public class Propiedad {
 	
 	private String localizacion;
 	
-	private String precio;
+	private Long precio;
 	
 	@JoinColumn(name = "FK_PROPIETARIO")
 	@ManyToOne(fetch = FetchType.EAGER)
