@@ -53,22 +53,16 @@ public class AgenteController {
 	@DeleteMapping("/agente/del/{id}")
 	public ResponseEntity<Agente> delAgente(@PathVariable Long id) {
 		
-		System.out.println("Empezando delete");
-		
-		System.out.println("Empezando delete");
-
-		
 		Optional<Agente> agenteOptional = agenteDAO.findById(id);
-		System.out.println("Buscando agente para borrar");
+
 	    if (agenteOptional.isPresent()) {
-	    	System.out.println("Agente encontrado");
-	    	System.out.println("Desvinculando");
+
 	    	MetodosAgente.getInstancia().desenlazarInmobiliaria(agenteOptional.get(), inmobiDAO);
-	    	System.out.println("Agente desvinculado");
+
 	    	
-	    	System.out.println("Borrando...");
+
 	        agenteDAO.delete(agenteOptional.get());
-	        System.out.println("Agente borrado...");
+
 	        return ResponseEntity.status(HttpStatus.OK).body(agenteOptional.get());
 	    }
 	    else {
@@ -81,26 +75,26 @@ public class AgenteController {
 	
 	@PostMapping("/agente/save")
 	public ResponseEntity saveAgente(@RequestBody AgenteDTO agenteDTO) {
-		System.out.println("HOLA, ENTRANDO");
+
 		Agente agente = new Agente();
 
 
-		System.out.println("EMPEZANDO A SETEAR");
+
 		agente.setNombre(agenteDTO.getNombre());
 		agente.setCorreo(agenteDTO.getCorreo());
 		agente.setNumeroTelefono(agenteDTO.getNumeroTelefono());
-		System.out.println("SETTEADO");
+
 		// Crear el agente
 		// Asignar otros datos del agente desde request
 
 		// Asignar la inmobiliaria al agente
-		Inmobiliaria inmobiliaria = inmobiDAO.findById(Long.valueOf(agenteDTO.getInmobiliaria())).orElse(null);
-		inmobiDAO.save(inmobiliaria);
-		System.out.println("SETEANDO INMOBILIARIA");
-		agente.setInmobiliaria(inmobiliaria);
-		System.out.println("GAURDADNO");
-		
-		
+		if(!agenteDTO.getInmobiliaria().equals("")){
+			Optional<Inmobiliaria> inmobiliaria = inmobiDAO.findById(Long.valueOf(agenteDTO.getInmobiliaria()));
+			inmobiDAO.save(inmobiliaria.get());
+			agente.setInmobiliaria(inmobiliaria.get());
+
+		}
+
 		agenteDAO.save(agente);
 		System.out.println("LIST");
 		return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -109,17 +103,13 @@ public class AgenteController {
 	@PutMapping("/agente/edit/{id}")
 	public ResponseEntity<Agente> editAgente(@RequestBody Agente agente, @PathVariable Long id){
 		
-		System.out.println("Encontrando agente");
+
 		Optional<Agente> agenteExiste = agenteDAO.findById(id);
 		
 		if(agenteExiste.isPresent()) {
-			System.out.println("Agente Encontrado");
-			System.out.println("Actualizando");
 			agenteExiste.get().setNombre(agente.getNombre());
 			agenteExiste.get().setNumeroTelefono(agente.getNumeroTelefono());
 			agenteExiste.get().setCorreo(agente.getCorreo());
-			System.out.println("Actuaklizado...");
-			System.out.println("Guardando...");
 			agenteDAO.save(agenteExiste.get());
 			return ResponseEntity.status(HttpStatus.OK).body(agenteExiste.get());
 		}

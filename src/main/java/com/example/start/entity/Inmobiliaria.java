@@ -26,8 +26,6 @@ public class Inmobiliaria {
 	
 	private String nombre;
 	
-	private Long numeroEmpleados;
-	
 	private String direccion;
 	
 	@OneToMany(mappedBy="inmobiliaria", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

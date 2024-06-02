@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface InmobiliariaDAO extends CrudRepository<Inmobiliaria, Long> {
 
-    @Query("SELECT i FROM Inmobiliaria i WHERE i.numeroEmpleados > :numeroEmpleados")
-    List<Inmobiliaria> findInmobiliariasByNumeroEmpleadosMayorQue(@Param("numeroEmpleados") Long numeroEmpleados);
+    @Query("SELECT i FROM Inmobiliaria i WHERE SIZE(i.agentes) > :numeroAgentes")
+    List<Inmobiliaria> findInmobiliariasByNumeroAgentesMayorQue(@Param("numeroAgentes") Long numeroAgentes);
 
 }

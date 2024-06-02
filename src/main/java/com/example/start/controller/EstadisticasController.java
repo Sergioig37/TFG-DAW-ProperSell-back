@@ -38,7 +38,7 @@ public class EstadisticasController {
     @GetMapping("/inmobiliaria/{numeroAgentes}")
     public ResponseEntity<List<Inmobiliaria>> getNumeroInmobiliaria(@PathVariable Long numeroAgentes){
 
-        List<Inmobiliaria> inmobiliarias= inmobiDAO.findInmobiliariasByNumeroEmpleadosMayorQue(numeroAgentes);
+        List<Inmobiliaria> inmobiliarias= inmobiDAO.findInmobiliariasByNumeroAgentesMayorQue(numeroAgentes);
 
         if(inmobiliarias!=null){
             return ResponseEntity.status(HttpStatus.OK).body(inmobiliarias);

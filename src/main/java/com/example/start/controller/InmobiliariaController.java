@@ -86,7 +86,6 @@ public class InmobiliariaController {
 			inmobiliariaExiste.get().setDireccion(inmobiliaria.getDireccion());
 			inmobiliariaExiste.get().setDireccion(inmobiliaria.getDireccion());
 			inmobiliariaExiste.get().setNombre(inmobiliaria.getNombre());
-			inmobiliariaExiste.get().setNumeroEmpleados(inmobiliaria.getNumeroEmpleados());
 			inmobiDAO.save(inmobiliariaExiste.get());
 			return ResponseEntity.status(HttpStatus.OK).body(inmobiliariaExiste.get());
 		}

@@ -3,6 +3,8 @@ package com.example.start.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.start.dto.PropiedadDTO;
+import com.example.start.entity.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,12 +72,20 @@ public class PropiedadController {
 	
 	
 	@PostMapping("/propiedad/save")
-	public ResponseEntity<Propiedad> savePropiedad(@RequestBody @Valid Propiedad propiedad, BindingResult bindingResult){
-		
-		if(bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT).body(propiedad);
+	public ResponseEntity<Propiedad> savePropiedad(@RequestBody PropiedadDTO propiedadDTO){
+
+		Propiedad propiedad = new Propiedad();
+
+		propiedad.setTipo(propiedadDTO.getTipo());
+		propiedad.setLocalizacion(propiedadDTO.getLocalizacion());
+		propiedad.setPrecio(Long.valueOf(propiedadDTO.getPrecio()));
+
+		if(!propiedadDTO.getPropietario().equals("")){
+			Optional<Cliente> cliente = clienteDAO.findById(Long.valueOf(propiedadDTO.getPropietario()));
+			clienteDAO.save(cliente.get());
+			propiedad.setPropietario(cliente.get());
 		}
-		
+
 		propiedadDAO.save(propiedad);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(propiedad);
