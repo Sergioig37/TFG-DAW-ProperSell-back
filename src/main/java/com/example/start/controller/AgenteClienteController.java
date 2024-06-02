@@ -2,6 +2,10 @@ package com.example.start.controller;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.example.start.dto.AgenteClienteDTO;
+import com.example.start.entity.Agente;
+import com.example.start.entity.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,20 +44,25 @@ public class AgenteClienteController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	@GetMapping("/agenteCliente/add")
-	public ResponseEntity<String> addAgenteCliente() {
-		// Code for adding a new AgenteCliente
-		return ResponseEntity.ok().body("Formulario de AgenteCliente");
-	}
+
 
 	@PostMapping("/agenteCliente/save")
-	public ResponseEntity<Void> saveAgenteCliente(@RequestBody AgenteCliente agenteCliente) {
+	public ResponseEntity<Void> saveAgenteCliente(@RequestBody AgenteClienteDTO agenteClienteDTO) {
 		AgenteClienteKey key = new AgenteClienteKey();
-		key.setClienteId(agenteCliente.getCliente().getId());
-		key.setAgenteId(agenteCliente.getAgente().getId());
+		AgenteCliente agenteCliente = new AgenteCliente();
+
+		Optional<Cliente> cliente = clienteDAO.findById(Long.valueOf(agenteClienteDTO.getCliente()));
+		Optional<Agente> agente = agenteDAO.findById(Long.valueOf(agenteClienteDTO.getCliente()));
+
+
+		agenteCliente.setAgente(agente.get());
+		agenteCliente.setCliente(cliente.get());
+		key.setClienteId(Long.valueOf(agenteClienteDTO.getCliente()));
+		key.setAgenteId(Long.valueOf(agenteClienteDTO.getAgente()));
+
 		agenteCliente.setId(key);
 		agenteClienteDAO.save(agenteCliente);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
 	@GetMapping("/agenteCliente/{idCliente}/{idAgente}")
@@ -64,4 +73,5 @@ public class AgenteClienteController {
 		Optional<AgenteCliente> agenteCliente = agenteClienteDAO.findById(key);
 		return agenteCliente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
+
 }
