@@ -108,9 +108,9 @@ public class PropiedadController {
 	public ResponseEntity<List<Propiedad>> getPropiedadByPrecioYLocalizacion(@PathVariable String localizacion, @PathVariable String precioMin, @PathVariable String precioMax) {
 		List<Propiedad> propiedades = MetodosPropiedad.getInstancia().filtrarPropiedad(localizacion, precioMin, precioMax, propiedadDAO);
 		if (propiedades.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
-		return ResponseEntity.ok().body(propiedades);
+		return ResponseEntity.status(HttpStatus.OK).body(propiedades);
 	}
 	
 	
