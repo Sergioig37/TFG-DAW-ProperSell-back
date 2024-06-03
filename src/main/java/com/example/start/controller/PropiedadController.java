@@ -139,5 +139,31 @@ public class PropiedadController {
 
 		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
 	}
+
+	@GetMapping("/propiedad/disable/{idPropiedad}")
+	public ResponseEntity deshabilitarUsuario(@PathVariable Long idPropiedad){
+
+		Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
+
+		if(propiedad.isPresent()){
+			propiedad.get().setHabilitado(false);
+			propiedadDAO.save(propiedad.get());
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+
+	@GetMapping("/propiedad/enable/{idPropiedad}")
+	public ResponseEntity habilitarUsuario(@PathVariable Long idPropiedad){
+
+		Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
+
+		if(propiedad.isPresent()){
+			propiedad.get().setHabilitado(true);
+			propiedadDAO.save(propiedad.get());
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
 	
 }

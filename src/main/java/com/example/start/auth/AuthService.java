@@ -39,6 +39,7 @@ public class AuthService {
 		user.setPassword(bcryptPasswordEncoder.encode(request.getPassword()));
 		user.setUsername(request.getUsername());
 		user.setRole(Role.USER);
+		user.setHabilitado(true);
 		System.out.println((request.getRol().equals(("CLIENTE"))));
 
 

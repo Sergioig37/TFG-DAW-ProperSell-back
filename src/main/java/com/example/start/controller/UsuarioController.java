@@ -137,4 +137,30 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
 
     }
+
+    @GetMapping("/usuario/disable/{username}")
+    public ResponseEntity deshabilitarUsuario(@PathVariable String username){
+
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+
+        if(usuario.isPresent()){
+            usuario.get().setHabilitado(false);
+            usuarioDAO.save(usuario.get());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @GetMapping("/usuario/enable/{username}")
+    public ResponseEntity habilitarUsuario(@PathVariable String username){
+
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+
+        if(usuario.isPresent()){
+            usuario.get().setHabilitado(true);
+            usuarioDAO.save(usuario.get());
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
 }

@@ -19,6 +19,9 @@ public interface PropiedadDAO extends CrudRepository<Propiedad, Long>{
     Optional<Usuario> findPropietarioByPropiedadId(@Param("propiedadId") Long propiedadId);
 
 
-    @Query("SELECT p FROM Propiedad p WHERE p.propietario.id != :propietarioId")
+    @Query("SELECT p FROM Propiedad p WHERE p.propietario.id != :propietarioId AND p.habilitado = true")
     List<Propiedad> findPropiedadesQueNoSonDelPropietario(@Param("propietarioId") Long propietarioId);
+
+    @Query("SELECT p FROM Propiedad p WHERE p.habilitado = :habilitado")
+    List<Propiedad> findPropiedadesHabilitadas(@Param("habilitado") boolean habilitado);
 }

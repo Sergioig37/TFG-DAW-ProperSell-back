@@ -25,6 +25,8 @@ public class Propiedad {
 
 	private Long precio;
 
+	private boolean habilitado;
+
 	@JoinColumn(name = "FK_PROPIETARIO")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference
