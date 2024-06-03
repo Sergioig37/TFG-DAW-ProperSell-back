@@ -3,12 +3,12 @@ package com.example.start.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.PropiedadDTO;
-import com.example.start.entity.Cliente;
+import com.example.start.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.start.dao.ClienteDAO;
 import com.example.start.dao.PropiedadDAO;
 import com.example.start.entity.Propiedad;
 import com.example.start.utility.MetodosPropiedad;
@@ -31,12 +30,12 @@ public class PropiedadController {
 	@Autowired
 	PropiedadDAO propiedadDAO;
 	@Autowired
-	ClienteDAO clienteDAO;
+	UsuarioDAO usuarioDAO;
 	
 	
 	
 	@GetMapping("/propiedad")
-	public ResponseEntity<List<Propiedad>> getClientes(){
+	public ResponseEntity<List<Propiedad>> getPropiedades(){
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findAll());
@@ -44,7 +43,7 @@ public class PropiedadController {
 	
 	
 	@GetMapping("/propiedad/{id}")
-	public ResponseEntity<Propiedad> getCliente(@PathVariable Long id){
+	public ResponseEntity<Propiedad> getPropiedad(@PathVariable Long id){
 		
 		return ResponseEntity.status(HttpStatus.OK).body(propiedadDAO.findById(id).get());
 		
@@ -52,14 +51,14 @@ public class PropiedadController {
 	
 	
 	@DeleteMapping("/propiedad/del/{id}")
-	public ResponseEntity<Propiedad> delCliente(@PathVariable Long id) {
+	public ResponseEntity<Propiedad> delPropiedad(@PathVariable Long id) {
 		
 		
 		Optional<Propiedad> propiedadOptional = propiedadDAO.findById(id);
 	    
 	    if (propiedadOptional.isPresent()) {
 	    	
-	    	MetodosPropiedad.getInstancia().desenlazarPropietario(propiedadOptional.get(), clienteDAO);
+	    	MetodosPropiedad.getInstancia().desenlazarPropietario(propiedadOptional.get(), usuarioDAO);
 	        propiedadDAO.delete(propiedadOptional.get());
 	        return ResponseEntity.status(HttpStatus.OK).body(propiedadOptional.get());
 	    }
@@ -81,8 +80,8 @@ public class PropiedadController {
 		propiedad.setPrecio(Long.valueOf(propiedadDTO.getPrecio()));
 
 		if(!propiedadDTO.getPropietario().equals("")){
-			Optional<Cliente> cliente = clienteDAO.findById(Long.valueOf(propiedadDTO.getPropietario()));
-			clienteDAO.save(cliente.get());
+			Optional<Usuario> cliente = usuarioDAO.findByUsername(propiedadDTO.getPropietario());
+			usuarioDAO.save(cliente.get());
 			propiedad.setPropietario(cliente.get());
 		}
 
@@ -113,16 +112,32 @@ public class PropiedadController {
 		
 		
 	}
+	
+	@GetMapping("/propiedad/propietario/{idPropiedad}")
+	public ResponseEntity<Usuario> getVerificarPropietario(@PathVariable Long idPropiedad){
 
-	@GetMapping("/propiedad/{localizacion}/{precioMin}/{precioMax}")
-	public ResponseEntity<List<Propiedad>> getPropiedadByPrecioYLocalizacion(@PathVariable String localizacion, @PathVariable String precioMin, @PathVariable String precioMax) {
-		List<Propiedad> propiedades = MetodosPropiedad.getInstancia().filtrarPropiedad(localizacion, precioMin, precioMax, propiedadDAO);
-		if (propiedades.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+
+		Optional<Usuario> usuario = propiedadDAO.findPropietarioByPropiedadId(idPropiedad);
+
+		if(usuario.isPresent()){
+			return
+					ResponseEntity.status(HttpStatus.OK).body(usuario.get());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(propiedades);
+		else {
+			return
+					ResponseEntity.status(HttpStatus.OK).body(null);
+
+		}
+
 	}
-	
-	
+
+	@GetMapping("/propiedadExcluida/{username}")
+	public ResponseEntity<List<Propiedad>> getPropiedadesQueNoSonDeEstePropietario(@PathVariable String username){
+
+		Optional<Usuario> user = usuarioDAO.findByUsername(username);
+
+		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
+	}
 	
 }

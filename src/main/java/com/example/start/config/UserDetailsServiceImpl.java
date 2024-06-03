@@ -19,17 +19,17 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	 UsuarioDAO usuarioDAO;
 	
 	@Override
-	public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String correo) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Optional<Usuario> usuario = usuarioDAO.findByUsername(nombre);
+		Optional<Usuario> usuario = usuarioDAO.findByUsername(correo);
 		
 		if(usuario.isPresent()) {
 			return 	(UserDetails)usuario.get();
 					
 		}
 		
-		throw new UsernameNotFoundException("El usuario " + nombre +" no existe");
+		throw new UsernameNotFoundException("El usuario " + correo +" no existe");
 		
 	}
 }

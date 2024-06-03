@@ -1,8 +1,5 @@
 package com.example.start.dto;
 
-import com.example.start.entity.Cliente;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import lombok.Data;
 
 @Data

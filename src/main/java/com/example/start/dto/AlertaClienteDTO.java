@@ -3,8 +3,8 @@ package com.example.start.dto;
 import lombok.Data;
 
 @Data
-public class AgenteClienteDTO {
+public class AlertaClienteDTO {
     private String cliente;
 
-    private String agente;
+    private String alerta;
 }

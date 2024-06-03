@@ -1,10 +1,7 @@
 package com.example.start.controller;
 
-import com.example.start.dao.AgenteDAO;
-import com.example.start.dao.ClienteDAO;
 import com.example.start.dao.PropiedadDAO;
-import com.example.start.entity.Agente;
-import com.example.start.entity.Cliente;
+import com.example.start.dao.UsuarioDAO;
 import com.example.start.entity.Propiedad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +21,10 @@ public class EstadisticasController {
     @Autowired
     PropiedadDAO propiedadDAO;
 
-    @Autowired
-    AgenteDAO agenteDAO;
+
 
     @Autowired
-    ClienteDAO clienteDAO;
+    UsuarioDAO usuarioDAO;
 
 
 
@@ -44,59 +40,10 @@ public class EstadisticasController {
         }
 
     }
-    @GetMapping("/agentesTrabajando")
-    public ResponseEntity<List<Agente>> getNumeroAgentesTrabajando(){
 
 
-            List<Agente> agentes = agenteDAO.findAgentesConClientes();
-
-            if(agentes!=null){
-                return ResponseEntity.status(HttpStatus.OK).body(agentes);
-            }
-            else{
-                return ResponseEntity.status(HttpStatus.OK).body(null);
-            }
-    }
-    @GetMapping("/clientesMasDeUnaPropiedad")
-    public ResponseEntity<List<Cliente>> getClientesMasDeUnaPropiedad(){
 
 
-        List<Cliente> clientes = clienteDAO.findClientesConMasDeUnaPropiedad();
-
-        if(clientes!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(clientes);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
-    }
 
 
-    @GetMapping("/agentesMasDeUnCliente")
-    public ResponseEntity<List<Agente>> getAgentesConMasDeUnCliente(){
-
-
-        List<Agente> agentes = agenteDAO.findAgentesConMasDeUnCliente();
-
-        if(agentes!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(agentes);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
-    }
-
-    @GetMapping("/clientesConMismoAgente")
-    public ResponseEntity<List<Cliente>> getClientesConMismoAgente(){
-
-
-        List<Cliente> clientes = clienteDAO.findClientesQueCompartenAgente();
-
-        if(clientes!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(clientes);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.OK).body(null);
-        }
-    }
 }

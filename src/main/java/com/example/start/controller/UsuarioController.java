@@ -7,28 +7,20 @@ import com.example.start.auth.AuthResponse;
 import com.example.start.auth.AuthService;
 import com.example.start.auth.LoginRequest;
 import com.example.start.dao.UsuarioDAO;
+import com.example.start.entity.Propiedad;
 import com.example.start.entity.Usuario;
 import com.example.start.jwt.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.start.dao.ClienteDAO;
-import com.example.start.entity.Cliente;
 
 import jakarta.validation.Valid;
 
@@ -107,5 +99,42 @@ public class UsuarioController {
         }
     }
 
+   @GetMapping("/usuario/propiedades/{username}")
+   public ResponseEntity<List<Propiedad>> getMisPropiedades(@PathVariable String username){
 
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        List<Propiedad> propiedades;
+        if(usuario.isPresent()){
+            propiedades = usuario.get().getPropiedades();
+            return ResponseEntity.status(HttpStatus.OK).body(propiedades);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+
+   }
+
+    @GetMapping("/usuarioInfoContacto/{username}")
+    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable String username){
+
+        Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
+
+        if(usuarioOptional.isPresent()){
+            Usuario usuario = usuarioOptional.get();
+            return ResponseEntity.status(HttpStatus.OK).body(usuario);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+
+    }
+
+    @GetMapping("/usuarioExcluido/{username}")
+    public ResponseEntity<List<Usuario>> getRestoUsuarios(@PathVariable String username){
+
+        List<Usuario> usuarios = usuarioDAO.findRestoUsuarios(username);
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+
+    }
 }

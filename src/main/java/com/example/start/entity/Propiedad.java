@@ -18,17 +18,17 @@ public class Propiedad {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String tipo;
-	
+
 	private String localizacion;
-	
+
 	private Long precio;
-	
+
 	@JoinColumn(name = "FK_PROPIETARIO")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference
-	private Cliente propietario;
+	private Usuario propietario;
 
 
 	

@@ -4,63 +4,58 @@ import java.util.Collection;
 import java.util.List;
 
 import com.example.start.user.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
-
 @Entity
 //Para que no se pueda repetur
-@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"correo"})})
 public class Usuario implements UserDetails{
 
 	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	private Long id;
+
+	@Setter
 	private String username;
+	@Getter
+	@Setter
 	private String password;
+	@Getter
+	@Setter
 	private String correo;
+	@Getter
+	@Setter
 	private String nombreReal;
+	@Getter
+	@Setter
+	private String numeroTelefono;
 	@Enumerated(EnumType.STRING)
 	private Role role;
-	
-	
-	
-	
-	public String getCorreo() {
-		return correo;
-	}
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
-	public String getNombreReal() {
-		return nombreReal;
-	}
-	public void setNombreReal(String nombreReal) {
-		this.nombreReal = nombreReal;
-	}
-	public String getUsuario() {
-		return username;
-	}
-	public void setUsername(String usuario) {
-		this.username = usuario;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
+	@OneToMany(mappedBy="propietario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	@JsonManagedReference
+	@Getter
+	@Setter
+	private List<Propiedad> propiedades;
+
+	@OneToMany(targetEntity=AlertaCliente.class, mappedBy = "cliente", cascade = CascadeType.ALL)
+	@Getter
+	@Setter
+	private List<AlertaCliente> alertaCliente;
+
+
 	
 	
 	@Override

@@ -2,7 +2,7 @@ package com.example.start.entity;
 
 
 
-import com.example.start.agentecliente.AgenteClienteKey;
+import com.example.start.agentecliente.AlertaClienteKey;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -13,20 +13,20 @@ import lombok.Data;
 
 @Entity
 @Data
-public class AgenteCliente {
+public class AlertaCliente {
 
 	@EmbeddedId
-	private AgenteClienteKey id;
-	
-	@ManyToOne
-	@MapsId("agenteId")
-	@JoinColumn(name = "agente_id")
-	private Agente agente;
+	private AlertaClienteKey id;
 	
 	@ManyToOne
 	@MapsId("clienteId")
 	@JoinColumn(name = "cliente_id")
-	private Cliente cliente;
+	private Usuario cliente;
+	
+	@ManyToOne
+	@MapsId("alertaId")
+	@JoinColumn(name = "alerta_id")
+	private Alerta alerta;
 
 	
 	

@@ -5,22 +5,23 @@ import java.util.Objects;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
 @Embeddable
-public class AgenteClienteKey implements Serializable{
+public class AlertaClienteKey implements Serializable{
 
-	@Column(name = "agente_id")
-	Long agenteId;
-	
 	@Column(name = "cliente_id")
 	Long clienteId;
+	
+	@Column(name = "alerta_id")
+	Long alertaId;
 
-	public Long getAgenteId() {
-		return agenteId;
+	public Long getAlertaId() {
+		return alertaId;
 	}
 
 	public void setAgenteId(Long agenteId) {
-		this.agenteId = agenteId;
+		this.alertaId = agenteId;
 	}
 
 	public Long getClienteId() {
@@ -33,7 +34,7 @@ public class AgenteClienteKey implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(agenteId, clienteId);
+		return Objects.hash(alertaId, clienteId);
 	}
 
 	@Override
@@ -44,11 +45,8 @@ public class AgenteClienteKey implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AgenteClienteKey other = (AgenteClienteKey) obj;
-		return Objects.equals(agenteId, other.agenteId) && Objects.equals(clienteId, other.clienteId);
+		AlertaClienteKey other = (AlertaClienteKey) obj;
+		return Objects.equals(alertaId, other.alertaId) && Objects.equals(clienteId, other.clienteId);
 	}
-	
-	
-	
-	
+
 }
