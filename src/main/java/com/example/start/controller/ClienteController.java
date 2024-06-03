@@ -3,6 +3,7 @@ package com.example.start.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -98,6 +99,17 @@ public class ClienteController {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		
 		
+	}
+
+	@GetMapping("/clienteNumero/{propiedad}")
+	public ResponseEntity<Cliente> getNumeroCliente(@PathVariable Long propiedad){
+
+		Cliente cliente = clienteDAO.findClienteByPropiedadId(propiedad);
+
+		String telefono = cliente.getNumeroTelefono();
+
+		return ResponseEntity.status(HttpStatus.OK).body(cliente);
+
 	}
 	
 }

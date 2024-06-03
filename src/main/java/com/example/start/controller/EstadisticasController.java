@@ -2,13 +2,10 @@ package com.example.start.controller;
 
 import com.example.start.dao.AgenteDAO;
 import com.example.start.dao.ClienteDAO;
-import com.example.start.dao.InmobiliariaDAO;
 import com.example.start.dao.PropiedadDAO;
 import com.example.start.entity.Agente;
 import com.example.start.entity.Cliente;
-import com.example.start.entity.Inmobiliaria;
 import com.example.start.entity.Propiedad;
-import org.apache.tomcat.util.http.parser.HttpParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +20,6 @@ import java.util.List;
 @RequestMapping("/estadisticas")
 public class EstadisticasController {
 
-    @Autowired
-    InmobiliariaDAO inmobiDAO;
 
     @Autowired
     PropiedadDAO propiedadDAO;
@@ -35,19 +30,7 @@ public class EstadisticasController {
     @Autowired
     ClienteDAO clienteDAO;
 
-    @GetMapping("/inmobiliaria/{numeroAgentes}")
-    public ResponseEntity<List<Inmobiliaria>> getNumeroInmobiliaria(@PathVariable Long numeroAgentes){
 
-        List<Inmobiliaria> inmobiliarias= inmobiDAO.findInmobiliariasByNumeroAgentesMayorQue(numeroAgentes);
-
-        if(inmobiliarias!=null){
-            return ResponseEntity.status(HttpStatus.OK).body(inmobiliarias);
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
-    }
 
     @GetMapping("/propiedad/{precio}")
     public ResponseEntity<List<Propiedad>> getNumeroPropiedades(@PathVariable Long precio) {

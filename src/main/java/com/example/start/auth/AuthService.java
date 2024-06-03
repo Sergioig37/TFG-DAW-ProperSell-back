@@ -38,24 +38,8 @@ public class AuthService {
 		user.setNombreReal(request.getNombreReal());
 		user.setPassword(bcryptPasswordEncoder.encode(request.getPassword()));
 		user.setUsername(request.getUsername());
+		user.setRole(Role.USER);
 		System.out.println((request.getRol().equals(("CLIENTE"))));
-
-		if(request.getRol().equals(("CLIENTE"))){
-			System.out.println("ES CLIENTE");
-			user.setRole(Role.CLIENTE);
-		}
-		else if (request.getRol().equals(("AGENTE"))){
-			System.out.println("ES AGENTE");
-			user.setRole(Role.AGENTE);
-		}
-		else if (request.getRol().equals(("INMOBILIARIA"))){
-			System.out.println("ES INMOBILIARIA");
-			user.setRole(Role.INMOBILIARIA);
-		}
-		else{
-			System.out.println("ES ADMIN");
-			user.setRole(Role.ADMIN);
-		}
 
 
 

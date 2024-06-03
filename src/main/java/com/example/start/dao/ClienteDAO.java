@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.example.start.entity.Cliente;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface ClienteDAO extends CrudRepository<Cliente, Long>{
 
     @Query("SELECT c FROM Cliente c WHERE c.id IN (SELECT ac.cliente.id FROM AgenteCliente ac GROUP BY ac.agente.id HAVING COUNT(ac.cliente.id) > 1)")
     List<Cliente> findClientesQueCompartenAgente();
+
+    @Query("SELECT c FROM Cliente c JOIN c.propiedades p WHERE p.id = :propiedadId")
+    Cliente findClienteByPropiedadId(@Param("propiedadId") Long propiedadId);
 }

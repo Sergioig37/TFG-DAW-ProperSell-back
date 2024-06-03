@@ -74,4 +74,29 @@ public class AgenteClienteController {
 		return agenteCliente.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
 
+	@GetMapping("/agenteCliente/agentes/{cliente}")
+	public ResponseEntity<List<Agente>> getAgentesDeXCliente(@PathVariable long cliente){
+
+		List<Agente> agentes = agenteClienteDAO.findAgentesByClienteId(cliente);
+
+		return ResponseEntity.status(HttpStatus.OK).body(agentes);
+
+	}
+
+	@GetMapping("/agenteCliente/clientes/{agente}")
+	public ResponseEntity<List<Cliente>> getClientesDeXAgente(@PathVariable long agente){
+
+		List<Cliente> clientes = agenteClienteDAO.findClientesByAgenteId(agente);
+
+		if(clientes==null){
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(clientes);
+
+	}
+
+
+
+
 }

@@ -33,13 +33,6 @@ public class Agente {
 	private String correo;
 
 
-	@JoinColumn(name = "FK_INMOBILIARIA")
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonBackReference
-
-	@Setter
-	@Getter
-	private Inmobiliaria inmobiliaria;
 	@Setter
 	@Getter
 	private String numeroTelefono;
