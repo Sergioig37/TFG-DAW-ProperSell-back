@@ -40,6 +40,7 @@ public class AuthService {
 		user.setUsername(request.getUsername());
 		user.setRole(Role.USER);
 		user.setHabilitado(true);
+		user.setNumeroTelefono(request.getNumeroTelefono());
 		System.out.println((request.getRol().equals(("CLIENTE"))));
 
 

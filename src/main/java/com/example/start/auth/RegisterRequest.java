@@ -15,4 +15,5 @@ public class RegisterRequest {
 	private String correo;
 	private String nombreReal;
 	private String rol;
+	private String numeroTelefono;
 }

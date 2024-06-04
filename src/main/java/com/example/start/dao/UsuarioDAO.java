@@ -27,6 +27,8 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Long>{
 
 	@Query("SELECT u FROM Usuario u WHERE u.username != :username")
 	List<Usuario> findRestoUsuarios(@Param("username") String username);
+
+
 }
 	
 

@@ -2,6 +2,7 @@ package com.example.start.entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.example.start.user.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -16,16 +17,17 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-//Para que no se pueda repetur
-@Data
-@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"correo"})})
+
+@Getter
+@Setter
+@Table(name = "Usuario", uniqueConstraints = {@UniqueConstraint(columnNames = {"correo, username"})})
 public class Usuario implements UserDetails{
 
 	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
+	@Column(name = "idUsuario")
 	private Long id;
 
 
@@ -46,15 +48,16 @@ public class Usuario implements UserDetails{
 	@OneToMany(mappedBy="propietario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	@JsonManagedReference
-
 	private List<Propiedad> propiedades;
 
-	@OneToMany(targetEntity=AlertaCliente.class, mappedBy = "cliente", cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.DETACH)
+	@JoinTable(name = "alerta_cliente",
+		joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario"),
+		inverseJoinColumns = @JoinColumn(name = "idAlerta", referencedColumnName = "idAlerta")
+	)
+	@JsonManagedReference
+	private Set<Alerta> alertas;
 
-	private List<AlertaCliente> alertaCliente;
-
-
-	
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -94,4 +97,19 @@ public class Usuario implements UserDetails{
 
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario{" +
+				"id=" + id +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", correo='" + correo + '\'' +
+				", nombreReal='" + nombreReal + '\'' +
+				", habilitado=" + habilitado +
+				", numeroTelefono='" + numeroTelefono + '\'' +
+				", role=" + role +
+				", propiedades=" + propiedades +
+				", alertas=" + alertas +
+				'}';
+	}
 }

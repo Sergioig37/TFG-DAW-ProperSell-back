@@ -34,6 +34,8 @@ public class SecurityConfig {
 						.permitAll()
 						.requestMatchers("/estadisticas/**")
 						.permitAll()
+						.requestMatchers("/propiedad")
+						.permitAll()
 						.anyRequest()
 						.authenticated())
 				.sessionManagement(

@@ -10,9 +10,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Propiedad {
 
 	@Id
@@ -33,6 +36,15 @@ public class Propiedad {
 	private Usuario propietario;
 
 
-	
-	
+	@Override
+	public String toString() {
+		return "Propiedad{" +
+				"id=" + id +
+				", tipo='" + tipo + '\'' +
+				", localizacion='" + localizacion + '\'' +
+				", precio=" + precio +
+				", habilitado=" + habilitado +
+				", propietario=" + propietario.getUsername() +
+				'}';
+	}
 }

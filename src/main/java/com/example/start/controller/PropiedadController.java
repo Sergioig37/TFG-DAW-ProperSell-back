@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.start.dao.PropiedadDAO;
 import com.example.start.entity.Propiedad;
-import com.example.start.utility.MetodosPropiedad;
+import com.example.start.service.PropiedadService;
 
 import jakarta.validation.Valid;
 
@@ -31,6 +31,8 @@ public class PropiedadController {
 	PropiedadDAO propiedadDAO;
 	@Autowired
 	UsuarioDAO usuarioDAO;
+	@Autowired
+	PropiedadService propiedadService;
 	
 	
 	
@@ -44,78 +46,45 @@ public class PropiedadController {
 	
 	@GetMapping("/propiedad/{id}")
 	public ResponseEntity<Propiedad> getPropiedad(@PathVariable Long id){
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(propiedadDAO.findById(id).get());
 		
 	}
 	
 	
 	@DeleteMapping("/propiedad/del/{id}")
-	public ResponseEntity<Propiedad> delPropiedad(@PathVariable Long id) {
-		
-		
-		Optional<Propiedad> propiedadOptional = propiedadDAO.findById(id);
-	    
-	    if (propiedadOptional.isPresent()) {
-	    	
-	    	MetodosPropiedad.getInstancia().desenlazarPropietario(propiedadOptional.get(), usuarioDAO);
-	        propiedadDAO.delete(propiedadOptional.get());
-	        return ResponseEntity.status(HttpStatus.OK).body(propiedadOptional.get());
-	    }
-	    else {
-	    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	    }
-	    
-			   
+	public ResponseEntity delPropiedad(@PathVariable Long id) {
+
+			propiedadService.deletePropiedad(id);
+
+	    	return ResponseEntity.status(HttpStatus.OK).body(null);
+
 	}
 	
 	
 	@PostMapping("/propiedad/save")
-	public ResponseEntity<Propiedad> savePropiedad(@RequestBody PropiedadDTO propiedadDTO){
+	public ResponseEntity savePropiedad(@RequestBody PropiedadDTO propiedadDTO){
 
-		Propiedad propiedad = new Propiedad();
-
-		propiedad.setTipo(propiedadDTO.getTipo());
-		propiedad.setLocalizacion(propiedadDTO.getLocalizacion());
-		propiedad.setPrecio(Long.valueOf(propiedadDTO.getPrecio()));
-
-		if(!propiedadDTO.getPropietario().equals("")){
-			Optional<Usuario> cliente = usuarioDAO.findByUsername(propiedadDTO.getPropietario());
-			usuarioDAO.save(cliente.get());
-			propiedad.setPropietario(cliente.get());
-		}
-
-		propiedadDAO.save(propiedad);
+		propiedadService.enlazarPropietario(propiedadDTO);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(propiedad);
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 		
 		
 	}
 	
 	
 	@PutMapping("/propiedad/edit/{id}")
-	public ResponseEntity<Propiedad> editPropiedad(@RequestBody @Valid Propiedad propiedad, @PathVariable Long id){
+	public ResponseEntity<Propiedad> editPropiedad(@RequestBody @Valid PropiedadDTO propiedadDTO, @PathVariable Long id){
 		
-		Optional<Propiedad> propiedadExiste =  propiedadDAO.findById(id);
+		propiedadService.actualizar(propiedadDTO, id);
 		
-		if(propiedadExiste.isPresent()) {
-			
-			propiedadExiste.get().setLocalizacion(propiedad.getLocalizacion());
-			propiedadExiste.get().setPrecio(propiedad.getPrecio());
-			propiedadExiste.get().setTipo(propiedad.getTipo());
-			
-			propiedadDAO.save(propiedadExiste.get());
-			return ResponseEntity.status(HttpStatus.OK).body(propiedadExiste.get());
-		}
-		
-		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 		
 		
 	}
 	
 	@GetMapping("/propiedad/propietario/{idPropiedad}")
 	public ResponseEntity<Usuario> getVerificarPropietario(@PathVariable Long idPropiedad){
-
 
 
 		Optional<Usuario> usuario = propiedadDAO.findPropietarioByPropiedadId(idPropiedad);
@@ -129,6 +98,7 @@ public class PropiedadController {
 					ResponseEntity.status(HttpStatus.OK).body(null);
 
 		}
+		
 
 	}
 
@@ -140,29 +110,23 @@ public class PropiedadController {
 		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
 	}
 
+
+
 	@GetMapping("/propiedad/disable/{idPropiedad}")
-	public ResponseEntity deshabilitarUsuario(@PathVariable Long idPropiedad){
+	public ResponseEntity deshabilitarPropiedad(@PathVariable Long idPropiedad){
 
-		Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
+		propiedadService.deshabilitarPropiedad(idPropiedad);
 
-		if(propiedad.isPresent()){
-			propiedad.get().setHabilitado(false);
-			propiedadDAO.save(propiedad.get());
-			return ResponseEntity.status(HttpStatus.OK).body(null);
-		}
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
+
+
+
 
 	@GetMapping("/propiedad/enable/{idPropiedad}")
 	public ResponseEntity habilitarUsuario(@PathVariable Long idPropiedad){
 
-		Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
-
-		if(propiedad.isPresent()){
-			propiedad.get().setHabilitado(true);
-			propiedadDAO.save(propiedad.get());
-			return ResponseEntity.status(HttpStatus.OK).body(null);
-		}
+		propiedadService.habilitarPropiedad(idPropiedad);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
