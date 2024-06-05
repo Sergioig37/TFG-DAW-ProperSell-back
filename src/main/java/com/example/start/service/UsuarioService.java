@@ -3,6 +3,7 @@ package com.example.start.service;
 import com.example.start.auth.AuthResponse;
 import com.example.start.auth.AuthService;
 import com.example.start.auth.LoginRequest;
+import com.example.start.dao.AlertaDAO;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.AlertaDTO;
 import com.example.start.dto.UsuarioDTO;
@@ -12,15 +13,11 @@ import com.example.start.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UsuarioService {
@@ -32,6 +29,8 @@ public class UsuarioService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Autowired
+    AlertaDAO alertaDAO;
 
     @Autowired
     AuthService authService;
@@ -42,8 +41,7 @@ public class UsuarioService {
         if (usuarioOptional.isPresent()) {
             usuarioDAO.delete(usuarioOptional.get());
             return ResponseEntity.status(HttpStatus.OK).body(usuarioOptional.get());
-        }
-        else {
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
@@ -56,7 +54,7 @@ public class UsuarioService {
             existingUser.setCorreo(usuarioDTO.getCorreo());
             existingUser.setUsername(usuarioDTO.getUsername());
             existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
-            if(usuarioDTO.getPassword()!=""){
+            if (usuarioDTO.getPassword() != "") {
                 existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
             }
             existingUser.setNombreReal(usuarioDTO.getNombreReal());
@@ -82,46 +80,179 @@ public class UsuarioService {
     public ResponseEntity<List<Propiedad>> getPropiedadesDelUsuario(String username) {
         Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
         List<Propiedad> propiedades;
-        if(usuario.isPresent()){
+        if (usuario.isPresent()) {
             propiedades = usuario.get().getPropiedades();
             return ResponseEntity.status(HttpStatus.OK).body(propiedades);
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
     }
 
-    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable String username){
+    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable String username) {
 
         Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
 
-        if(usuarioOptional.isPresent()){
+        if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
             return ResponseEntity.status(HttpStatus.OK).body(usuario);
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
 
     }
 
-    public ResponseEntity<Set<AlertaDTO>> getAlertasUsuario(@PathVariable String username){
+    public Set<AlertaDTO> getAlertasUsuario(@PathVariable String username) {
 
         Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
 
         Set<Alerta> alertas = usuario.get().getAlertas();
-        System.out.println(alertas);
-        System.out.println(usuario.get());
-        Set<AlertaDTO> alertasDTO = new HashSet<>();
-        for(Alerta alert: alertas){
+
+
+        Set<AlertaDTO> alertasUsuarioDTO = this.crearAlertasDTO(alertas);
+
+
+        return alertasUsuarioDTO;
+
+    }
+
+    public Set<AlertaDTO> getAlertasDisponibles(String username) {
+
+        List<Alerta> alertasTotalesList = (List<Alerta>) alertaDAO.findAll();
+
+        Set<Alerta> alertasTotales = this.convertirListASet(alertasTotalesList);
+
+        Set<Alerta> alertasRestantes = this.comprobarAlertas(alertasTotales, username);
+
+        Set<AlertaDTO> alertasRestantesDTO = this.crearAlertasDTO(alertasRestantes);
+
+        return alertasRestantesDTO;
+    }
+
+
+    private Set<Alerta> comprobarAlertas(Set<Alerta> alertas, String username) {
+
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+
+        Set<Alerta> alertasUsuario = usuario.get().getAlertas();
+        Set<Alerta> alertasDisponibles = new HashSet<>();
+        for (Alerta alerta : alertas) {
+
+            if (!alertasUsuario.contains(alerta)) {
+                alertasDisponibles.add(alerta);
+            }
+
+        }
+        return alertasDisponibles;
+
+    }
+
+    private Set<AlertaDTO> crearAlertasDTO(Set<Alerta> alertas) {
+
+        Set<AlertaDTO> disponibles = new HashSet<>();
+
+
+        for (Alerta alerta : alertas) {
+
             AlertaDTO alertaDTO = new AlertaDTO();
 
-            alertaDTO.setDescripcion(alert.getDescripcion());
-            alertaDTO.setNombre(alert.getNombre());
-            alertasDTO.add(alertaDTO);
+            alertaDTO.setId(Long.toString(alerta.getId()));
+            alertaDTO.setNombre(alerta.getNombre());
+            alertaDTO.setDescripcion(alerta.getDescripcion());
+            disponibles.add(alertaDTO);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(alertasDTO);
+        return disponibles;
+    }
+
+    private Set<Alerta> convertirListASet(List<Alerta> alertas) {
+
+        Set<Alerta> alertaSet = new HashSet<>();
+
+        alertaSet.addAll(alertas);
+
+        return alertaSet;
+
+    }
+
+    public void actualizarAlerta(String username, Long id, boolean add) {
+
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        Optional<Alerta> alerta = alertaDAO.findById(id);
+
+        Set<Usuario> usuariosAlerta = alerta.get().getUsuarios();
+        Set<Alerta> alertasUsuario = usuario.get().getAlertas();
+        System.out.println(id);
+
+        if (add) {
+
+            usuariosAlerta.add(usuario.get());
+            alertasUsuario.add(alerta.get());
+
+        } else if(!add) {
+
+            usuariosAlerta.remove(usuario.get());
+            alertasUsuario.remove(alerta.get());
+
+        }
+
+        alerta.get().setUsuarios(usuariosAlerta);
+        usuario.get().setAlertas(alertasUsuario);
+
+        alertaDAO.save(alerta.get());
+        usuarioDAO.save(usuario.get());
+
+    }
+
+    public List<Usuario> buscarUsuariosConMasDeXAlertas(Long numeroAlertas) {
+
+        List<Usuario> usuarios = (List<Usuario>) usuarioDAO.findAll();
+
+        List<Usuario> usuariosEncontrados = new ArrayList<>();
+
+
+        for (Usuario usuario : usuarios) {
+            if (usuario.getAlertas().size() > numeroAlertas) {
+                usuariosEncontrados.add(usuario);
+            }
+        }
+
+        return usuariosEncontrados;
+
+    }
+
+    public List<Usuario> findUsuarioMaDeUnaPropiedad() {
+
+        List<Usuario> usuarios = (List<Usuario>) usuarioDAO.findAll();
+
+        List<Usuario> usuariosEncontrados = new ArrayList<>();
+
+
+        for (Usuario usuario : usuarios) {
+            if (usuario.getPropiedades().size() > 1) {
+                usuariosEncontrados.add(usuario);
+            }
+        }
+
+        return usuariosEncontrados;
+
+
+    }
+
+    public void habilitarDeshabilitarUsuario(String username, boolean enabled) {
+
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+
+        if (usuario.isPresent()) {
+            if (enabled) {
+
+                usuario.get().setHabilitado(true);
+
+            } else if(!enabled) {
+                usuario.get().setHabilitado(false);
+
+            }
+            usuarioDAO.save(usuario.get());
+        }
 
     }
 }

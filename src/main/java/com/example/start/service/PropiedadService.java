@@ -1,5 +1,6 @@
 package com.example.start.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,6 +106,18 @@ public final class PropiedadService {
 		else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 		}
+	}
+
+	public List<Propiedad> propiedadesMasCarasQue(Long precio){
+
+		List<Propiedad> propiedades = propiedadDAO.findPropiedadesByPrecioMayorQue(precio);
+
+		if (propiedades != null) {
+			return propiedades;
+		} else {
+			return new ArrayList<Propiedad>();
+		}
+
 	}
 
 }

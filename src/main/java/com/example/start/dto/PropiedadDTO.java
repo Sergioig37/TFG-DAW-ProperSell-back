@@ -14,4 +14,6 @@ public class PropiedadDTO {
     private String precio;
 
     private String propietario;
+
+    private String imagen;
 }

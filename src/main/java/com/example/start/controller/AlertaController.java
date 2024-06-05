@@ -2,6 +2,7 @@ package com.example.start.controller;
 
 import com.example.start.dao.AlertaDAO;
 import com.example.start.entity.Alerta;
+import com.example.start.service.AlertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,8 @@ public class AlertaController {
     @Autowired
     AlertaDAO alertaDAO;
 
-
+    @Autowired
+    AlertaService alertaService;
 
     @GetMapping("/alerta")
     public ResponseEntity<List<Alerta>> getAgentes(){
@@ -35,20 +37,11 @@ public class AlertaController {
 
 
     @DeleteMapping("/alerta/del/{id}")
-    public ResponseEntity<Alerta> delAgente(@PathVariable Long id) {
+    public ResponseEntity delAgente(@PathVariable Long id) {
 
-        Optional<Alerta> alertaOptional = alertaDAO.findById(id);
+       alertaService.borrarAlerta(id);
 
-        if (alertaOptional.isPresent()) {
-
-            alertaDAO.delete(alertaOptional.get());
-
-            return ResponseEntity.status(HttpStatus.OK).body(alertaOptional.get());
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-
+       return ResponseEntity.status(HttpStatus.OK).body(null);
 
     }
 

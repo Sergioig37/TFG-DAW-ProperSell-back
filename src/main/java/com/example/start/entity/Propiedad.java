@@ -30,6 +30,7 @@ public class Propiedad {
 
 	private boolean habilitado;
 
+
 	@JoinColumn(name = "FK_PROPIETARIO")
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonBackReference

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 
+import com.example.start.entity.Alerta;
 import com.example.start.entity.Usuario;
 
 import org.springframework.data.jpa.repository.Query;
@@ -28,6 +29,7 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Long>{
 	@Query("SELECT u FROM Usuario u WHERE u.username != :username")
 	List<Usuario> findRestoUsuarios(@Param("username") String username);
 
+	List<Usuario> findByHabilitado(boolean habilitado);
 
 }
 	

@@ -14,4 +14,6 @@ public class UsuarioDTO {
     private String numeroTelefono;
 
     private String password;
+
+    private boolean habilitado;
 }

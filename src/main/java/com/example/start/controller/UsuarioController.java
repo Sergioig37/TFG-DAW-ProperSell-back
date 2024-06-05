@@ -4,27 +4,17 @@ import java.util.*;
 
 import com.example.start.auth.AuthResponse;
 import com.example.start.auth.AuthService;
-import com.example.start.auth.LoginRequest;
-import com.example.start.dao.AlertaDAO;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.AlertaDTO;
 import com.example.start.dto.UsuarioDTO;
-import com.example.start.entity.Alerta;
 import com.example.start.entity.Propiedad;
 import com.example.start.entity.Usuario;
-import com.example.start.jwt.JwtService;
 import com.example.start.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
@@ -95,37 +85,39 @@ public class UsuarioController {
 
     }
 
-//    @GetMapping("/usuario/disable/{username}")
-//    public ResponseEntity deshabilitarUsuario(@PathVariable String username){
-//
-//        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
-//
-//        if(usuario.isPresent()){
-//            usuario.get().setHabilitado(false);
-//            usuarioDAO.save(usuario.get());
-//            return ResponseEntity.status(HttpStatus.OK).body(null);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(null);
-//    }
-//
-//    @GetMapping("/usuario/enable/{username}")
-//    public ResponseEntity habilitarUsuario(@PathVariable String username){
-//
-//        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
-//
-//        if(usuario.isPresent()){
-//            usuario.get().setHabilitado(true);
-//            usuarioDAO.save(usuario.get());
-//            return ResponseEntity.status(HttpStatus.OK).body(null);
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(null);
-//    }
+
+   @PutMapping("/usuario/enabled/{username}/{enabled}")
+    public void habilitarUsuario(@PathVariable String username, @PathVariable boolean enabled){
+
+        usuarioService.habilitarDeshabilitarUsuario(username, enabled);
+
+   }
 
 
     @GetMapping("/usuario/{username}/alertas")
     public ResponseEntity<Set<AlertaDTO>> getAlertasUsuario(@PathVariable String username){
 
-       return usuarioService.getAlertasUsuario(username);
+
+        Set<AlertaDTO> alertas = usuarioService.getAlertasUsuario(username);
+
+       return ResponseEntity.status(HttpStatus.OK).body(alertas);
+
+    }
+
+    @GetMapping("/usuario/{username}/alertasDisponibles")
+    public ResponseEntity<Set<AlertaDTO>> getAlertasDisponibles(@PathVariable String username){
+
+            Set<AlertaDTO> alertas = usuarioService.getAlertasDisponibles(username);
+
+            return ResponseEntity.status(HttpStatus.OK).body(alertas);
+
+    }
+
+
+    @PutMapping("/usuario/{username}/{id}/{add}")
+    public void guardarAlerta(@PathVariable String username, @PathVariable Long id, @PathVariable boolean add){
+
+        usuarioService.actualizarAlerta(username, id, add);
 
     }
 }
