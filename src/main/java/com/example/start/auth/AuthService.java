@@ -10,6 +10,7 @@ import com.mysql.cj.exceptions.PasswordExpiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class AuthService {
 	@Autowired
 	PasswordEncoder bcryptPasswordEncoder;
 
-	public void register(RegisterRequest request) throws Exception {
+	public void register(RegisterRequest request) throws CorreoYaExisteException, UsuarioYaExisteException {
 		// TODO Auto-generated method stub
 		Usuario user = new Usuario();
 		if (usuarioDAO.findByUsername(request.getUsername()).isPresent()) {

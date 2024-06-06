@@ -15,28 +15,24 @@ public class AuthController {
 	AuthService authService;
 	
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody LoginRequest request) throws Exception {
+	public ResponseEntity login(@RequestBody LoginRequest request)  {
 
-		try{
 			AuthResponse token = authService.login(request);
 			return ResponseEntity.status(HttpStatus.OK).body(token);
-		} catch (Exception e){
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-		}
-	
-	}
-	
-	
-	@PostMapping("/register")
-	public ResponseEntity register(@RequestBody RegisterRequest request) throws Exception {
 
+	}
+
+
+	@PostMapping("/register")
+	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 		try {
 			authService.register(request);
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return ResponseEntity.status(HttpStatus.OK).body("Usuario registrado con éxito");
+		} catch (UsuarioYaExisteException | CorreoYaExisteException e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		} catch (Exception e) {
-			System.out.println(e);
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
 
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error inesperado");
 		}
 	}
 		
