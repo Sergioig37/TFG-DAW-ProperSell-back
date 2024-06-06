@@ -35,8 +35,8 @@ public class UsuarioService {
     @Autowired
     AuthService authService;
 
-    public ResponseEntity borrarUsuario(String username) {
-        Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
+    public ResponseEntity borrarUsuario(Long id) {
+        Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
         if (usuarioOptional.isPresent()) {
             usuarioDAO.delete(usuarioOptional.get());
@@ -46,9 +46,9 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<AuthResponse> editarUsuario(UsuarioDTO usuarioDTO, String username) throws Exception {
+    public ResponseEntity<AuthResponse> editarUsuario(UsuarioDTO usuarioDTO, Long id) throws Exception {
 
-        Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
         if (usuarioOptional.isPresent()) {
             Usuario existingUser = usuarioOptional.get();
             existingUser.setCorreo(usuarioDTO.getCorreo());
@@ -77,8 +77,8 @@ public class UsuarioService {
 
     }
 
-    public ResponseEntity<List<Propiedad>> getPropiedadesDelUsuario(String username) {
-        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+    public ResponseEntity<List<Propiedad>> getPropiedadesDelUsuario(Long id) {
+        Optional<Usuario> usuario = usuarioDAO.findById(id);
         List<Propiedad> propiedades;
         if (usuario.isPresent()) {
             propiedades = usuario.get().getPropiedades();
@@ -88,9 +88,9 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable String username) {
+    public ResponseEntity<Usuario> getNumeroPropietario(@PathVariable Long id) {
 
-        Optional<Usuario> usuarioOptional = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
         if (usuarioOptional.isPresent()) {
             Usuario usuario = usuarioOptional.get();
@@ -101,9 +101,9 @@ public class UsuarioService {
 
     }
 
-    public Set<AlertaDTO> getAlertasUsuario(@PathVariable String username) {
+    public Set<AlertaDTO> getAlertasUsuario(@PathVariable Long id) {
 
-        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuario = usuarioDAO.findById(id);
 
         Set<Alerta> alertas = usuario.get().getAlertas();
 
@@ -115,13 +115,13 @@ public class UsuarioService {
 
     }
 
-    public Set<AlertaDTO> getAlertasDisponibles(String username) {
+    public Set<AlertaDTO> getAlertasDisponibles(Long id) {
 
         List<Alerta> alertasTotalesList = (List<Alerta>) alertaDAO.findAll();
 
         Set<Alerta> alertasTotales = this.convertirListASet(alertasTotalesList);
 
-        Set<Alerta> alertasRestantes = this.comprobarAlertas(alertasTotales, username);
+        Set<Alerta> alertasRestantes = this.comprobarAlertas(alertasTotales, id);
 
         Set<AlertaDTO> alertasRestantesDTO = this.crearAlertasDTO(alertasRestantes);
 
@@ -129,9 +129,9 @@ public class UsuarioService {
     }
 
 
-    private Set<Alerta> comprobarAlertas(Set<Alerta> alertas, String username) {
+    private Set<Alerta> comprobarAlertas(Set<Alerta> alertas, Long id) {
 
-        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuario = usuarioDAO.findById(id);
 
         Set<Alerta> alertasUsuario = usuario.get().getAlertas();
         Set<Alerta> alertasDisponibles = new HashSet<>();
@@ -174,9 +174,9 @@ public class UsuarioService {
 
     }
 
-    public void actualizarAlerta(String username, Long id, boolean add) {
+    public void actualizarAlerta(Long idUsuario, Long id, boolean add) {
 
-        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuario = usuarioDAO.findById(idUsuario);
         Optional<Alerta> alerta = alertaDAO.findById(id);
 
         Set<Usuario> usuariosAlerta = alerta.get().getUsuarios();
@@ -238,9 +238,9 @@ public class UsuarioService {
 
     }
 
-    public void habilitarDeshabilitarUsuario(String username, boolean enabled) {
+    public void habilitarDeshabilitarUsuario(Long id, boolean enabled) {
 
-        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+        Optional<Usuario> usuario = usuarioDAO.findById(id);
 
         if (usuario.isPresent()) {
             if (enabled) {

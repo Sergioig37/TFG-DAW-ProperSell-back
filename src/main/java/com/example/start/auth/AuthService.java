@@ -2,6 +2,11 @@ package com.example.start.auth;
 
 import java.util.Optional;
 
+import com.example.start.exception.CorreoYaExisteException;
+import com.example.start.exception.PasswordNoExisteException;
+import com.example.start.exception.UsuarioNoExisteException;
+import com.example.start.exception.UsuarioYaExisteException;
+import com.mysql.cj.exceptions.PasswordExpiredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,20 +25,24 @@ public class AuthService {
 
 	@Autowired
 	UsuarioDAO usuarioDAO;
-	
+
 	@Autowired
 	JwtService jwtService;
-	
+
 	@Autowired
 	AuthenticationManager authManager;
-	
+
 	@Autowired
 	PasswordEncoder bcryptPasswordEncoder;
-	
-	public AuthResponse register(RegisterRequest request) {
+
+	public void register(RegisterRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		Usuario user = new Usuario();
-		
+		if (usuarioDAO.findByUsername(request.getUsername()).isPresent()) {
+			throw new UsuarioYaExisteException("Este usuario ya está en uso");
+		} else if (usuarioDAO.findByCorreo(request.getCorreo()).isPresent()) {
+			throw new CorreoYaExisteException("Este correo ya está en uso");
+		}
 		user.setCorreo(request.getCorreo());
 		user.setNombreReal(request.getNombreReal());
 		user.setPassword(bcryptPasswordEncoder.encode(request.getPassword()));
@@ -41,28 +50,40 @@ public class AuthService {
 		user.setRole(Role.USER);
 		user.setHabilitado(true);
 		user.setNumeroTelefono(request.getNumeroTelefono());
-		System.out.println((request.getRol().equals(("CLIENTE"))));
-
 
 
 
 		usuarioDAO.save(user);
-		
-		return null;
+
 	}
 
-	public AuthResponse login(LoginRequest request) throws Exception{
+
+	public AuthResponse login(LoginRequest request) {
 		// TODO Auto-generated method stub
-		authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-		
-		Optional<Usuario> user = usuarioDAO.findByUsername(request.getUsername());
-		
-		if(user.isPresent()) {
-			String token = jwtService.getToken((UserDetails) user.get());
-			return AuthResponse.builder().token(token).build();
-		}
-		
-		return null;
-	}
 
+
+		authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+
+		Optional<Usuario> user = usuarioDAO.findByUsername(request.getUsername());
+
+		if (user.isPresent() ) {
+			if(bcryptPasswordEncoder.matches(request.getPassword(), user.get().getPassword())){
+				String token = jwtService.getToken((UserDetails) user.get());
+				return AuthResponse.builder().token(token).build();
+			}
+			else{
+				//throw new PasswordNoExisteException("Contraseña incorrecta");
+			}
+
+		}
+		else{
+			//throw new UsuarioNoExisteException("Usuario incorrecto" );
+		}
+
+	return null;
+	}
 }
+
+
+

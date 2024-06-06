@@ -41,83 +41,89 @@ public class UsuarioController {
     }
 
 
-    @GetMapping("/usuario/{username}")
-    public ResponseEntity<Usuario> getUsuario(@PathVariable String username){
+    @GetMapping("/usuarioNombre/{username}")
+    public ResponseEntity<Usuario> getUsuarioByUsername(@PathVariable String username){
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findByUsername(username).get());
 
     }
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id){
 
-
-    @DeleteMapping("/usuario/del/{username}")
-    public ResponseEntity delUsuario(@PathVariable String username) {
-
-
-        return usuarioService.borrarUsuario(username);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findById(id).get());
 
     }
 
-    @PutMapping("/usuario/edit/{username}")
-    public ResponseEntity<AuthResponse> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable String username) throws Exception {
-        return usuarioService.editarUsuario(usuarioDTO, username);
+
+    @DeleteMapping("/usuario/del/{id}")
+    public ResponseEntity delUsuario(@PathVariable Long id) {
+
+
+        return usuarioService.borrarUsuario(id);
+
     }
 
-   @GetMapping("/usuario/propiedades/{username}")
-   public ResponseEntity<List<Propiedad>> getMisPropiedades(@PathVariable String username){
+    @PutMapping("/usuario/edit/{id}")
+    public ResponseEntity<AuthResponse> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id) throws Exception {
+        return usuarioService.editarUsuario(usuarioDTO, id);
+    }
 
-     return  usuarioService.getPropiedadesDelUsuario(username);
+   @GetMapping("/usuario/propiedades/{id}")
+   public ResponseEntity<List<Propiedad>> getMisPropiedades(@PathVariable Long id){
+
+     return  usuarioService.getPropiedadesDelUsuario(id);
 
    }
 
-    @GetMapping("/usuarioInfoContacto/{username}")
-    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable String username){
+    @GetMapping("/usuarioInfoContacto/{id}")
+    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable Long id){
 
-       return usuarioService.getNumeroDueño(username);
+       return usuarioService.getNumeroPropietario(id);
 
     }
 
-    @GetMapping("/usuarioExcluido/{username}")
-    public ResponseEntity<List<Usuario>> getRestoUsuarios(@PathVariable String username){
+    @GetMapping("/usuarioExcluido/{id}")
+    public ResponseEntity<List<Usuario>> getRestoUsuarios(@PathVariable Long id){
 
-        List<Usuario> usuarios = usuarioDAO.findRestoUsuarios(username);
+        List<Usuario> usuarios = usuarioDAO.findRestoUsuarios(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
 
     }
 
 
-   @PutMapping("/usuario/enabled/{username}/{enabled}")
-    public void habilitarUsuario(@PathVariable String username, @PathVariable boolean enabled){
+   @PutMapping("/usuario/enabled/{id}/{enabled}")
+    public void habilitarUsuario(@PathVariable Long id, @PathVariable boolean enabled){
 
-        usuarioService.habilitarDeshabilitarUsuario(username, enabled);
+        usuarioService.habilitarDeshabilitarUsuario(id, enabled);
 
    }
 
 
-    @GetMapping("/usuario/{username}/alertas")
-    public ResponseEntity<Set<AlertaDTO>> getAlertasUsuario(@PathVariable String username){
+    @GetMapping("/usuario/{id}/alertas")
+    public ResponseEntity<Set<AlertaDTO>> getAlertasUsuario(@PathVariable Long id){
 
 
-        Set<AlertaDTO> alertas = usuarioService.getAlertasUsuario(username);
+        Set<AlertaDTO> alertas = usuarioService.getAlertasUsuario(id);
 
        return ResponseEntity.status(HttpStatus.OK).body(alertas);
 
     }
 
-    @GetMapping("/usuario/{username}/alertasDisponibles")
-    public ResponseEntity<Set<AlertaDTO>> getAlertasDisponibles(@PathVariable String username){
+    @GetMapping("/usuario/{id}/alertasDisponibles")
+    public ResponseEntity<Set<AlertaDTO>> getAlertasDisponibles(@PathVariable Long id){
 
-            Set<AlertaDTO> alertas = usuarioService.getAlertasDisponibles(username);
+            Set<AlertaDTO> alertas = usuarioService.getAlertasDisponibles(id);
 
             return ResponseEntity.status(HttpStatus.OK).body(alertas);
 
     }
 
 
-    @PutMapping("/usuario/{username}/{id}/{add}")
-    public void guardarAlerta(@PathVariable String username, @PathVariable Long id, @PathVariable boolean add){
+    @PutMapping("/usuario/{idUsuario}/{id}/{add}")
+    public void guardarAlerta(@PathVariable Long idUsuario, @PathVariable Long id, @PathVariable boolean add){
 
-        usuarioService.actualizarAlerta(username, id, add);
+        usuarioService.actualizarAlerta(idUsuario, id, add);
 
     }
 }

@@ -26,10 +26,12 @@ public interface UsuarioDAO extends CrudRepository<Usuario, Long>{
 //	@Query("SELECT u FROM Usuario u JOIN u.propiedades p WHERE p.id = :propiedadId")
 //	Usuario findClienteByPropiedadId(@Param("propiedadId") Long propiedadId);
 
-	@Query("SELECT u FROM Usuario u WHERE u.username != :username")
-	List<Usuario> findRestoUsuarios(@Param("username") String username);
+	@Query("SELECT u FROM Usuario u WHERE u.id != :id")
+	List<Usuario> findRestoUsuarios(@Param("id") Long id);
 
 	List<Usuario> findByHabilitado(boolean habilitado);
+
+	Optional<Usuario> findByCorreo(String correo);
 
 }
 	

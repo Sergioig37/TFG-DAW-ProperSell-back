@@ -1,13 +1,13 @@
 package com.example.start.exception;
 
-public class EmailNotFoundException extends Exception{
+public class CorreoNoEncontradoException extends Exception{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EmailNotFoundException(String errorMessage) {
+	public CorreoNoEncontradoException(String errorMessage) {
         super(errorMessage);
     }
 }

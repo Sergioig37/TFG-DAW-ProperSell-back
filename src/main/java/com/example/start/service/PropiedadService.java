@@ -48,7 +48,7 @@ public final class PropiedadService {
 		propiedad.setHabilitado(true);
 
 		if(!propiedadDTO.getPropietario().equals("")){
-			Optional<Usuario> cliente = usuarioDAO.findByUsername(propiedadDTO.getPropietario());
+			Optional<Usuario> cliente = usuarioDAO.findById(Long.valueOf(propiedadDTO.getPropietario()));
 			usuarioDAO.save(cliente.get());
 			propiedad.setPropietario(cliente.get());
 		}

@@ -102,10 +102,10 @@ public class PropiedadController {
 
 	}
 
-	@GetMapping("/propiedadExcluida/{username}")
-	public ResponseEntity<List<Propiedad>> getPropiedadesQueNoSonDeEstePropietario(@PathVariable String username){
+	@GetMapping("/propiedadExcluida/{id}")
+	public ResponseEntity<List<Propiedad>> getPropiedadesQueNoSonDeEstePropietario(@PathVariable Long id){
 
-		Optional<Usuario> user = usuarioDAO.findByUsername(username);
+		Optional<Usuario> user = usuarioDAO.findById(id);
 
 		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
 	}
