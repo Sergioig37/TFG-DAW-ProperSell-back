@@ -3,12 +3,17 @@ package com.example.start.service;
 import com.example.start.dao.AlertaDAO;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.AlertaDTO;
+import com.example.start.dto.UsuarioDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.entity.Usuario;
+import com.example.start.exception.DatosNoValidosException;
+import jakarta.validation.Valid;
+import org.hibernate.validator.cfg.defs.ISBNDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +30,14 @@ public class AlertaService {
     UsuarioDAO usuarioDAO;
 
 
-    public void borrarAlerta(Long id){
+    public void borrarAlerta(Long id) {
         Optional<Alerta> alertaOptional = alertaDAO.findById(id);
 
         if (alertaOptional.isPresent()) {
 
             Set<Usuario> usuarios = alertaOptional.get().getUsuarios();
 
-            for(Usuario usuario: usuarios){
+            for (Usuario usuario : usuarios) {
 
                 Set<Alerta> alertasUsuario = usuario.getAlertas();
 
@@ -53,17 +58,22 @@ public class AlertaService {
         }
     }
 
-    public List<Alerta> encontrarAlertasPopulars(){
+    public List<AlertaDTO> encontrarAlertasPopulars() {
 
 
         List<Alerta> alertas = (List<Alerta>) alertaDAO.findAll();
 
-        List<Alerta> alertasEncontradas = new ArrayList<>();
+        List<AlertaDTO> alertasEncontradas = new ArrayList<>();
 
 
-        for(Alerta alerta: alertas){
-            if(alerta.getUsuarios().size()>1){
-                alertasEncontradas.add(alerta);
+        for (Alerta alerta : alertas) {
+            if (alerta.getUsuarios().size() > 1) {
+                AlertaDTO alertaDTO = new AlertaDTO();
+                alertaDTO.setId(Long.toString(alerta.getId()));
+                alertaDTO.setDescripcion(alerta.getDescripcion());
+                alertaDTO.setNombre(alerta.getNombre());
+                alertaDTO.setNumeroUsuarios(Integer.toString(alerta.getUsuarios().size()));
+                alertasEncontradas.add(alertaDTO);
             }
         }
 
@@ -71,14 +81,14 @@ public class AlertaService {
 
     }
 
-    public List<Alerta> getAlertasMasLargas(Long size){
+    public List<Alerta> getAlertasMasLargas(Long size) {
 
         List<Alerta> alertas = (List<Alerta>) alertaDAO.findAll();
 
         List<Alerta> alertasEncontradas = new ArrayList<>();
 
-        for(Alerta alerta: alertas){
-            if(alerta.getDescripcion().length()>size){
+        for (Alerta alerta : alertas) {
+            if (alerta.getDescripcion().length() > size) {
                 alertasEncontradas.add(alerta);
             }
         }
@@ -87,27 +97,49 @@ public class AlertaService {
     }
 
 
-    public void editarAlerta(AlertaDTO alertaDTO, Long id){
+    public ResponseEntity<?> editarAlerta(@Valid AlertaDTO alertaDTO, Long id, BindingResult bindingResult) {
 
         Optional<Alerta> alertaExiste = alertaDAO.findById(id);
 
-        if(alertaExiste.isPresent()) {
-            alertaExiste.get().setDescripcion(alertaDTO.getDescripcion());
-            alertaExiste.get().setNombre(alertaDTO.getNombre());
-            alertaDAO.save(alertaExiste.get());
+        try {
+            this.validarDatos(alertaDTO, bindingResult);
+            if (alertaExiste.isPresent()) {
+                alertaExiste.get().setDescripcion(alertaDTO.getDescripcion());
+                alertaExiste.get().setNombre(alertaDTO.getNombre());
+                alertaDAO.save(alertaExiste.get());
+                return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.OK);
+            }
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (DatosNoValidosException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
+
 
     }
 
-    public void guardarAlerta(AlertaDTO alertaDTO){
+    public ResponseEntity<?> guardarAlerta(@Valid AlertaDTO alertaDTO, BindingResult bindingResult) {
 
         Alerta alerta = new Alerta();
 
-        alerta.setDescripcion(alertaDTO.getDescripcion());
+        try {
+            this.validarDatos(alertaDTO, bindingResult);
+            alerta.setDescripcion(alertaDTO.getDescripcion());
 
-        alerta.setNombre(alertaDTO.getNombre());
+            alerta.setNombre(alertaDTO.getNombre());
 
-        alertaDAO.save(alerta);
+            alertaDAO.save(alerta);
+
+            return  ResponseEntity.status(HttpStatus.OK).body(null);
+        } catch (DatosNoValidosException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
+
+
     }
 
+    private void validarDatos(@Valid AlertaDTO alertaDTO, BindingResult bindingResult) throws DatosNoValidosException {
+        if (bindingResult.hasErrors()) {
+            throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
+        }
+    }
 }

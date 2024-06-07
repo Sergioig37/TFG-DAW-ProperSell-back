@@ -2,11 +2,9 @@ package com.example.start.auth;
 
 import java.util.Optional;
 
-import com.example.start.exception.CorreoYaExisteException;
-import com.example.start.exception.PasswordNoExisteException;
-import com.example.start.exception.UsuarioNoExisteException;
-import com.example.start.exception.UsuarioYaExisteException;
+import com.example.start.exception.*;
 import com.mysql.cj.exceptions.PasswordExpiredException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +17,7 @@ import com.example.start.jwt.JwtService;
 import com.example.start.user.Role;
 import com.example.start.entity.Usuario;
 import com.example.start.dao.UsuarioDAO;
+import org.springframework.validation.BindingResult;
 
 
 @Service
@@ -36,14 +35,21 @@ public class AuthService {
 	@Autowired
 	PasswordEncoder bcryptPasswordEncoder;
 
-	public void register(RegisterRequest request) throws CorreoYaExisteException, UsuarioYaExisteException {
+	public void register(@Valid RegisterRequest  request, BindingResult bindingResult) throws CorreoYaExisteException, UsuarioYaExisteException, DatosNoValidosException {
 		// TODO Auto-generated method stub
 		Usuario user = new Usuario();
-		if (usuarioDAO.findByUsername(request.getUsername()).isPresent()) {
-			throw new UsuarioYaExisteException("Este usuario ya está en uso");
-		} else if (usuarioDAO.findByCorreo(request.getCorreo()).isPresent()) {
-			throw new CorreoYaExisteException("Este correo ya está en uso");
+
+		if (bindingResult.hasErrors()) {
+			throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
 		}
+		else{
+			if (usuarioDAO.findByUsername(request.getUsername()).isPresent()) {
+				throw new UsuarioYaExisteException("Este usuario ya está en uso");
+			} else if (usuarioDAO.findByCorreo(request.getCorreo()).isPresent()) {
+				throw new CorreoYaExisteException("Este correo ya está en uso");
+			}
+		}
+
 		user.setCorreo(request.getCorreo());
 		user.setNombreReal(request.getNombreReal());
 		user.setPassword(bcryptPasswordEncoder.encode(request.getPassword()));

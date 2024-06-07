@@ -6,9 +6,11 @@ import java.util.Optional;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.PropiedadDTO;
 import com.example.start.entity.Usuario;
+import com.example.start.exception.DatosNoValidosException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,22 +65,21 @@ public class PropiedadController {
 	
 	
 	@PostMapping("/propiedad/save")
-	public ResponseEntity savePropiedad(@RequestBody PropiedadDTO propiedadDTO){
+	public ResponseEntity<?> savePropiedad(@RequestBody @Valid  PropiedadDTO propiedadDTO, BindingResult bindingResult){
 
-		propiedadService.enlazarPropietario(propiedadDTO);
-		
-		return ResponseEntity.status(HttpStatus.OK).body(null);
-		
+
+            return propiedadService.enlazarPropietario(propiedadDTO, bindingResult);
+
 		
 	}
 	
 	
 	@PutMapping("/propiedad/edit/{id}")
-	public ResponseEntity<Propiedad> editPropiedad(@RequestBody @Valid PropiedadDTO propiedadDTO, @PathVariable Long id){
+	public ResponseEntity<?> editPropiedad(@RequestBody @Valid PropiedadDTO propiedadDTO, @PathVariable Long id, BindingResult bindingResult){
 		
-		propiedadService.actualizar(propiedadDTO, id);
+
 		
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		return propiedadService.actualizar(propiedadDTO, id, bindingResult);
 		
 		
 	}

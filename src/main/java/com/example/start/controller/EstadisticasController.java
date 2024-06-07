@@ -2,6 +2,7 @@ package com.example.start.controller;
 
 import com.example.start.dao.PropiedadDAO;
 import com.example.start.dao.UsuarioDAO;
+import com.example.start.dto.AlertaDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.entity.Propiedad;
 import com.example.start.entity.Usuario;
@@ -72,9 +73,9 @@ public class EstadisticasController {
     }
 
     @GetMapping("/alertas/variosUsuarios")
-    public ResponseEntity<List<Alerta>> getAlertasPopulares() {
+    public ResponseEntity<List<AlertaDTO>> getAlertasPopulares() {
 
-        List<Alerta> alertas = alertaService.encontrarAlertasPopulars();
+        List<AlertaDTO> alertas = alertaService.encontrarAlertasPopulars();
 
 
         return ResponseEntity.status(HttpStatus.OK).body(alertas);

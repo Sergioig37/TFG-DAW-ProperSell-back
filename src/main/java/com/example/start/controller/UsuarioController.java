@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -64,8 +65,10 @@ public class UsuarioController {
     }
 
     @PutMapping("/usuario/edit/{id}")
-    public ResponseEntity<AuthResponse> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id) throws Exception {
-        return usuarioService.editarUsuario(usuarioDTO, id);
+    public ResponseEntity<?> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id, BindingResult bindingResult)  {
+
+
+        return usuarioService.editarUsuario(usuarioDTO, id, bindingResult);
     }
 
    @GetMapping("/usuario/propiedades/{id}")

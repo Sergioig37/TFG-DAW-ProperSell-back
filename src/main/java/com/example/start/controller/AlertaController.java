@@ -4,9 +4,11 @@ import com.example.start.dao.AlertaDAO;
 import com.example.start.dto.AlertaDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.service.AlertaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +24,15 @@ public class AlertaController {
     AlertaService alertaService;
 
     @GetMapping("/alerta")
-    public ResponseEntity<List<Alerta>> getAgentes(){
+    public ResponseEntity<List<Alerta>> getAlertas() {
 
 
-        return ResponseEntity.status(HttpStatus.OK).body((List<Alerta>)alertaDAO.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body((List<Alerta>) alertaDAO.findAll());
     }
 
 
     @GetMapping("/alerta/{id}")
-    public ResponseEntity<Alerta> getAgente(@PathVariable Long id){
+    public ResponseEntity<Alerta> getAlerta(@PathVariable Long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(alertaDAO.findById(id).get());
 
@@ -38,32 +40,27 @@ public class AlertaController {
 
 
     @DeleteMapping("/alerta/del/{id}")
-    public ResponseEntity delAgente(@PathVariable Long id) {
+    public ResponseEntity<?> delAlerta(@PathVariable Long id) {
 
-       alertaService.borrarAlerta(id);
+        alertaService.borrarAlerta(id);
 
-       return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
 
     }
 
 
     @PostMapping("/alerta/save")
-    public ResponseEntity saveAgente(@RequestBody AlertaDTO alertaDTO) {
+    public ResponseEntity saveAlerta(@RequestBody @Valid AlertaDTO alertaDTO, BindingResult bindingResult) {
 
 
-        alertaService.guardarAlerta(alertaDTO);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return alertaService.guardarAlerta(alertaDTO, bindingResult);
     }
 
     @PutMapping("/alerta/edit/{id}")
-    public ResponseEntity<Alerta> editAgente(@RequestBody AlertaDTO alertaDTO, @PathVariable Long id){
+    public ResponseEntity<?> editAlerta(@RequestBody @Valid AlertaDTO alertaDTO, @PathVariable Long id, BindingResult bindingResult) {
 
 
-        alertaService.editarAlerta(alertaDTO, id);
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return alertaService.editarAlerta(alertaDTO, id, bindingResult);
 
     }
 }

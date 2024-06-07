@@ -10,11 +10,14 @@ import com.example.start.dto.UsuarioDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.entity.Propiedad;
 import com.example.start.entity.Usuario;
+import com.example.start.exception.DatosNoValidosException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.*;
@@ -35,7 +38,7 @@ public class UsuarioService {
     @Autowired
     AuthService authService;
 
-    public ResponseEntity borrarUsuario(Long id) {
+    public ResponseEntity<?> borrarUsuario(Long id) {
         Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
         if (usuarioOptional.isPresent()) {
@@ -46,27 +49,39 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<AuthResponse> editarUsuario(UsuarioDTO usuarioDTO, Long id) throws Exception {
+    public ResponseEntity<?> editarUsuario(@Valid UsuarioDTO usuarioDTO, Long id, BindingResult bindingResult)  {
 
-        Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
-        if (usuarioOptional.isPresent()) {
-            Usuario existingUser = usuarioOptional.get();
-            existingUser.setCorreo(usuarioDTO.getCorreo());
-            existingUser.setUsername(usuarioDTO.getUsername());
-            existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
-            if (usuarioDTO.getPassword() != "") {
-                existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-            }
-            existingUser.setNombreReal(usuarioDTO.getNombreReal());
-            usuarioDAO.save(existingUser);
 
-            return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        try{
+
+                this.validarDatos(usuarioDTO, bindingResult);
+
+                Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
+                if (usuarioOptional.isPresent()) {
+                    Usuario existingUser = usuarioOptional.get();
+                    existingUser.setCorreo(usuarioDTO.getCorreo());
+                    existingUser.setUsername(usuarioDTO.getUsername());
+                    existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+                    if (usuarioDTO.getPassword() != "") {
+                        existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+                    }
+                    existingUser.setNombreReal(usuarioDTO.getNombreReal());
+                    usuarioDAO.save(existingUser);
+
+                    return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+
         }
+        catch (DatosNoValidosException e){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        }
+
+
     }
 
-    private AuthResponse lanzarNuevoToken(UsuarioDTO usuarioDTO) throws Exception {
+    private AuthResponse lanzarNuevoToken(UsuarioDTO usuarioDTO){
 
         LoginRequest loginRequest = new LoginRequest();
 
@@ -254,5 +269,11 @@ public class UsuarioService {
             usuarioDAO.save(usuario.get());
         }
 
+    }
+
+    private void validarDatos(@Valid UsuarioDTO usuarioDTO, BindingResult bindingResult) throws DatosNoValidosException {
+        if (bindingResult.hasErrors()) {
+            throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
+        }
     }
 }
