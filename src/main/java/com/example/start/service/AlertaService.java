@@ -2,6 +2,7 @@ package com.example.start.service;
 
 import com.example.start.dao.AlertaDAO;
 import com.example.start.dao.UsuarioDAO;
+import com.example.start.dto.AlertaDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,27 @@ public class AlertaService {
     }
 
 
+    public void editarAlerta(AlertaDTO alertaDTO, Long id){
 
+        Optional<Alerta> alertaExiste = alertaDAO.findById(id);
+
+        if(alertaExiste.isPresent()) {
+            alertaExiste.get().setDescripcion(alertaDTO.getDescripcion());
+            alertaExiste.get().setNombre(alertaDTO.getNombre());
+            alertaDAO.save(alertaExiste.get());
+        }
+
+    }
+
+    public void guardarAlerta(AlertaDTO alertaDTO){
+
+        Alerta alerta = new Alerta();
+
+        alerta.setDescripcion(alertaDTO.getDescripcion());
+
+        alerta.setNombre(alertaDTO.getNombre());
+
+        alertaDAO.save(alerta);
+    }
 
 }

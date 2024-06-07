@@ -1,6 +1,7 @@
 package com.example.start.controller;
 
 import com.example.start.dao.AlertaDAO;
+import com.example.start.dto.AlertaDTO;
 import com.example.start.entity.Alerta;
 import com.example.start.service.AlertaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,27 +48,20 @@ public class AlertaController {
 
 
     @PostMapping("/alerta/save")
-    public ResponseEntity saveAgente(@RequestBody Alerta alerta) {
+    public ResponseEntity saveAgente(@RequestBody AlertaDTO alertaDTO) {
 
 
+        alertaService.guardarAlerta(alertaDTO);
 
-        alertaDAO.save(alerta);
-        System.out.println("LIST");
+
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @PutMapping("/alerta/edit/{id}")
-    public ResponseEntity<Alerta> editAgente(@RequestBody Alerta alerta, @PathVariable Long id){
+    public ResponseEntity<Alerta> editAgente(@RequestBody AlertaDTO alertaDTO, @PathVariable Long id){
 
 
-        Optional<Alerta> alertaExiste = alertaDAO.findById(id);
-
-        if(alertaExiste.isPresent()) {
-            alertaExiste.get().setDescripcion(alerta.getDescripcion());
-            alertaExiste.get().setNombre(alerta.getNombre());
-            alertaDAO.save(alertaExiste.get());
-            return ResponseEntity.status(HttpStatus.OK).body(alertaExiste.get());
-        }
+        alertaService.editarAlerta(alertaDTO, id);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 
