@@ -5,8 +5,10 @@ import java.util.Optional;
 import com.example.start.exception.*;
 import com.mysql.cj.exceptions.PasswordExpiredException;
 import jakarta.validation.Valid;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -69,7 +71,10 @@ public class AuthService {
 		// TODO Auto-generated method stub
 
 
-		authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+			Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+			System.out.println(auth);
+
 
 
 		Optional<Usuario> user = usuarioDAO.findByUsername(request.getUsername());

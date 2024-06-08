@@ -32,12 +32,12 @@ public class SecurityConfig {
 				.authorizeHttpRequests(authRequest -> authRequest
 						.requestMatchers("/auth/**")
 						.permitAll()
-						.requestMatchers("/estadisticas/**")
-						.permitAll()
-						.requestMatchers("/propiedad")
-						.permitAll()
 						.anyRequest()
-						.authenticated())
+						.authenticated()
+						.requestMatchers("/estadisticas/**")
+						.hasAuthority("ADMIN")
+						.
+				)
 				.sessionManagement(
 						sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authProvider)
