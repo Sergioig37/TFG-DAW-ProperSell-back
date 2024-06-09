@@ -30,13 +30,10 @@ public class SecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authRequest -> authRequest
-						.requestMatchers("/auth/**")
-						.permitAll()
-						.anyRequest()
-						.authenticated()
-						.requestMatchers("/estadisticas/**")
-						.hasAuthority("ADMIN")
-						.
+						.requestMatchers("/auth/**").permitAll()
+						.requestMatchers("/estadisticas/**").hasRole("ADMIN")
+						.requestMatchers("/alerta/**").hasRole("ADMIN")
+						.anyRequest().authenticated()
 				)
 				.sessionManagement(
 						sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
