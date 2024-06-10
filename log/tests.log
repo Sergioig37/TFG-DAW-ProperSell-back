@@ -3969,3 +3969,132 @@ java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigin
 9288 [http-nio-9090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 9290 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 9291 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+1413759 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+1413761 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+1413767 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+469  [main] ERROR e.p.sergio.ProperSellApplication - ESTE ES MI LOG
+1228 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+1336 [main] INFO  e.p.sergio.ProperSellApplication - Starting ProperSellApplication using Java 21.0.2 with PID 9696 (C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell\target\classes started by Usuario in C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell)
+1338 [main] INFO  e.p.sergio.ProperSellApplication - No active profile set, falling back to 1 default profile: "default"
+2590 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2706 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 104 ms. Found 3 JPA repository interfaces.
+3753 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+3769 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+3774 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+3776 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+3896 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+3899 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2478 ms
+4136 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+4271 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+4327 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+4764 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+4812 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+5567 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@66ab924
+5571 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+5676 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.7.44 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+7850 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+8372 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+8811 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+10142 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+10708 [main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@22bd6b0a, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@221383c9, org.springframework.security.web.context.SecurityContextHolderFilter@2a64e2d0, org.springframework.security.web.header.HeaderWriterFilter@6903bec9, org.springframework.web.filter.CorsFilter@1a389b39, org.springframework.security.web.authentication.logout.LogoutFilter@5035c23c, es.proyecto.sergio.filter.JwtAuthenticationFilter@331fe6d4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@45dce9f7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@9da20f1, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@50a2034c, org.springframework.security.web.session.SessionManagementFilter@4e8036bb, org.springframework.security.web.access.ExceptionTranslationFilter@67f5066e, org.springframework.security.web.access.intercept.AuthorizationFilter@6baa673d]
+11121 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+11146 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path ''
+11164 [main] INFO  e.p.sergio.ProperSellApplication - Started ProperSellApplication in 10.521 seconds (process running for 11.458)
+956919 [http-nio-9090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+956921 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+956925 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+982635 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+982636 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+982685 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+982686 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+2837793 [http-nio-9090-exec-10] ERROR e.p.sergio.service.AuthService - Error DisabledException en login
+2837795 [http-nio-9090-exec-10] ERROR e.p.sergio.service.AuthService - User is disabled
+3144944 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3144945 [http-nio-9090-exec-8] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3144991 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3144993 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3147170 [http-nio-9090-exec-10] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3147171 [http-nio-9090-exec-10] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3147218 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3147219 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3168523 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3168570 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3169918 [http-nio-9090-exec-3] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3169918 [http-nio-9090-exec-3] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3169963 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3169964 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3228725 [http-nio-9090-exec-3] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3228775 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3229694 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3229695 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3229745 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3229745 [http-nio-9090-exec-8] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3231791 [http-nio-9090-exec-10] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3231833 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+3232665 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3232666 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+3232715 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Sacando alertas
+3232716 [http-nio-9090-exec-7] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4315315 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4315317 [http-nio-9090-exec-7] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4315366 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4315368 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4489882 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4489882 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4498642 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4498643 [http-nio-9090-exec-8] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4498681 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4498682 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4529038 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4529038 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4529040 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4529043 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4547058 [http-nio-9090-exec-8] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+4547058 [http-nio-9090-exec-9] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+4555115 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4555115 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4555116 [http-nio-9090-exec-7] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4555118 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4556638 [http-nio-9090-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+4556638 [http-nio-9090-exec-6] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+4610882 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+4610885 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+4610892 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+246  [main] ERROR e.p.sergio.ProperSellApplication - ESTE ES MI LOG
+608  [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+658  [main] INFO  e.p.sergio.ProperSellApplication - Starting ProperSellApplication using Java 21.0.2 with PID 13676 (C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell\target\classes started by Usuario in C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell)
+660  [main] INFO  e.p.sergio.ProperSellApplication - No active profile set, falling back to 1 default profile: "default"
+1347 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+1404 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 50 ms. Found 3 JPA repository interfaces.
+1923 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+1933 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+1936 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+1938 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2004 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2006 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1299 ms
+2119 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2178 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2211 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2448 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2476 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2885 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@779228dc
+2887 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2946 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.7.44 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+3913 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+4041 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+4232 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+4787 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+5125 [main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4268c16, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@673ce246, org.springframework.security.web.context.SecurityContextHolderFilter@5fb4870b, org.springframework.security.web.header.HeaderWriterFilter@77393f2e, org.springframework.web.filter.CorsFilter@6baa673d, org.springframework.security.web.authentication.logout.LogoutFilter@253fb3fa, es.proyecto.sergio.filter.JwtAuthenticationFilter@3fae1ec9, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c3b8b26, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5113ab26, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@124b1369, org.springframework.security.web.session.SessionManagementFilter@4b9b57d9, org.springframework.security.web.access.ExceptionTranslationFilter@5843ab8, org.springframework.security.web.access.intercept.AuthorizationFilter@1b42eb0f]
+5335 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+5359 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path ''
+5367 [main] INFO  e.p.sergio.ProperSellApplication - Started ProperSellApplication in 5.039 seconds (process running for 5.548)
+15143 [http-nio-9090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+15143 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+15146 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+15593 [http-nio-9090-exec-3] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+15593 [http-nio-9090-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "null"]
+84254 [http-nio-9090-exec-7] ERROR e.p.sergio.service.AuthService - Error BadCredentialsException en login
+84255 [http-nio-9090-exec-7] ERROR e.p.sergio.service.AuthService - Bad credentials
+1320370 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+1320373 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+1320380 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
