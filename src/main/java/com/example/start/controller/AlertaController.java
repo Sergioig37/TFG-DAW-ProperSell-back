@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/alerta")
 public class AlertaController {
 
     @Autowired
@@ -23,7 +24,7 @@ public class AlertaController {
     @Autowired
     AlertaService alertaService;
 
-    @GetMapping("/alerta")
+    @GetMapping
     public ResponseEntity<List<Alerta>> getAlertas() {
 
 
@@ -31,7 +32,7 @@ public class AlertaController {
     }
 
 
-    @GetMapping("/alerta/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Alerta> getAlerta(@PathVariable Long id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(alertaDAO.findById(id).get());
@@ -39,7 +40,7 @@ public class AlertaController {
     }
 
 
-    @DeleteMapping("/alerta/del/{id}")
+    @DeleteMapping("/del/{id}")
     public ResponseEntity<?> delAlerta(@PathVariable Long id) {
 
         alertaService.borrarAlerta(id);
@@ -49,14 +50,14 @@ public class AlertaController {
     }
 
 
-    @PostMapping("/alerta/save")
+    @PostMapping("/save")
     public ResponseEntity saveAlerta(@RequestBody @Valid AlertaDTO alertaDTO, BindingResult bindingResult) {
 
 
         return alertaService.guardarAlerta(alertaDTO, bindingResult);
     }
 
-    @PutMapping("/alerta/edit/{id}")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<?> editAlerta(@RequestBody @Valid AlertaDTO alertaDTO, @PathVariable Long id, BindingResult bindingResult) {
 
 

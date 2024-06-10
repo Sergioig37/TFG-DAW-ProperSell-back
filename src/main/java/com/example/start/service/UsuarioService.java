@@ -38,37 +38,47 @@ public class UsuarioService {
     @Autowired
     AuthService authService;
 
-    public ResponseEntity<?> borrarUsuario(Long id) {
+    public ResponseEntity<?> borrarUsuario(Long id, String username) {
         Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
         if (usuarioOptional.isPresent()) {
-            usuarioDAO.delete(usuarioOptional.get());
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioOptional.get());
+            if(usuarioOptional.get().getUsername().equals(username)){
+                usuarioDAO.delete(usuarioOptional.get());
+                return ResponseEntity.status(HttpStatus.OK).body(usuarioOptional.get());
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    public ResponseEntity<?> editarUsuario(@Valid UsuarioDTO usuarioDTO, Long id, BindingResult bindingResult)  {
+    public ResponseEntity<?> editarUsuario(@Valid UsuarioDTO usuarioDTO, Long id, BindingResult bindingResult, String username)  {
 
 
         try{
 
                 this.validarDatos(usuarioDTO, bindingResult);
+            System.out.println(username + "Datos validados");
 
                 Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
+                System.out.println(usuarioOptional.get().getUsername());
                 if (usuarioOptional.isPresent()) {
-                    Usuario existingUser = usuarioOptional.get();
-                    existingUser.setCorreo(usuarioDTO.getCorreo());
-                    existingUser.setUsername(usuarioDTO.getUsername());
-                    existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
-                    if (usuarioDTO.getPassword() != "") {
-                        existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-                    }
-                    existingUser.setNombreReal(usuarioDTO.getNombreReal());
-                    usuarioDAO.save(existingUser);
+                    if(usuarioOptional.get().getUsername().equals(username)){
+                        System.out.println(usuarioOptional.get().getUsername());
+                        System.out.println(username+ "ES IGUAL");
+                        Usuario existingUser = usuarioOptional.get();
+                        existingUser.setCorreo(usuarioDTO.getCorreo());
+                        existingUser.setUsername(usuarioDTO.getUsername());
+                        existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+                        if (usuarioDTO.getPassword() != "") {
+                            existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+                        }
+                        existingUser.setNombreReal(usuarioDTO.getNombreReal());
+                        usuarioDAO.save(existingUser);
 
-                    return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
+                        return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
+                    }
+                    return ResponseEntity.status(HttpStatus.OK).body(null);
                 } else {
                     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
                 }
@@ -253,7 +263,7 @@ public class UsuarioService {
 
     }
 
-    public void habilitarDeshabilitarUsuario(Long id, boolean enabled) {
+    public void habilitacionUsuario(Long id, boolean enabled) {
 
         Optional<Usuario> usuario = usuarioDAO.findById(id);
 
@@ -275,5 +285,17 @@ public class UsuarioService {
         if (bindingResult.hasErrors()) {
             throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
         }
+    }
+    public ResponseEntity<?> existe(Long id){
+
+        Optional<Usuario> usuario = usuarioDAO.findById(id);
+
+        if(usuario.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findById(id).get());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 }

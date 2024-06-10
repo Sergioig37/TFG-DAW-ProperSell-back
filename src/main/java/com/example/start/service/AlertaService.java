@@ -107,7 +107,7 @@ public class AlertaService {
                 alertaExiste.get().setDescripcion(alertaDTO.getDescripcion());
                 alertaExiste.get().setNombre(alertaDTO.getNombre());
                 alertaDAO.save(alertaExiste.get());
-                return (ResponseEntity<?>) ResponseEntity.status(HttpStatus.OK);
+                return ResponseEntity.status(HttpStatus.OK).body(null);
             }
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (DatosNoValidosException e) {
@@ -141,5 +141,17 @@ public class AlertaService {
         if (bindingResult.hasErrors()) {
             throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
         }
+    }
+    public ResponseEntity<?> existe(Long id){
+
+        Optional<Alerta> alerta = alertaDAO.findById(id);
+
+        if(alerta.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(alertaDAO.findById(id).get());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 }

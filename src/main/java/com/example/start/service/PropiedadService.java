@@ -2,15 +2,16 @@ package com.example.start.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.example.start.dao.PropiedadDAO;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.PropiedadDTO;
-import com.example.start.dto.UsuarioDTO;
 import com.example.start.entity.Propiedad;
 import com.example.start.entity.Usuario;
 import com.example.start.exception.DatosNoValidosException;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
-public final class PropiedadService {
+public  class PropiedadService {
 
 
     @Autowired
@@ -69,7 +70,7 @@ public final class PropiedadService {
 
     }
 
-    public ResponseEntity<?> actualizar(@Valid PropiedadDTO propiedad, Long id, BindingResult bindingResult) {
+    public ResponseEntity<?> actualizar(@Valid PropiedadDTO propiedad, Long id, BindingResult bindingResult, String username) {
 
         Optional<Propiedad> propiedadExiste = propiedadDAO.findById(id);
 
@@ -77,13 +78,15 @@ public final class PropiedadService {
             this.validarDatos(propiedad, bindingResult);
             if (propiedadExiste.isPresent()) {
 
-                propiedadExiste.get().setLocalizacion(propiedad.getLocalizacion());
-                propiedadExiste.get().setPrecio(Long.valueOf(propiedad.getPrecio()));
-                propiedadExiste.get().setTipo(propiedad.getTipo());
+                if(propiedadExiste.get().getPropietario().getUsername().equals(username)){
+                    propiedadExiste.get().setLocalizacion(propiedad.getLocalizacion());
+                    propiedadExiste.get().setPrecio(Long.valueOf(propiedad.getPrecio()));
+                    propiedadExiste.get().setTipo(propiedad.getTipo());
 
-                propiedadDAO.save(propiedadExiste.get());
+                    propiedadDAO.save(propiedadExiste.get());
 
-                return  ResponseEntity.status(HttpStatus.OK).body(null);
+                    return  ResponseEntity.status(HttpStatus.OK).body(null);
+                }
             }
             else{
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -91,43 +94,47 @@ public final class PropiedadService {
         } catch (DatosNoValidosException e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
-
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    public void deshabilitarPropiedad(Long idPropiedad) {
+
+    public void habilitacionPropiedad(Long idPropiedad, boolean enabled) {
 
         Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
 
         if (propiedad.isPresent()) {
-            propiedad.get().setHabilitado(false);
+            System.out.println(enabled);
+            if (enabled==true) {
+                propiedad.get().setHabilitado(true);
+
+
+            } else if(enabled==false) {
+                propiedad.get().setHabilitado(false);
+
+            }
+            System.out.println(propiedad.get());
             propiedadDAO.save(propiedad.get());
         }
 
     }
 
-    public void habilitarPropiedad(Long idPropiedad) {
-
-        Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
-
-        if (propiedad.isPresent()) {
-            propiedad.get().setHabilitado(true);
-            propiedadDAO.save(propiedad.get());
-        }
-
-    }
-
-    public ResponseEntity<?> deletePropiedad(Long id) {
+    public ResponseEntity<?> deletePropiedad(Long id, String username) {
 
         Optional<Propiedad> propiedadOptional = propiedadDAO.findById(id);
 
         if (propiedadOptional.isPresent()) {
 
-            this.desenlazarPropietario(propiedadOptional.get());
-            propiedadDAO.delete(propiedadOptional.get());
-            return ResponseEntity.status(HttpStatus.OK).body(propiedadOptional.get());
+
+            if(propiedadOptional.get().getPropietario().getUsername().equals(username)){
+                System.out.println("ES IGUAL ");
+                this.desenlazarPropietario(propiedadOptional.get());
+                propiedadDAO.delete(propiedadOptional.get());
+                return ResponseEntity.status(HttpStatus.OK).body(propiedadOptional.get());
+            }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     public List<Propiedad> propiedadesMasCarasQue(Long precio) {
@@ -148,4 +155,16 @@ public final class PropiedadService {
         }
     }
 
+    public ResponseEntity<?> existe(Long id){
+
+        Optional<Propiedad> propiedad = propiedadDAO.findById(id);
+
+        if(propiedad.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(propiedadDAO.findById(id).get());
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+    }
 }

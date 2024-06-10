@@ -2,7 +2,6 @@ package com.example.start.controller;
 
 import java.util.*;
 
-import com.example.start.auth.AuthResponse;
 import com.example.start.auth.AuthService;
 import com.example.start.dao.UsuarioDAO;
 import com.example.start.dto.AlertaDTO;
@@ -13,6 +12,7 @@ import com.example.start.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,7 @@ import jakarta.validation.Valid;
 
 
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioController {
 
     @Autowired
@@ -36,7 +37,7 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
 
-    @GetMapping("/usuario")
+    @GetMapping
     public ResponseEntity<List<Usuario>> getUsuarios(){
         return ResponseEntity.status(HttpStatus.OK).body((List<Usuario>)usuarioDAO.findAll());
     }
@@ -48,30 +49,36 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findByUsername(username).get());
 
     }
-    @GetMapping("/usuario/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id){
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findById(id).get());
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUsuarioById(@PathVariable Long id){
+
+
+        return usuarioService.existe(id);
+
+    }
+
+
+    @DeleteMapping("/del/{id}/{username}")
+    public ResponseEntity<?> delUsuario(@PathVariable Long id,@PathVariable String username) {
+
+
+        return usuarioService.borrarUsuario(id, username);
 
     }
 
 
-    @DeleteMapping("/usuario/del/{id}")
-    public ResponseEntity delUsuario(@PathVariable Long id) {
+    @PutMapping("/edit/{id}/{username}")
+    public ResponseEntity<?> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id, BindingResult bindingResult, @PathVariable String username)  {
 
+        System.out.println(username);
 
-        return usuarioService.borrarUsuario(id);
-
+        return usuarioService.editarUsuario(usuarioDTO, id, bindingResult, username);
     }
 
-    @PutMapping("/usuario/edit/{id}")
-    public ResponseEntity<?> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id, BindingResult bindingResult)  {
 
-
-        return usuarioService.editarUsuario(usuarioDTO, id, bindingResult);
-    }
-
-   @GetMapping("/usuario/propiedades/{id}")
+   @GetMapping("/propiedades/{id}")
    public ResponseEntity<List<Propiedad>> getMisPropiedades(@PathVariable Long id){
 
      return  usuarioService.getPropiedadesDelUsuario(id);
@@ -85,6 +92,7 @@ public class UsuarioController {
 
     }
 
+
     @GetMapping("/usuarioExcluido/{id}")
     public ResponseEntity<List<Usuario>> getRestoUsuarios(@PathVariable Long id){
 
@@ -95,15 +103,15 @@ public class UsuarioController {
     }
 
 
-   @PutMapping("/usuario/enabled/{id}/{enabled}")
-    public void habilitarUsuario(@PathVariable Long id, @PathVariable boolean enabled){
+   @PutMapping("/enabled/{id}/{enabled}")
+    public void habilitacionUsuario(@PathVariable Long id, @PathVariable boolean enabled){
 
-        usuarioService.habilitarDeshabilitarUsuario(id, enabled);
+        usuarioService.habilitacionUsuario(id, enabled);
 
    }
 
 
-    @GetMapping("/usuario/{id}/alertas")
+    @GetMapping("/{id}/alertas")
     public ResponseEntity<Set<AlertaDTO>> getAlertasUsuario(@PathVariable Long id){
 
 
@@ -113,7 +121,7 @@ public class UsuarioController {
 
     }
 
-    @GetMapping("/usuario/{id}/alertasDisponibles")
+    @GetMapping("/{id}/alertasDisponibles")
     public ResponseEntity<Set<AlertaDTO>> getAlertasDisponibles(@PathVariable Long id){
 
             Set<AlertaDTO> alertas = usuarioService.getAlertasDisponibles(id);
@@ -123,7 +131,7 @@ public class UsuarioController {
     }
 
 
-    @PutMapping("/usuario/{idUsuario}/{id}/{add}")
+    @PutMapping("/{idUsuario}/{id}/{add}")
     public void guardarAlerta(@PathVariable Long idUsuario, @PathVariable Long id, @PathVariable boolean add){
 
         usuarioService.actualizarAlerta(idUsuario, id, add);

@@ -28,6 +28,8 @@ public class Propiedad {
 
 	private Long precio;
 
+	@Getter
+	@Setter
 	private boolean habilitado;
 
 
