@@ -4098,3 +4098,139 @@ java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigin
 1320370 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 1320373 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 1320380 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+483  [main] ERROR e.p.sergio.ProperSellApplication - ESTE ES MI LOG
+1263 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+1401 [main] INFO  e.p.sergio.ProperSellApplication - Starting ProperSellApplication using Java 21.0.2 with PID 26028 (C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell\target\classes started by Usuario in C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell)
+1405 [main] INFO  e.p.sergio.ProperSellApplication - No active profile set, falling back to 1 default profile: "default"
+2715 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2815 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 3 JPA repository interfaces.
+3660 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+3675 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+3680 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+3682 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+3786 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+3788 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2301 ms
+3972 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+4085 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+4142 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+4508 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+4559 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+5202 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7ff6804a
+5205 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+5293 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.7.44 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+7028 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+7429 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+8835 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+10705 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+11644 [main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@179367ff, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7b4b6dca, org.springframework.security.web.context.SecurityContextHolderFilter@4300b54c, org.springframework.security.web.header.HeaderWriterFilter@57a259c1, org.springframework.web.filter.CorsFilter@3622c9f0, org.springframework.security.web.authentication.logout.LogoutFilter@32787dee, es.proyecto.sergio.filter.JwtAuthenticationFilter@25d6ae3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@57fd3b57, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@6903bec9, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@99a89e9, org.springframework.security.web.session.SessionManagementFilter@5843ab8, org.springframework.security.web.access.ExceptionTranslationFilter@7b491b89, org.springframework.security.web.access.intercept.AuthorizationFilter@3e5e7f4c]
+12334 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+12377 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path ''
+12395 [main] INFO  e.p.sergio.ProperSellApplication - Started ProperSellApplication in 11.711 seconds (process running for 12.673)
+55095 [http-nio-9090-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+55096 [http-nio-9090-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+55100 [http-nio-9090-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+411004 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+411006 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+411054 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Sacando alertas
+411055 [http-nio-9090-exec-7] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+427279 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+427283 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+427292 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+475  [main] ERROR e.p.sergio.ProperSellApplication - ESTE ES MI LOG
+1149 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+1247 [main] INFO  e.p.sergio.ProperSellApplication - Starting ProperSellApplication using Java 21.0.2 with PID 3800 (C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell\target\classes started by Usuario in C:\Users\Usuario\Desktop\Workspace Temporal\ProperSell)
+1250 [main] INFO  e.p.sergio.ProperSellApplication - No active profile set, falling back to 1 default profile: "default"
+2372 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2476 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 90 ms. Found 3 JPA repository interfaces.
+3397 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 9090 (http)
+3414 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+3419 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+3421 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+3538 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+3541 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2222 ms
+3758 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+3875 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+3933 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+4313 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+4361 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+5094 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@48b2dbc4
+5098 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+5183 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.7.44 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+6740 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+6969 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+7291 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+8228 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+8823 [main] INFO  o.s.s.w.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@19a2b224, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2251cc2e, org.springframework.security.web.context.SecurityContextHolderFilter@24afdf18, org.springframework.security.web.header.HeaderWriterFilter@57f076bd, org.springframework.web.filter.CorsFilter@61563a91, org.springframework.security.web.authentication.logout.LogoutFilter@7e7e34ef, es.proyecto.sergio.filter.JwtAuthenticationFilter@2c69ea30, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@54e63f7c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@618a9cb7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@42a057b6, org.springframework.security.web.session.SessionManagementFilter@1dd36967, org.springframework.security.web.access.ExceptionTranslationFilter@4d248692, org.springframework.security.web.access.intercept.AuthorizationFilter@5632bed3]
+9247 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+9279 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 9090 (http) with context path ''
+9291 [main] INFO  e.p.sergio.ProperSellApplication - Started ProperSellApplication in 8.634 seconds (process running for 9.586)
+14019 [http-nio-9090-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+14022 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+14026 [http-nio-9090-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+3178235 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=30m22s607ms875µs900ns).
+4551572 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4551572 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4551574 [http-nio-9090-exec-8] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4551575 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4572951 [http-nio-9090-exec-3] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4572951 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4572953 [http-nio-9090-exec-3] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4572956 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4577438 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4577438 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4577440 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4577443 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4577953 [http-nio-9090-exec-10] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4577953 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4579179 [http-nio-9090-exec-3] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4579179 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4579181 [http-nio-9090-exec-3] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4579182 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4580067 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4580073 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4580652 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4580652 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4580653 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4580661 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4598370 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4598371 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4598403 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4598404 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4599172 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4599201 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4599684 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4599685 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4599722 [http-nio-9090-exec-10] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4599723 [http-nio-9090-exec-10] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4925197 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4925199 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4925230 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4925231 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4927908 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4927909 [http-nio-9090-exec-6] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4927940 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4927941 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4934614 [http-nio-9090-exec-10] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4934645 [http-nio-9090-exec-7] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4935298 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4935300 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4935333 [http-nio-9090-exec-4] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4935334 [http-nio-9090-exec-4] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4936121 [http-nio-9090-exec-6] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4936147 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Mostrando alerta
+4936654 [http-nio-9090-exec-8] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4936655 [http-nio-9090-exec-8] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+4936692 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+4936693 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8140348 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8140348 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8140351 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8140352 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8143770 [http-nio-9090-exec-1] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8143770 [http-nio-9090-exec-2] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8143771 [http-nio-9090-exec-1] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8143771 [http-nio-9090-exec-2] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8308444 [http-nio-9090-exec-5] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8308445 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
+8308446 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+8308447 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
