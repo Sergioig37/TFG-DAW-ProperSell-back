@@ -4234,3 +4234,10 @@ java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigin
 8308445 [http-nio-9090-exec-9] INFO  e.p.s.controller.AlertaController - Sacando alertas
 8308446 [http-nio-9090-exec-5] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
 8308447 [http-nio-9090-exec-9] ERROR e.p.s.controller.AlertaController - No se pudo sacar las alertas
+9946921 [http-nio-9090-exec-9] ERROR e.p.sergio.service.AuthService - Error BadCredentialsException en login
+9946922 [http-nio-9090-exec-9] ERROR e.p.sergio.service.AuthService - Bad credentials
+11179010 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m18s139ms474µs400ns).
+13967429 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=30m58s21ms447µs200ns).
+14051066 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+14051068 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+14051074 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
