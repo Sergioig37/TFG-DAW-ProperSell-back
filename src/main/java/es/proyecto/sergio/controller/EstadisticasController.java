@@ -48,7 +48,7 @@ public class EstadisticasController {
             = LoggerFactory.getLogger(EstadisticasController.class);
 
     @GetMapping("/propiedadMasCarasDe/{precio}")
-    public ResponseEntity<List<Propiedad>> getNumeroPropiedades(@PathVariable Long precio) {
+    public ResponseEntity<List<Propiedad>> getPropiedadesCaras(@PathVariable Long precio) {
 
             List<Propiedad> propiedades = propiedadService.propiedadesMasCarasQue(precio);
 
@@ -59,7 +59,7 @@ public class EstadisticasController {
 
 
     @GetMapping("/usuarioConMasDe/{numeroAlertas}/alertas")
-    public ResponseEntity<List<Usuario>> getUsuariosConXAlertas(@PathVariable Long numeroAlertas) {
+    public ResponseEntity<List<Usuario>> getUsuariosConMasXAlertas(@PathVariable Long numeroAlertas) {
 
        List<Usuario> usuarios = usuarioService.buscarUsuariosConMasDeXAlertas(numeroAlertas);
 

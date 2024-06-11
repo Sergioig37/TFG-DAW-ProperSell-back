@@ -59,7 +59,7 @@ public class PropiedadController {
 
 
 	@DeleteMapping("/del/{id}/{username}")
-	public ResponseEntity delPropiedad(@PathVariable Long id, @PathVariable String username) {
+	public ResponseEntity deletePropiedad(@PathVariable Long id, @PathVariable String username) {
 
 			propiedadService.deletePropiedad(id, username);
 
@@ -118,7 +118,7 @@ public class PropiedadController {
 
 
 	@PutMapping("/enabled/{idPropiedad}/{enabled}")
-	public ResponseEntity<?> habilitacionPropiedad(@PathVariable Long idPropiedad, @PathVariable boolean enabled){
+	public ResponseEntity<?> edithabilitacionPropiedad(@PathVariable Long idPropiedad, @PathVariable boolean enabled){
 		System.out.println(enabled);
 		propiedadService.habilitacionPropiedad(idPropiedad, enabled);
 		return ResponseEntity.status(HttpStatus.OK).body(null);
