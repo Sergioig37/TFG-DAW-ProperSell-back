@@ -1,7 +1,7 @@
 package es.proyecto.sergio.service;
 
-import es.proyecto.sergio.dto.EstadisticasFlex;
-import es.proyecto.sergio.service.utils.EstadisticasFlexUtil;
+import es.proyecto.sergio.dto.EstadisticasDTO;
+import es.proyecto.sergio.util.EstadisticasKeys;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
@@ -10,8 +10,6 @@ import net.sf.jasperreports.export.OutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfReportConfiguration;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.el.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Lazy;
@@ -25,15 +23,21 @@ import java.util.Map;
 @Slf4j
 @Service
 @Lazy
-public class EstadisticasFlexService {
+public class EstadisticasService {
 
     @Autowired
     private MessageSource messageSource;
 
-    public byte[] getEstadisticasFlex(EstadisticasFlex estadisticasFlex) throws  Exception{
+    @Autowired
+    UsuarioService usuarioService;
+
+    @Autowired
+    PropiedadService propiedadServiceService;
+
+    public byte[] getEstadisticasPDF(EstadisticasDTO estadisticasDTO) throws  Exception{
 
         try{
-            JasperPrint jasperPrint = generarJasperPrint(estadisticasFlex);
+            JasperPrint jasperPrint = generarJasperPrint(estadisticasDTO);
 
             JRPdfExporter exporter = new JRPdfExporter();
 
@@ -57,20 +61,23 @@ public class EstadisticasFlexService {
 
     }
 
-    private JasperPrint generarJasperPrint(EstadisticasFlex estadisticasFlex) throws Exception {
+    private JasperPrint generarJasperPrint(EstadisticasDTO estadisticasDTO) throws Exception {
 
-        InputStream estadisticasReportStream = getClass().getResourceAsStream(EstadisticasFlexUtil.VALUE_ESTATIDISTICASFLEX_JASPER);
+        InputStream estadisticasReportStream = getClass().getResourceAsStream(EstadisticasKeys.VALUE_ESTATIDISTICAS_JASPER);
         try{
+
+
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(estadisticasReportStream);
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put(EstadisticasFlexUtil.PARAM_PROPIEDADES, estadisticasFlex.getPropiedades() != null ? estadisticasFlex.getPropiedades() : null);
-            parameters.put(EstadisticasFlexUtil.PARAM_USUARIOS, estadisticasFlex.getUsuarios() != null ? estadisticasFlex.getUsuarios() : null);
-            parameters.put(EstadisticasFlexUtil.PARAM_ALERTAS, estadisticasFlex.getAlertas() != null ? estadisticasFlex.getAlertas() : null);
-            parameters.put(EstadisticasFlexUtil.PARAM_PRECIO, estadisticasFlex.getPrecio() != 0 ? estadisticasFlex.getPrecio() : 0);
-            parameters.put(EstadisticasFlexUtil.PARAM_NUMERO_ALERTAS, estadisticasFlex.getNumeroAlertas() != 0 ? estadisticasFlex.getNumeroAlertas() : 0);
-            parameters.put(EstadisticasFlexUtil.PARAM_NUMERO_CARACTERES, estadisticasFlex.getNumeroCaracteres() != 0 ? estadisticasFlex.getNumeroCaracteres() : 0);
+            parameters.put(EstadisticasKeys.PARAM_PROPIEDADES, estadisticasDTO.getPropiedades() != null ? estadisticasDTO.getPropiedades() : null);
+            parameters.put(EstadisticasKeys.PARAM_USUARIOS, estadisticasDTO.getUsuarios() != null ? estadisticasDTO.getUsuarios() : null);
+            parameters.put(EstadisticasKeys.PARAM_PRECIO, estadisticasDTO.getPrecio());
+            parameters.put(EstadisticasKeys.PARAM_NUMERO_ALERTAS, estadisticasDTO.getNumeroAlertas());
+            parameters.put(EstadisticasKeys.PARAM_LIST_PROPIEDADES, estadisticasDTO.getPropiedades());
+            parameters.put(EstadisticasKeys.PARAM_LIST_USUARIOS, estadisticasDTO.getUsuarios());
 
-
+            parameters.put(EstadisticasKeys.PARAM_USUARIOS_ESTADISTICAS, getClass().getResourceAsStream(EstadisticasKeys.VALUE_USUARIOS_ESTADISTICAS));
+            parameters.put(EstadisticasKeys.PARAM_PROPIEDADES_ESTADISTICAS, getClass().getResourceAsStream(EstadisticasKeys.VALUE_PROPIEDADES_ESTADISTICAS));
 
             return JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
         }
@@ -80,5 +87,7 @@ public class EstadisticasFlexService {
         }
 
     }
+
+
 
 }

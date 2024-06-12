@@ -7,6 +7,7 @@ import java.util.Optional;
 import es.proyecto.sergio.dao.PropiedadDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.PropiedadDTO;
+import es.proyecto.sergio.dto.UsuarioDTO;
 import es.proyecto.sergio.entity.Propiedad;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
@@ -135,14 +136,16 @@ public  class PropiedadService {
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
-    public List<Propiedad> propiedadesMasCarasQue(Long precio) {
+    public List<PropiedadDTO> propiedadesMasCarasQue(Long precio) {
 
         List<Propiedad> propiedades = propiedadDAO.findPropiedadesByPrecioMayorQue(precio);
 
-        if (propiedades != null) {
-            return propiedades;
+        List<PropiedadDTO> propiedadDTOList = convertirAUsuarioDTO(propiedades);
+
+        if (propiedadDTOList != null) {
+            return propiedadDTOList;
         } else {
-            return new ArrayList<Propiedad>();
+            return new ArrayList<PropiedadDTO>();
         }
 
     }
@@ -163,6 +166,31 @@ public  class PropiedadService {
         else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+
+    }
+
+
+    public List<PropiedadDTO> convertirAUsuarioDTO(List<Propiedad> propiedades){
+
+        List<PropiedadDTO> propiedadesDTO = new ArrayList<>();
+
+        for(Propiedad propiedad: propiedades){
+
+            PropiedadDTO propiedadDTO = new PropiedadDTO();
+
+            propiedadDTO.setTipo(propiedad.getTipo());
+            propiedadDTO.setLocalizacion(propiedad.getLocalizacion());
+            propiedadDTO.setPrecio(propiedad.getPrecio());
+            propiedadDTO.setId(propiedad.getId());
+
+
+            propiedadesDTO.add(propiedadDTO);
+
+        }
+
+
+        return propiedadesDTO;
+
 
     }
 }

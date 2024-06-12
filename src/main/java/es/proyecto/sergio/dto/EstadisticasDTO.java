@@ -1,6 +1,5 @@
 package es.proyecto.sergio.dto;
 
-import es.proyecto.sergio.entity.Usuario;
 import lombok.*;
 import org.springframework.stereotype.Component;
 
@@ -13,20 +12,18 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-public class EstadisticasFlex implements Serializable {
+public class EstadisticasDTO implements Serializable {
 
-    private int precio;
+    private Long precio;
 
-    private int numeroAlertas;
-
-    private int numeroCaracteres;
-
+    private Long numeroAlertas;
 
 
     private List<PropiedadDTO> propiedades;
 
     private List<UsuarioDTO> usuarios;
 
-    private List<AlertaDTO> alertas;
+    private String contents;
+
 
 }

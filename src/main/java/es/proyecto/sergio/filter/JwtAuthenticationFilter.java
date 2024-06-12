@@ -3,7 +3,7 @@ package es.proyecto.sergio.filter;
 import java.io.IOException;
 
 import es.proyecto.sergio.service.JwtService;
-import es.proyecto.sergio.config.UserDetailsServiceImpl;
+import es.proyecto.sergio.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

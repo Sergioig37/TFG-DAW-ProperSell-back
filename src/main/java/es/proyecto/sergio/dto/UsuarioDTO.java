@@ -29,4 +29,6 @@ public class UsuarioDTO {
 
 
     private boolean habilitado;
+
+    private int numeroAlertas;
 }

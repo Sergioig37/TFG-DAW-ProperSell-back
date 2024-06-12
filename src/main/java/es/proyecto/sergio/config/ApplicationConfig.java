@@ -1,12 +1,12 @@
 package es.proyecto.sergio.config;
 
+import es.proyecto.sergio.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ApplicationConfig {
 	UsuarioDAO usuarioDAO;
 	
 	@Autowired
-	UserDetailsServiceImpl userDetailsServiceImpl;
+    UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	@Bean
 	public PasswordEncoder bCryptPasswordEncoder() {
@@ -42,7 +42,7 @@ public class ApplicationConfig {
 		return authenticationProvider;
 	}
 	@Bean
-	private UserDetailsService userDetailsService() {
+	private org.springframework.security.core.userdetails.UserDetailsService userDetailsService() {
 
 		return username -> userDetailsServiceImpl.loadUserByUsername(username);
 	}
