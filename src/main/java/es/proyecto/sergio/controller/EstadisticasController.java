@@ -3,13 +3,11 @@ package es.proyecto.sergio.controller;
 import es.proyecto.sergio.dao.PropiedadDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.AlertaDTO;
-import es.proyecto.sergio.dto.EstadisticasDTO;
 import es.proyecto.sergio.dto.PropiedadDTO;
 import es.proyecto.sergio.dto.UsuarioDTO;
 import es.proyecto.sergio.entity.Alerta;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.service.AlertaService;
-import es.proyecto.sergio.service.EstadisticasService;
 import es.proyecto.sergio.service.PropiedadService;
 import es.proyecto.sergio.service.UsuarioService;
 import org.slf4j.Logger;
@@ -22,7 +20,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -47,8 +44,7 @@ public class EstadisticasController {
     @Autowired
     AlertaService alertaService;
 
-    @Autowired
-    EstadisticasService estadisticasService;
+
 
 
     private static final Logger logger
@@ -75,66 +71,44 @@ public class EstadisticasController {
     }
 
     @GetMapping("/usuario/variasPropiedades")
-    public ResponseEntity<List<Usuario>> getUsuariosConMasDeUnaPropiedad() {
+    public ResponseEntity<List<UsuarioDTO>> getUsuariosConMasDeUnaPropiedad() {
 
         List<Usuario> usuarios = usuarioService.findUsuarioMaDeUnaPropiedad();
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        List<UsuarioDTO> usuarioDTOS = usuarioService.convertirAListaUsuarioDTO(usuarios);
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioDTOS);
     }
 
     @GetMapping("/alertas/variosUsuarios")
     public ResponseEntity<List<AlertaDTO>> getAlertasPopulares() {
 
-        List<AlertaDTO> alertas = alertaService.encontrarAlertasPopulars();
+        List<AlertaDTO> alertas = alertaService.encontrarAlertasPopulares();
 
 
         return ResponseEntity.status(HttpStatus.OK).body(alertas);
     }
 
     @GetMapping("/usuarios/baneados")
-    public ResponseEntity<List<Usuario>> getUsuariosBaneados() {
+    public ResponseEntity<List<UsuarioDTO>> getUsuariosBaneados() {
 
         List<Usuario> usuarios = usuarioDAO.findByHabilitado(false);
 
+        List<UsuarioDTO> usuarioDTOS = usuarioService.convertirAListaUsuarioDTO(usuarios);
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioDTOS);
     }
 
     @GetMapping("/alertas/{descripcionSize}")
-    public ResponseEntity<List<Alerta>> getAlertasLargas(@PathVariable Long descripcionSize) {
-
-        List<Alerta> alertas = alertaService.getAlertasMasLargas(descripcionSize);
+    public ResponseEntity<List<AlertaDTO>> getAlertasLargas(@PathVariable Long descripcionSize) {
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(alertas);
+        List<AlertaDTO> alertasDTO = alertaService.getAlertasMasLargas(descripcionSize);
 
-    }
-
-
-    @GetMapping("/generarPdf/{numeroAlertas}/{precio}")
-    public ResponseEntity<EstadisticasDTO> getEstadisticasPdf(@PathVariable Long numeroAlertas, @PathVariable Long precio){
-
-        List<UsuarioDTO> usuarios = usuarioService.buscarUsuariosConMasDeXAlertas(numeroAlertas);
-        List<PropiedadDTO> propiedades = propiedadService.propiedadesMasCarasQue(precio);
-
-
-        EstadisticasDTO estadisticasDTO = EstadisticasDTO.builder()
-                .usuarios(usuarios)
-                .propiedades(propiedades)
-                .numeroAlertas(numeroAlertas)
-                .precio(precio)
-                .build();
-        try{
-                byte[] contents = estadisticasService.getEstadisticasPDF(estadisticasDTO);
-                estadisticasDTO.setContents(Base64.getEncoder().encodeToString(contents));
-                return ResponseEntity.status(HttpStatus.OK).body(estadisticasDTO);
-        }
-        catch (Exception e){
-            logger.error(e.getMessage() + " " + e);
-            return null;
-        }
+        return ResponseEntity.status(HttpStatus.OK).body(alertasDTO);
 
     }
+
 
 }

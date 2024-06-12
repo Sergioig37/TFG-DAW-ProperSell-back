@@ -7,7 +7,6 @@ import java.util.Optional;
 import es.proyecto.sergio.dao.PropiedadDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.PropiedadDTO;
-import es.proyecto.sergio.dto.UsuarioDTO;
 import es.proyecto.sergio.entity.Propiedad;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
@@ -15,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -102,13 +102,14 @@ public  class PropiedadService {
         Optional<Propiedad> propiedad = propiedadDAO.findById(idPropiedad);
 
         if (propiedad.isPresent()) {
-            System.out.println(enabled);
+
             if (enabled==true) {
                 propiedad.get().setHabilitado(true);
-
+                System.out.println("Habilitando");
 
             } else if(enabled==false) {
                 propiedad.get().setHabilitado(false);
+                System.out.println("Deshabilitando");
 
             }
             System.out.println(propiedad.get());
@@ -128,7 +129,7 @@ public  class PropiedadService {
                 System.out.println("ES IGUAL ");
                 this.desenlazarPropietario(propiedadOptional.get());
                 propiedadDAO.delete(propiedadOptional.get());
-                return ResponseEntity.status(HttpStatus.OK).body(propiedadOptional.get());
+                return ResponseEntity.status(HttpStatus.OK).body(null);
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -140,7 +141,7 @@ public  class PropiedadService {
 
         List<Propiedad> propiedades = propiedadDAO.findPropiedadesByPrecioMayorQue(precio);
 
-        List<PropiedadDTO> propiedadDTOList = convertirAUsuarioDTO(propiedades);
+        List<PropiedadDTO> propiedadDTOList = convertirAListaPropiedadDTO(propiedades);
 
         if (propiedadDTOList != null) {
             return propiedadDTOList;
@@ -161,7 +162,12 @@ public  class PropiedadService {
         Optional<Propiedad> propiedad = propiedadDAO.findById(id);
 
         if(propiedad.isPresent()){
-            return ResponseEntity.status(HttpStatus.OK).body(propiedadDAO.findById(id).get());
+
+            PropiedadDTO propiedadDTO = new PropiedadDTO();
+
+            propiedadDTO = convertirAPropiedadDTO(propiedadDAO.findById(id).get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(propiedadDTO);
         }
         else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -170,7 +176,7 @@ public  class PropiedadService {
     }
 
 
-    public List<PropiedadDTO> convertirAUsuarioDTO(List<Propiedad> propiedades){
+    public List<PropiedadDTO> convertirAListaPropiedadDTO(List<Propiedad> propiedades){
 
         List<PropiedadDTO> propiedadesDTO = new ArrayList<>();
 
@@ -178,10 +184,12 @@ public  class PropiedadService {
 
             PropiedadDTO propiedadDTO = new PropiedadDTO();
 
+            propiedadDTO.setId(propiedad.getId());
             propiedadDTO.setTipo(propiedad.getTipo());
             propiedadDTO.setLocalizacion(propiedad.getLocalizacion());
             propiedadDTO.setPrecio(propiedad.getPrecio());
             propiedadDTO.setId(propiedad.getId());
+            propiedadDTO.setHabilitado(propiedad.isHabilitado());
 
 
             propiedadesDTO.add(propiedadDTO);
@@ -192,5 +200,19 @@ public  class PropiedadService {
         return propiedadesDTO;
 
 
+    }
+
+    public PropiedadDTO convertirAPropiedadDTO(Propiedad propiedad){
+        PropiedadDTO propiedadDTO = new PropiedadDTO();
+
+        propiedadDTO.setId(propiedad.getId());
+        propiedadDTO.setTipo(propiedad.getTipo());
+        propiedadDTO.setLocalizacion(propiedad.getLocalizacion());
+        propiedadDTO.setPrecio(propiedad.getPrecio());
+        propiedadDTO.setId(propiedad.getId());
+        propiedadDTO.setHabilitado(propiedad.isHabilitado());
+
+
+        return propiedadDTO;
     }
 }

@@ -56,7 +56,7 @@ public class AlertaService {
         }
     }
 
-    public List<AlertaDTO> encontrarAlertasPopulars() {
+    public List<AlertaDTO> encontrarAlertasPopulares() {
 
 
         List<Alerta> alertas = (List<Alerta>) alertaDAO.findAll();
@@ -66,12 +66,9 @@ public class AlertaService {
 
         for (Alerta alerta : alertas) {
             if (alerta.getUsuarios().size() > 1) {
-                AlertaDTO alertaDTO = new AlertaDTO();
-                alertaDTO.setId(Long.toString(alerta.getId()));
-                alertaDTO.setDescripcion(alerta.getDescripcion());
-                alertaDTO.setNombre(alerta.getNombre());
-                alertaDTO.setNumeroUsuarios(Integer.toString(alerta.getUsuarios().size()));
-                alertasEncontradas.add(alertaDTO);
+
+                alertasEncontradas.add(convertirAAlertaDTO(alerta));
+
             }
         }
 
@@ -79,15 +76,16 @@ public class AlertaService {
 
     }
 
-    public List<Alerta> getAlertasMasLargas(Long size) {
+    public List<AlertaDTO> getAlertasMasLargas(Long size) {
 
         List<Alerta> alertas = (List<Alerta>) alertaDAO.findAll();
 
-        List<Alerta> alertasEncontradas = new ArrayList<>();
+        List<AlertaDTO> alertasEncontradas = new ArrayList<>();
 
         for (Alerta alerta : alertas) {
             if (alerta.getDescripcion().length() > size) {
-                alertasEncontradas.add(alerta);
+
+                alertasEncontradas.add(convertirAAlertaDTO(alerta));
             }
         }
 
@@ -151,5 +149,41 @@ public class AlertaService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
+    }
+
+    public List<AlertaDTO> convertirAListaAlertaDTO(List<Alerta> alertas){
+
+        List<AlertaDTO> alertasDTO = new ArrayList<>();
+
+        for(Alerta alerta: alertas){
+
+            AlertaDTO alertaDTO = new AlertaDTO();
+
+            alertaDTO.setId(alerta.getId());
+            alertaDTO.setDescripcion(alerta.getDescripcion());
+            alertaDTO.setNombre(alerta.getNombre());
+            alertaDTO.setNumeroUsuarios((long) alerta.getUsuarios().size());
+
+            alertasDTO.add(alertaDTO);
+
+        }
+
+
+        return alertasDTO;
+
+
+    }
+
+    public AlertaDTO convertirAAlertaDTO(Alerta alerta){
+
+        AlertaDTO alertaDTO = new AlertaDTO();
+
+        alertaDTO.setId(alerta.getId());
+        alertaDTO.setDescripcion(alerta.getDescripcion());
+        alertaDTO.setNombre(alerta.getNombre());
+        alertaDTO.setNumeroUsuarios((long) alerta.getUsuarios().size());
+
+
+        return alertaDTO;
     }
 }
