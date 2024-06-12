@@ -64,7 +64,7 @@ public class UsuarioController {
 
 
     @DeleteMapping("/del/{id}/{username}")
-    public ResponseEntity<?> delUsuario(@PathVariable Long id,@PathVariable String username) {
+    public ResponseEntity<?> deleteUsuario(@PathVariable Long id,@PathVariable String username) {
 
 
         return usuarioService.borrarUsuario(id, username);
@@ -107,7 +107,7 @@ public class UsuarioController {
 
 
    @PutMapping("/enabled/{id}/{enabled}")
-    public void habilitacionUsuario(@PathVariable Long id, @PathVariable boolean enabled){
+    public void edithabilitacionUsuario(@PathVariable Long id, @PathVariable boolean enabled){
 
         usuarioService.habilitacionUsuario(id, enabled);
 
@@ -135,7 +135,7 @@ public class UsuarioController {
 
 
     @PutMapping("/{idUsuario}/{id}/{add}")
-    public void guardarAlerta(@PathVariable Long idUsuario, @PathVariable Long id, @PathVariable boolean add){
+    public void saverAlertaConUsuario(@PathVariable Long idUsuario, @PathVariable Long id, @PathVariable boolean add){
 
         usuarioService.actualizarAlerta(idUsuario, id, add);
 

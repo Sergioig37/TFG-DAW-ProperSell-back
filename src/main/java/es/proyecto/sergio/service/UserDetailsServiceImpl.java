@@ -1,4 +1,4 @@
-package es.proyecto.sergio.config;
+package es.proyecto.sergio.service;
 
 import java.util.Optional;
 
@@ -13,7 +13,7 @@ import es.proyecto.sergio.dao.UsuarioDAO;
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	 UsuarioDAO usuarioDAO;

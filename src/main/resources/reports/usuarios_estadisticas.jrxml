@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="usuarios_estadisticas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="01295e78-d30d-4509-bd3d-8b59c4c1c2e9">
+	<parameter name="LIST_USUARIOS" class="java.util.List"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="username" class="java.lang.String"/>
+	<field name="numeroAlertas" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="136" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="7e4fbb34-d0f7-471e-84fa-11fdb1fd208b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="30" width="410" height="60" uuid="ad200ca6-215a-4475-a07f-7322ab6157f0"/>
+				<box>
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<staticText>
+					<reportElement x="1" y="1" width="152" height="30" uuid="d863006f-22c4-40c2-99c3-20eaff17faf1"/>
+					<box leftPadding="5">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Nombre de usuario:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="153" y="1" width="257" height="30" uuid="29a480ac-e0b7-4b4d-9b76-d30afb1335fa"/>
+					<box leftPadding="5">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="1" y="31" width="152" height="30" uuid="b97a1a71-1c6e-4dbd-bd2d-4d1d6692c61a"/>
+					<box leftPadding="5">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Número de alertas:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="154" y="32" width="256" height="29" uuid="2482cace-8237-4d11-b2a0-25c059d6bb30"/>
+					<box leftPadding="5">
+						<pen lineWidth="1.0" lineStyle="Solid"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{numeroAlertas}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

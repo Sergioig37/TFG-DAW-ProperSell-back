@@ -229,15 +229,18 @@ public class UsuarioService {
 
     }
 
-    public List<Usuario> buscarUsuariosConMasDeXAlertas(Long numeroAlertas) {
+    public List<UsuarioDTO> buscarUsuariosConMasDeXAlertas(Long numeroAlertas) {
 
         List<Usuario> usuarios = (List<Usuario>) usuarioDAO.findAll();
 
-        List<Usuario> usuariosEncontrados = new ArrayList<>();
+        List<UsuarioDTO> usuarioDTOS = this.convertirAUsuarioDTO(usuarios);
+
+        List<UsuarioDTO> usuariosEncontrados = new ArrayList<>();
 
 
-        for (Usuario usuario : usuarios) {
-            if (usuario.getAlertas().size() > numeroAlertas) {
+
+        for (UsuarioDTO usuario : usuarioDTOS) {
+            if (usuario.getNumeroAlertas() > numeroAlertas) {
                 usuariosEncontrados.add(usuario);
             }
         }
@@ -297,6 +300,32 @@ public class UsuarioService {
         else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+
+    }
+
+    public List<UsuarioDTO> convertirAUsuarioDTO(List<Usuario> usuarios){
+
+        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+
+        for(Usuario usuario: usuarios){
+
+            UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+            usuarioDTO.setCorreo(usuario.getCorreo());
+            usuarioDTO.setUsername(usuario.getUsername());
+            usuarioDTO.setPassword(usuario.getPassword());
+            usuarioDTO.setNumeroTelefono(usuario.getNumeroTelefono());
+            usuarioDTO.setNombreReal(usuario.getUsername());
+            usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
+            usuarioDTO.setHabilitado(usuarioDTO.isHabilitado());
+
+            usuariosDTO.add(usuarioDTO);
+
+        }
+
+
+        return usuariosDTO;
+
 
     }
 }

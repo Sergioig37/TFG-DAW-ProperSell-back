@@ -58,7 +58,7 @@ public class AlertaController {
 
 
     @DeleteMapping("/del/{id}")
-    public ResponseEntity<?> delAlerta(@PathVariable Long id) {
+    public ResponseEntity<?> deleteAlerta(@PathVariable Long id) {
 
         alertaService.borrarAlerta(id);
 
