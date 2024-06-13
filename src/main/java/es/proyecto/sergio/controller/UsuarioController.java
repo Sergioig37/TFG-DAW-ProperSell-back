@@ -2,11 +2,11 @@ package es.proyecto.sergio.controller;
 
 import java.util.*;
 
+import es.proyecto.sergio.dto.PropiedadDTO;
 import es.proyecto.sergio.service.AuthService;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.AlertaDTO;
 import es.proyecto.sergio.dto.UsuarioDTO;
-import es.proyecto.sergio.entity.Propiedad;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.service.UsuarioService;
 import org.slf4j.Logger;
@@ -41,15 +41,27 @@ public class UsuarioController {
             = LoggerFactory.getLogger(UsuarioController.class);
 
     @GetMapping
-    public ResponseEntity<List<Usuario>> getUsuarios(){
-        return ResponseEntity.status(HttpStatus.OK).body((List<Usuario>)usuarioDAO.findAll());
+    public ResponseEntity<List<UsuarioDTO>> getUsuarios(){
+
+        List<UsuarioDTO> usuariosDTO = usuarioService.convertirAListaUsuarioDTO((List<Usuario>)usuarioDAO.findAll());
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuariosDTO);
     }
 
 
     @GetMapping("/usuarioNombre/{username}")
-    public ResponseEntity<Usuario> getUsuarioByUsername(@PathVariable String username){
+    public ResponseEntity<UsuarioDTO> getUsuarioByUsername(@PathVariable String username){
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findByUsername(username).get());
+        Optional<Usuario> usuario = usuarioDAO.findByUsername(username);
+
+        if(usuario.isPresent()){
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioService.convertirAUsuarioDTO(usuario.get()));
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+
 
     }
 
@@ -75,21 +87,21 @@ public class UsuarioController {
     @PutMapping("/edit/{id}/{username}")
     public ResponseEntity<?> editUsername(@RequestBody @Valid UsuarioDTO usuarioDTO, @PathVariable Long id, BindingResult bindingResult, @PathVariable String username)  {
 
-        System.out.println(username);
+
 
         return usuarioService.editarUsuario(usuarioDTO, id, bindingResult, username);
     }
 
 
    @GetMapping("/propiedades/{id}")
-   public ResponseEntity<List<Propiedad>> getMisPropiedades(@PathVariable Long id){
+   public ResponseEntity<List<PropiedadDTO>> getMisPropiedades(@PathVariable Long id){
 
      return  usuarioService.getPropiedadesDelUsuario(id);
 
    }
 
     @GetMapping("/usuarioInfoContacto/{id}")
-    public ResponseEntity<Usuario> getNumeroDueño(@PathVariable Long id){
+    public ResponseEntity<UsuarioDTO> getNumeroDueño(@PathVariable Long id){
 
        return usuarioService.getNumeroPropietario(id);
 
@@ -97,11 +109,11 @@ public class UsuarioController {
 
 
     @GetMapping("/usuarioExcluido/{id}")
-    public ResponseEntity<List<Usuario>> getRestoUsuarios(@PathVariable Long id){
+    public ResponseEntity<List<UsuarioDTO>> getRestoUsuarios(@PathVariable Long id){
 
-        List<Usuario> usuarios = usuarioDAO.findRestoUsuarios(id);
+        List<UsuarioDTO> usuariosDTO = usuarioService.convertirAListaUsuarioDTO(usuarioDAO.findRestoUsuarios(id));
 
-        return ResponseEntity.status(HttpStatus.OK).body(usuarios);
+        return ResponseEntity.status(HttpStatus.OK).body(usuariosDTO);
 
     }
 

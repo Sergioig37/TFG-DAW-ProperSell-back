@@ -1,13 +1,9 @@
 package es.proyecto.sergio.service;
 
-import es.proyecto.sergio.dto.AuthResponseDTO;
-import es.proyecto.sergio.dto.LoginRequestDTO;
+import es.proyecto.sergio.dto.*;
 import es.proyecto.sergio.dao.AlertaDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
-import es.proyecto.sergio.dto.AlertaDTO;
-import es.proyecto.sergio.dto.UsuarioDTO;
 import es.proyecto.sergio.entity.Alerta;
-import es.proyecto.sergio.entity.Propiedad;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
 import jakarta.validation.Valid;
@@ -35,7 +31,8 @@ public class UsuarioService {
     AlertaDAO alertaDAO;
 
     @Autowired
-    AuthService authService;
+    PropiedadService propiedadService;
+
     @Autowired
     LoginService loginService;
 
@@ -103,24 +100,29 @@ public class UsuarioService {
 
     }
 
-    public ResponseEntity<List<Propiedad>> getPropiedadesDelUsuario(Long id) {
+    public ResponseEntity<List<PropiedadDTO>> getPropiedadesDelUsuario(Long id) {
         Optional<Usuario> usuario = usuarioDAO.findById(id);
-        List<Propiedad> propiedades;
+
+
+
+        List<PropiedadDTO> propiedades = new ArrayList<>();
         if (usuario.isPresent()) {
-            propiedades = usuario.get().getPropiedades();
+            propiedades = propiedadService.convertirAListaPropiedadDTO(usuario.get().getPropiedades());
             return ResponseEntity.status(HttpStatus.OK).body(propiedades);
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 
-    public ResponseEntity<Usuario> getNumeroPropietario(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDTO> getNumeroPropietario(@PathVariable Long id) {
 
         Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
+
+
         if (usuarioOptional.isPresent()) {
-            Usuario usuario = usuarioOptional.get();
-            return ResponseEntity.status(HttpStatus.OK).body(usuario);
+            UsuarioDTO usuariodto = convertirAUsuarioDTO(usuarioOptional.get());
+            return ResponseEntity.status(HttpStatus.OK).body(usuariodto);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
@@ -181,7 +183,7 @@ public class UsuarioService {
 
             AlertaDTO alertaDTO = new AlertaDTO();
 
-            alertaDTO.setId(Long.toString(alerta.getId()));
+            alertaDTO.setId(alerta.getId());
             alertaDTO.setNombre(alerta.getNombre());
             alertaDTO.setDescripcion(alerta.getDescripcion());
             disponibles.add(alertaDTO);
@@ -233,7 +235,7 @@ public class UsuarioService {
 
         List<Usuario> usuarios = (List<Usuario>) usuarioDAO.findAll();
 
-        List<UsuarioDTO> usuarioDTOS = this.convertirAUsuarioDTO(usuarios);
+        List<UsuarioDTO> usuarioDTOS = this.convertirAListaUsuarioDTO(usuarios);
 
         List<UsuarioDTO> usuariosEncontrados = new ArrayList<>();
 
@@ -303,7 +305,7 @@ public class UsuarioService {
 
     }
 
-    public List<UsuarioDTO> convertirAUsuarioDTO(List<Usuario> usuarios){
+    public List<UsuarioDTO> convertirAListaUsuarioDTO(List<Usuario> usuarios){
 
         List<UsuarioDTO> usuariosDTO = new ArrayList<>();
 
@@ -311,13 +313,15 @@ public class UsuarioService {
 
             UsuarioDTO usuarioDTO = new UsuarioDTO();
 
+            usuarioDTO.setId(usuario.getId());
             usuarioDTO.setCorreo(usuario.getCorreo());
             usuarioDTO.setUsername(usuario.getUsername());
             usuarioDTO.setPassword(usuario.getPassword());
             usuarioDTO.setNumeroTelefono(usuario.getNumeroTelefono());
             usuarioDTO.setNombreReal(usuario.getUsername());
             usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
-            usuarioDTO.setHabilitado(usuarioDTO.isHabilitado());
+            usuarioDTO.setHabilitado(usuario.isHabilitado());
+            usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
 
             usuariosDTO.add(usuarioDTO);
 
@@ -328,4 +332,22 @@ public class UsuarioService {
 
 
     }
+
+    public UsuarioDTO convertirAUsuarioDTO(Usuario usuario){
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+
+        usuarioDTO.setId(usuario.getId());
+        usuarioDTO.setCorreo(usuario.getCorreo());
+        usuarioDTO.setUsername(usuario.getUsername());
+        usuarioDTO.setPassword(usuario.getPassword());
+        usuarioDTO.setNumeroTelefono(usuario.getNumeroTelefono());
+        usuarioDTO.setNombreReal(usuario.getUsername());
+        usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
+        usuarioDTO.setHabilitado(usuario.isHabilitado());
+        usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
+
+        return usuarioDTO;
+    }
+
 }
