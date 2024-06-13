@@ -31,8 +31,7 @@ public class UsuarioController {
     @Autowired
     AuthService authService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+
 
     @Autowired
     UsuarioService usuarioService;
@@ -68,6 +67,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUsuarioById(@PathVariable Long id){
+
 
 
         return usuarioService.existe(id);

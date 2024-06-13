@@ -60,19 +60,17 @@ public class UsuarioService {
         try {
 
             this.validarDatos(usuarioDTO, bindingResult);
-            System.out.println(username + "Datos validados");
+
 
             Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
-            System.out.println(usuarioOptional.get().getUsername());
             if (usuarioOptional.isPresent()) {
                 if (usuarioOptional.get().getUsername().equals(username)) {
-                    System.out.println(usuarioOptional.get().getUsername());
-                    System.out.println(username + "ES IGUAL");
                     Usuario existingUser = usuarioOptional.get();
                     existingUser.setCorreo(usuarioDTO.getCorreo());
-                    existingUser.setUsername(usuarioDTO.getUsername());
                     existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+                    System.out.println(usuarioDTO.getPassword());
                     if (usuarioDTO.getPassword() != "") {
+                        System.out.println(usuarioDTO.getPassword());
                         existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
                     }
                     existingUser.setNombreReal(usuarioDTO.getNombreReal());
@@ -298,7 +296,10 @@ public class UsuarioService {
         Optional<Usuario> usuario = usuarioDAO.findById(id);
 
         if (usuario.isPresent()) {
-            return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findById(id).get());
+
+            UsuarioDTO usuarioDTO = this.convertirAUsuarioDTO(usuario.get());
+
+            return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
