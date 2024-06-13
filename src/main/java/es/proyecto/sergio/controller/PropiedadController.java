@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.PropiedadDTO;
+import es.proyecto.sergio.dto.UsuarioDTO;
 import es.proyecto.sergio.entity.Usuario;
+import es.proyecto.sergio.service.UsuarioService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +33,29 @@ public class PropiedadController {
 	UsuarioDAO usuarioDAO;
 	@Autowired
 	PropiedadService propiedadService;
+	@Autowired
+	UsuarioService usuarioService;
 
 	private static final Logger logger
 			= LoggerFactory.getLogger(PropiedadController.class);
 
 	@GetMapping
-	public ResponseEntity<List<Propiedad>> getPropiedades(){
+	public ResponseEntity<List<PropiedadDTO>> getPropiedades(){
 
+		List<PropiedadDTO> propiedadDTOList = propiedadService.convertirAListaPropiedadDTO((List<Propiedad>)propiedadDAO.findAll());
 
-		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findAll());
+		return ResponseEntity.status(HttpStatus.OK).body(propiedadDTOList);
 	}
 
 
 	@GetMapping("/habilitadas")
-	public ResponseEntity<List<Propiedad>> getPropiedadesHabilitadas(){
+	public ResponseEntity<List<PropiedadDTO>> getPropiedadesHabilitadas(){
+
+		List<PropiedadDTO> propiedadDTOList = propiedadService.convertirAListaPropiedadDTO((List<Propiedad>)propiedadDAO.findPropiedadesHabilitadas());
 
 
-		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesHabilitadas());
+
+		return ResponseEntity.status(HttpStatus.OK).body(propiedadDTOList);
 	}
 
 	@GetMapping("/{id}")
@@ -89,14 +97,17 @@ public class PropiedadController {
 	}
 
 	@GetMapping("/propietario/{idPropiedad}")
-	public ResponseEntity<Usuario> getVerificarPropietario(@PathVariable Long idPropiedad){
+	public ResponseEntity<UsuarioDTO> getVerificarPropietario(@PathVariable Long idPropiedad){
 
 
 		Optional<Usuario> usuario = propiedadDAO.findPropietarioByPropiedadId(idPropiedad);
 
+
+
 		if(usuario.isPresent()){
+			UsuarioDTO usuarioDTO = usuarioService.convertirAUsuarioDTO(usuario.get());
 			return
-					ResponseEntity.status(HttpStatus.OK).body(usuario.get());
+					ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
 		}
 		else {
 			return
@@ -108,11 +119,13 @@ public class PropiedadController {
 	}
 
 	@GetMapping("/propiedadExcluida/{id}")
-	public ResponseEntity<List<Propiedad>> getPropiedadesQueNoSonDeEstePropietario(@PathVariable Long id){
+	public ResponseEntity<List<PropiedadDTO>> getPropiedadesQueNoSonDeEstePropietario(@PathVariable Long id){
 
 		Optional<Usuario> user = usuarioDAO.findById(id);
 
-		return ResponseEntity.status(HttpStatus.OK).body((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
+		List<PropiedadDTO> propiedadDTOList = propiedadService.convertirAListaPropiedadDTO((List<Propiedad>)propiedadDAO.findPropiedadesQueNoSonDelPropietario(user.get().getId()));
+
+		return ResponseEntity.status(HttpStatus.OK).body(propiedadDTOList);
 	}
 
 
