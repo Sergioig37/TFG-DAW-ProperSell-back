@@ -1,0 +1,1 @@
+## Recursos necesarios para el plugin de compliación de jasper
