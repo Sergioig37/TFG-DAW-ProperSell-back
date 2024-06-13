@@ -24,4 +24,6 @@ public class PropiedadDTO {
     private Long precio;
 
     private String propietario;
+
+    private boolean habilitado;
 }
