@@ -7,6 +7,7 @@ import es.proyecto.sergio.entity.Alerta;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +37,14 @@ public class UsuarioService {
     @Autowired
     LoginService loginService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public ResponseEntity<?> borrarUsuario(Long id, String username) {
         Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
 
         if (usuarioOptional.isPresent()) {
-            if(usuarioOptional.get().getUsername().equals(username)){
+            if (usuarioOptional.get().getUsername().equals(username)) {
                 usuarioDAO.delete(usuarioOptional.get());
                 return ResponseEntity.status(HttpStatus.OK).body(usuarioOptional.get());
             }
@@ -50,59 +54,57 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<?> editarUsuario(@Valid UsuarioDTO usuarioDTO, Long id, BindingResult bindingResult, String username)  {
+    public ResponseEntity<?> editarUsuario(@Valid UsuarioDTO usuarioDTO, Long id, BindingResult bindingResult, String username) {
 
 
-        try{
+        try {
 
-                this.validarDatos(usuarioDTO, bindingResult);
+            this.validarDatos(usuarioDTO, bindingResult);
             System.out.println(username + "Datos validados");
 
-                Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
-                System.out.println(usuarioOptional.get().getUsername());
-                if (usuarioOptional.isPresent()) {
-                    if(usuarioOptional.get().getUsername().equals(username)){
-                        System.out.println(usuarioOptional.get().getUsername());
-                        System.out.println(username+ "ES IGUAL");
-                        Usuario existingUser = usuarioOptional.get();
-                        existingUser.setCorreo(usuarioDTO.getCorreo());
-                        existingUser.setUsername(usuarioDTO.getUsername());
-                        existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
-                        if (usuarioDTO.getPassword() != "") {
-                            existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
-                        }
-                        existingUser.setNombreReal(usuarioDTO.getNombreReal());
-                        usuarioDAO.save(existingUser);
-
-                        return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
+            Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
+            System.out.println(usuarioOptional.get().getUsername());
+            if (usuarioOptional.isPresent()) {
+                if (usuarioOptional.get().getUsername().equals(username)) {
+                    System.out.println(usuarioOptional.get().getUsername());
+                    System.out.println(username + "ES IGUAL");
+                    Usuario existingUser = usuarioOptional.get();
+                    existingUser.setCorreo(usuarioDTO.getCorreo());
+                    existingUser.setUsername(usuarioDTO.getUsername());
+                    existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+                    if (usuarioDTO.getPassword() != "") {
+                        existingUser.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
                     }
-                    return ResponseEntity.status(HttpStatus.OK).body(null);
-                } else {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-                }
+                    existingUser.setNombreReal(usuarioDTO.getNombreReal());
+                    usuarioDAO.save(existingUser);
 
-        }
-        catch (DatosNoValidosException e){
+                    return ResponseEntity.status(HttpStatus.OK).body(this.lanzarNuevoToken(usuarioDTO));
+                }
+                return ResponseEntity.status(HttpStatus.OK).body(null);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+        } catch (DatosNoValidosException e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
 
 
     }
 
-    private AuthResponseDTO lanzarNuevoToken(UsuarioDTO usuarioDTO){
+    private AuthResponseDTO lanzarNuevoToken(UsuarioDTO usuarioDTO) {
 
         LoginRequestDTO loginRequest = new LoginRequestDTO();
 
         loginRequest.setUsername(usuarioDTO.getUsername());
         loginRequest.setPassword(usuarioDTO.getPassword());
 
-        return  loginService.autenticar(loginRequest);
+        return loginService.autenticar(loginRequest);
 
     }
 
     public ResponseEntity<List<PropiedadDTO>> getPropiedadesDelUsuario(Long id) {
         Optional<Usuario> usuario = usuarioDAO.findById(id);
-
 
 
         List<PropiedadDTO> propiedades = new ArrayList<>();
@@ -117,7 +119,6 @@ public class UsuarioService {
     public ResponseEntity<UsuarioDTO> getNumeroPropietario(@PathVariable Long id) {
 
         Optional<Usuario> usuarioOptional = usuarioDAO.findById(id);
-
 
 
         if (usuarioOptional.isPresent()) {
@@ -216,7 +217,7 @@ public class UsuarioService {
             usuariosAlerta.add(usuario.get());
             alertasUsuario.add(alerta.get());
 
-        } else if(!add) {
+        } else if (!add) {
 
             usuariosAlerta.remove(usuario.get());
             alertasUsuario.remove(alerta.get());
@@ -238,7 +239,6 @@ public class UsuarioService {
         List<UsuarioDTO> usuarioDTOS = this.convertirAListaUsuarioDTO(usuarios);
 
         List<UsuarioDTO> usuariosEncontrados = new ArrayList<>();
-
 
 
         for (UsuarioDTO usuario : usuarioDTOS) {
@@ -278,7 +278,7 @@ public class UsuarioService {
 
                 usuario.get().setHabilitado(true);
 
-            } else if(!enabled) {
+            } else if (!enabled) {
                 usuario.get().setHabilitado(false);
 
             }
@@ -292,37 +292,31 @@ public class UsuarioService {
             throw new DatosNoValidosException("Algunos campos del formulario no son válidos");
         }
     }
-    public ResponseEntity<?> existe(Long id){
+
+    public ResponseEntity<?> existe(Long id) {
 
         Optional<Usuario> usuario = usuarioDAO.findById(id);
 
-        if(usuario.isPresent()){
+        if (usuario.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(usuarioDAO.findById(id).get());
-        }
-        else{
+        } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
     }
 
-    public List<UsuarioDTO> convertirAListaUsuarioDTO(List<Usuario> usuarios){
+    public List<UsuarioDTO> convertirAListaUsuarioDTO(List<Usuario> usuarios) {
 
         List<UsuarioDTO> usuariosDTO = new ArrayList<>();
 
-        for(Usuario usuario: usuarios){
+        for (Usuario usuario : usuarios) {
 
-            UsuarioDTO usuarioDTO = new UsuarioDTO();
 
-            usuarioDTO.setId(usuario.getId());
-            usuarioDTO.setCorreo(usuario.getCorreo());
-            usuarioDTO.setUsername(usuario.getUsername());
-            usuarioDTO.setPassword(usuario.getPassword());
-            usuarioDTO.setNumeroTelefono(usuario.getNumeroTelefono());
-            usuarioDTO.setNombreReal(usuario.getUsername());
+            UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
+
             usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
-            usuarioDTO.setHabilitado(usuario.isHabilitado());
-            usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
 
+            usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
             usuariosDTO.add(usuarioDTO);
 
         }
@@ -333,18 +327,12 @@ public class UsuarioService {
 
     }
 
-    public UsuarioDTO convertirAUsuarioDTO(Usuario usuario){
+    public UsuarioDTO convertirAUsuarioDTO(Usuario usuario) {
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        UsuarioDTO usuarioDTO = modelMapper.map(usuario, UsuarioDTO.class);
 
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setCorreo(usuario.getCorreo());
-        usuarioDTO.setUsername(usuario.getUsername());
-        usuarioDTO.setPassword(usuario.getPassword());
-        usuarioDTO.setNumeroTelefono(usuario.getNumeroTelefono());
-        usuarioDTO.setNombreReal(usuario.getUsername());
         usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
-        usuarioDTO.setHabilitado(usuario.isHabilitado());
+
         usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
 
         return usuarioDTO;

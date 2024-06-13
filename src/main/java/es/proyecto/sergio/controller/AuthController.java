@@ -38,7 +38,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid RegisterRequestDTO request, BindingResult bindingResult)  {
 
-       return registerService.manejarErrores(request, bindingResult);
+       return registerService.manejarRegistro(request, bindingResult);
 
     }
 

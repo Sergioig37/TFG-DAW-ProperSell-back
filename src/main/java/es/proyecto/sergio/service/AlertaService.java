@@ -7,6 +7,7 @@ import es.proyecto.sergio.entity.Alerta;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,8 @@ public class AlertaService {
 
     @Autowired
     UsuarioDAO usuarioDAO;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     public void borrarAlerta(Long id) {
@@ -157,11 +160,10 @@ public class AlertaService {
 
         for(Alerta alerta: alertas){
 
-            AlertaDTO alertaDTO = new AlertaDTO();
 
-            alertaDTO.setId(alerta.getId());
-            alertaDTO.setDescripcion(alerta.getDescripcion());
-            alertaDTO.setNombre(alerta.getNombre());
+
+            AlertaDTO alertaDTO = modelMapper.map(alerta,AlertaDTO.class);
+
             alertaDTO.setNumeroUsuarios((long) alerta.getUsuarios().size());
 
             alertasDTO.add(alertaDTO);
@@ -176,13 +178,9 @@ public class AlertaService {
 
     public AlertaDTO convertirAAlertaDTO(Alerta alerta){
 
-        AlertaDTO alertaDTO = new AlertaDTO();
+        AlertaDTO alertaDTO = modelMapper.map(alerta,AlertaDTO.class);
 
-        alertaDTO.setId(alerta.getId());
-        alertaDTO.setDescripcion(alerta.getDescripcion());
-        alertaDTO.setNombre(alerta.getNombre());
         alertaDTO.setNumeroUsuarios((long) alerta.getUsuarios().size());
-
 
         return alertaDTO;
     }

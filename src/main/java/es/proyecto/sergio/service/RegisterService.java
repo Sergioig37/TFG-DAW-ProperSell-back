@@ -17,7 +17,7 @@ public class RegisterService {
     @Autowired
     AuthService authService;
 
-    public ResponseEntity<?> manejarErrores(@Valid RegisterRequestDTO request, BindingResult bindingResult){
+    public ResponseEntity<?> manejarRegistro(@Valid RegisterRequestDTO request, BindingResult bindingResult){
         try {
             authService.register(request, bindingResult);
             return ResponseEntity.status(HttpStatus.OK).body("Usuario registrado con éxito");

@@ -63,9 +63,6 @@ public class AlertaController {
         alertaService.borrarAlerta(id);
 
 
-        logger.info("Borrando alerta");
-        logger.error("No se puedo borrar la alerta");
-
         return ResponseEntity.status(HttpStatus.OK).body(null);
 
     }

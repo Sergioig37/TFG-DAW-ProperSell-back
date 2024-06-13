@@ -11,6 +11,7 @@ import es.proyecto.sergio.entity.Propiedad;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.exception.DatosNoValidosException;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public  class PropiedadService {
 
     @Autowired
     PropiedadDAO propiedadDAO;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     private void desenlazarPropietario(Propiedad propiedad) {
@@ -182,14 +186,9 @@ public  class PropiedadService {
 
         for(Propiedad propiedad: propiedades){
 
-            PropiedadDTO propiedadDTO = new PropiedadDTO();
 
-            propiedadDTO.setId(propiedad.getId());
-            propiedadDTO.setTipo(propiedad.getTipo());
-            propiedadDTO.setLocalizacion(propiedad.getLocalizacion());
-            propiedadDTO.setPrecio(propiedad.getPrecio());
-            propiedadDTO.setId(propiedad.getId());
-            propiedadDTO.setHabilitado(propiedad.isHabilitado());
+
+            PropiedadDTO propiedadDTO = modelMapper.map(propiedad, PropiedadDTO.class);
 
 
             propiedadesDTO.add(propiedadDTO);
@@ -203,14 +202,9 @@ public  class PropiedadService {
     }
 
     public PropiedadDTO convertirAPropiedadDTO(Propiedad propiedad){
-        PropiedadDTO propiedadDTO = new PropiedadDTO();
 
-        propiedadDTO.setId(propiedad.getId());
-        propiedadDTO.setTipo(propiedad.getTipo());
-        propiedadDTO.setLocalizacion(propiedad.getLocalizacion());
-        propiedadDTO.setPrecio(propiedad.getPrecio());
-        propiedadDTO.setId(propiedad.getId());
-        propiedadDTO.setHabilitado(propiedad.isHabilitado());
+
+        PropiedadDTO propiedadDTO = modelMapper.map(propiedad, PropiedadDTO.class);
 
 
         return propiedadDTO;
