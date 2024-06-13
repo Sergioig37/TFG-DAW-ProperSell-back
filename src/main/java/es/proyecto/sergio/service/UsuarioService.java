@@ -321,6 +321,7 @@ public class UsuarioService {
             usuarioDTO.setNombreReal(usuario.getUsername());
             usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
             usuarioDTO.setHabilitado(usuario.isHabilitado());
+            usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
 
             usuariosDTO.add(usuarioDTO);
 
@@ -344,6 +345,7 @@ public class UsuarioService {
         usuarioDTO.setNombreReal(usuario.getUsername());
         usuarioDTO.setNumeroAlertas(usuario.getAlertas().size());
         usuarioDTO.setHabilitado(usuario.isHabilitado());
+        usuarioDTO.setNumeroPropiedades(usuario.getPropiedades().size());
 
         return usuarioDTO;
     }
