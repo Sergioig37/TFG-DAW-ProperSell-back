@@ -3,13 +3,10 @@ package es.proyecto.sergio.controller;
 import es.proyecto.sergio.dao.PropiedadDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.dto.AlertaDTO;
-import es.proyecto.sergio.dto.EstadisticasDTO;
 import es.proyecto.sergio.dto.PropiedadDTO;
 import es.proyecto.sergio.dto.UsuarioDTO;
-import es.proyecto.sergio.entity.Alerta;
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.service.AlertaService;
-import es.proyecto.sergio.service.EstadisticasService;
 import es.proyecto.sergio.service.PropiedadService;
 import es.proyecto.sergio.service.UsuarioService;
 import org.slf4j.Logger;
@@ -33,8 +30,6 @@ public class EstadisticasController {
     @Autowired
     PropiedadDAO propiedadDAO;
 
-
-
     @Autowired
     UsuarioDAO usuarioDAO;
 
@@ -46,10 +41,6 @@ public class EstadisticasController {
 
     @Autowired
     AlertaService alertaService;
-
-
-    @Autowired
-    EstadisticasService estadisticasService;
 
     private static final Logger logger
             = LoggerFactory.getLogger(EstadisticasController.class);
@@ -115,28 +106,5 @@ public class EstadisticasController {
     }
 
 
-    @GetMapping("/generarPdf/{numeroAlertas}/{precio}")
-    public ResponseEntity<EstadisticasDTO> getEstadisticasPdf(@PathVariable Long numeroAlertas, @PathVariable Long precio){
 
-        List<UsuarioDTO> usuarios = usuarioService.buscarUsuariosConMasDeXAlertas(numeroAlertas);
-        List<PropiedadDTO> propiedades = propiedadService.propiedadesMasCarasQue(precio);
-
-
-        EstadisticasDTO estadisticasDTO = EstadisticasDTO.builder()
-                .usuarios(usuarios)
-                .propiedades(propiedades)
-                .numeroAlertas(numeroAlertas)
-                .precio(precio)
-                .build();
-        try{
-            byte[] contents = estadisticasService.getEstadisticasPDF(estadisticasDTO);
-            estadisticasDTO.setContents(Base64.getEncoder().encodeToString(contents));
-            return ResponseEntity.status(HttpStatus.OK).body(estadisticasDTO);
-        }
-        catch (Exception e){
-            logger.error(e.getMessage() + " " + e);
-            return null;
-        }
-
-    }
 }
