@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AlertaDTO {
 
-    private String id;
+    private Long id;
 
     @NotEmpty(message = "El nombre no puede estar vacío")
     @Size(max = 255, min = 4, message = "El nombre debe tener como máximo 255 caracteres")
@@ -17,5 +17,5 @@ public class AlertaDTO {
     @Size(max = 255, min = 4, message = "La descripción debe tener como máximo 255 caracteres")
     private String descripcion;
 
-    private String numeroUsuarios;
+    private Long numeroUsuarios;
 }
