@@ -21,7 +21,7 @@
 ```
 $ git clone https://github.com/Sergioig37/ProperSell-back
 ```
-## ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL FRONT!!!
+## ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!!
 ### Arrancar las base de datos : [Ver repositorio](https://github.com/Sergioig37/Docker)
 ### Arrancar el front: [Ver repositorio](https://github.com/Sergioig37/ProperSell-front)
 
