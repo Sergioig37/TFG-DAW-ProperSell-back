@@ -5,7 +5,9 @@ import es.proyecto.sergio.dao.AlertaDAO;
 import es.proyecto.sergio.dao.UsuarioDAO;
 import es.proyecto.sergio.entity.Alerta;
 import es.proyecto.sergio.entity.Usuario;
+import es.proyecto.sergio.exception.CorreoYaExisteException;
 import es.proyecto.sergio.exception.DatosNoValidosException;
+import es.proyecto.sergio.exception.UsuarioYaExisteException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,8 @@ public class UsuarioService {
 
         try {
 
+            this.yaExiste(usuarioDTO);
+
             this.validarDatos(usuarioDTO, bindingResult);
 
 
@@ -68,6 +72,7 @@ public class UsuarioService {
                     Usuario existingUser = usuarioOptional.get();
                     existingUser.setCorreo(usuarioDTO.getCorreo());
                     existingUser.setNumeroTelefono(usuarioDTO.getNumeroTelefono());
+                    existingUser.setUsername(usuarioDTO.getUsername());
                     System.out.println(usuarioDTO.getPassword());
                     if (usuarioDTO.getPassword() != "") {
                         System.out.println(usuarioDTO.getPassword());
@@ -84,6 +89,10 @@ public class UsuarioService {
             }
 
         } catch (DatosNoValidosException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        } catch (UsuarioYaExisteException e) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        } catch (CorreoYaExisteException e) {
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
         }
 
@@ -302,6 +311,26 @@ public class UsuarioService {
             return ResponseEntity.status(HttpStatus.OK).body(usuarioDTO);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+    }
+
+    private void yaExiste(UsuarioDTO usuarioDTO) throws UsuarioYaExisteException, CorreoYaExisteException {
+
+        Optional<Usuario> usuarioComparar = usuarioDAO.findByUsername(usuarioDTO.getUsername());
+        Optional<Usuario> usuario = usuarioDAO.findById(usuarioDTO.getId());
+
+        Optional<Usuario> usuarioCompararCorreo = usuarioDAO.findByCorreo(usuarioDTO.getCorreo());
+
+        if (usuarioComparar.isPresent() && usuario.isPresent() ) {
+            if (usuarioComparar.get().getId() != usuario.get().getId()) {
+                throw new UsuarioYaExisteException("Este usuario ya existe");
+            }
+        }
+        if (usuarioCompararCorreo.isPresent() && usuario.isPresent()) {
+            if (usuarioCompararCorreo.get().getId() != usuario.get().getId()) {
+                throw new CorreoYaExisteException("Este correo ya existe");
+            }
         }
 
     }
