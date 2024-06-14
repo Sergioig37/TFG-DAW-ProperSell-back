@@ -1,15 +1,15 @@
 # Instrucciones para desplegar el backend del proyecto.
 
 ## Requisitos previos:
-### Versiones de java que son 100% compatibles:
+### Versiones de java que son compatibles:
 
-- Java 17  [Descargar](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+- Java 17 o superior  [Descargar](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
 - Java 21 [Descargar](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
 
 ### Versión de spring-boot framework:
 
--  Spring-boot framewwork: 3.2.4 [Descargar](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot/3.2.4)
+-  Spring-boot framework: 3.2.4 [Descargar](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot/3.2.4)
 
 ### Versión de maven:
 
@@ -22,23 +22,25 @@
 $ git clone https://github.com/Sergioig37/ProperSell-back
 ```
 ## ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!!
-### Arrancar las base de datos : [Ver repositorio](https://github.com/Sergioig37/Docker)
+### Arrancar la base de datos : [Ver repositorio](https://github.com/Sergioig37/Docker)
 ### Arrancar el front: [Ver repositorio](https://github.com/Sergioig37/ProperSell-front)
 
-### (Método 1 ) Abrir el proyecto con el IDE deseado:
+### (Método 1) Abrir el proyecto con el IDE deseado:
 #### Esperar a que se descarguen las dependecias de maven.
 #### Arrancar el proyecto.
 
 ### (Método 2) Abrir un cmd y entrar al proyecto:
 
-- (Opcional) Realizar instalación limpia de dependencias:
-```
-$ mvn clean install
-```
-- (Opcional) Enpaquetar el proyecto:
+
+- (Opcional) Empaquetar el proyecto:
 ```
 $ mvn clean package
 ```
+-  Realizar instalación limpia de dependencias:
+```
+$ mvn clean install
+```
+
 - Iniciar el proyecto:
 
 ```
