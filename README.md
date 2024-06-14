@@ -13,33 +13,24 @@
 
 ### Versión de maven:
 
-#### Maven 3.9.X [Descargar](https://maven.apache.org/download.cgi)
-#### Dependencia Maven [Descargar](https://mvnrepository.com/artifact/org.apache.maven/apache-maven/3.9.6)
+- Maven 3.9.X [Descargar](https://archive.apache.org/dist/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.zip)
+
 
 ## Instrucciones
+
 ### Clonar el proyecto
 ```
 $ git clone https://github.com/Sergioig37/ProperSell-back
 ```
-## ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!!
-### Arrancar la base de datos : [Ver repositorio](https://github.com/Sergioig37/Docker)
-### Arrancar el front: [Ver repositorio](https://github.com/Sergioig37/ProperSell-front)
+  :star: ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!!
+Arracar la base de datos : [repositorio](https://github.com/Sergioig37/Docker)
+### Arrancar el front: [repositorio](https://github.com/Sergioig37/ProperSell-front)
 
 ### (Método 1) Abrir el proyecto con el IDE deseado:
-#### Esperar a que se descarguen las dependecias de maven.
-#### Arrancar el proyecto.
+1. Esperar a que se descarguen las dependecias de maven.
+2. Arrancar el proyecto.
 
 ### (Método 2) Abrir un cmd y entrar al proyecto:
-
-
-- (Opcional) Empaquetar el proyecto:
-```
-$ mvn clean package
-```
--  Realizar instalación limpia de dependencias:
-```
-$ mvn clean install
-```
 
 - Iniciar el proyecto:
 
@@ -48,11 +39,11 @@ $ mvn spring-boot:run
 ```
 ## Credenciales para probar:
 ### Administrador:
-#### Username: SergioAdmin
-#### Contraseña: 2004
+- **Username**: SergioAdmin
+- **Contraseña**: 2004
 
 ### Usuario raso:
-#### Username: Davis
-#### Contraseña: davis
+-  **Username**: Davis
+-  **Contraseña**: davis
     
 
