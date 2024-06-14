@@ -22,13 +22,16 @@
 ```
 $ git clone https://github.com/Sergioig37/ProperSell-back
 ```
-  :star: ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!!
-Arracar la base de datos : [repositorio](https://github.com/Sergioig37/Docker)
-### Arrancar el front: [repositorio](https://github.com/Sergioig37/ProperSell-front)
+
+### ⭐ ⭐ ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!! ⭐⭐
+
+1. Arracar la base de datos : [repositorio](https://github.com/Sergioig37/Docker)
+
+2. Arrancar el front: [repositorio](https://github.com/Sergioig37/ProperSell-front)
 
 ### (Método 1) Abrir el proyecto con el IDE deseado:
-1. Esperar a que se descarguen las dependecias de maven.
-2. Arrancar el proyecto.
+- Esperar a que se descarguen las dependecias de maven.
+- Arrancar el proyecto.
 
 ### (Método 2) Abrir un cmd y entrar al proyecto:
 
@@ -45,5 +48,5 @@ $ mvn spring-boot:run
 ### Usuario raso:
 -  **Username**: Davis
 -  **Contraseña**: davis
-    
+
 
