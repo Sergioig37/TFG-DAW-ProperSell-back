@@ -16,11 +16,21 @@
 - Maven 3.9.X [Descargar](https://archive.apache.org/dist/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.zip)
 
 
+
 ## Instrucciones
+
+
 
 ### Clonar el proyecto
 ```
 $ git clone https://github.com/Sergioig37/ProperSell-back
+```
+
+
+### Comprobar que las versiones son las correctas
+
+```
+$ mvn -version
 ```
 
 ### ⭐ ⭐ ¡¡¡IMPORTANTE ARRANCAR LAS BASE DE DATOS ANTES DE ARRANCAR EL BACK!!! ⭐⭐

@@ -186,8 +186,6 @@ public  class PropiedadService {
 
         for(Propiedad propiedad: propiedades){
 
-
-
             PropiedadDTO propiedadDTO = modelMapper.map(propiedad, PropiedadDTO.class);
 
 
