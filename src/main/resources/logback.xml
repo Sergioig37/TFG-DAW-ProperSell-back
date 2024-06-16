@@ -1,7 +1,14 @@
 <configuration>
     <property name="LOG_DIR" value="./log"/>
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/tests.log</file>
+        <file>${LOG_DIR}/info.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE2" class="ch.qos.logback.core.FileAppender">
+        <file>${LOG_DIR}/auth.log</file>
         <append>true</append>
         <encoder>
             <pattern>%-4relative [%thread] %-5level %logger{35} - %msg%n</pattern>
@@ -12,8 +19,17 @@
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="">
-
+    <logger name="es.proyecto.sergio.controller.UsuarioController" level="info">
+        <appender-ref ref="FILE"/>
+    </logger>
+    <logger name="es.proyecto.sergio.service.UsuarioService" level="info">
+        <appender-ref ref="FILE"/>
+    </logger>
+    <logger name="es.proyecto.sergio.service.AuthService" level="info">
+        <appender-ref ref="FILE2"/>
+    </logger>
+    <logger name="es.proyecto.sergio.service.RegisterService" level="info">
+        <appender-ref ref="FILE2"/>
     </logger>
     <root level="info">
         <appender-ref ref="STDOUT"/>
