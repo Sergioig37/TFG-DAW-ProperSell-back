@@ -27,6 +27,8 @@ public class Propiedad {
 
 	private Long precio;
 
+	private int superficie;
+
 	@Getter
 	@Setter
 	private boolean habilitado;
@@ -47,6 +49,7 @@ public class Propiedad {
 				", precio=" + precio +
 				", habilitado=" + habilitado +
 				", propietario=" + propietario.getUsername() +
+				", superficie=" + superficie +
 				'}';
 	}
 }

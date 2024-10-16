@@ -54,7 +54,8 @@ public  class PropiedadService {
             this.validarDatos(propiedadDTO, bindingResult);
             propiedad.setTipo(propiedadDTO.getTipo());
             propiedad.setLocalizacion(propiedadDTO.getLocalizacion());
-            propiedad.setPrecio(Long.valueOf(propiedadDTO.getPrecio()));
+            propiedad.setPrecio(propiedadDTO.getPrecio());
+            propiedad.setSuperficie(propiedadDTO.getSuperficie());
             propiedad.setHabilitado(true);
 
             if (!propiedadDTO.getPropietario().equals("")) {
@@ -84,6 +85,7 @@ public  class PropiedadService {
                 if(propiedadExiste.get().getPropietario().getUsername().equals(username)){
                     propiedadExiste.get().setLocalizacion(propiedad.getLocalizacion());
                     propiedadExiste.get().setPrecio(Long.valueOf(propiedad.getPrecio()));
+                    propiedadExiste.get().setSuperficie(Integer.valueOf(propiedad.getSuperficie()));
                     propiedadExiste.get().setTipo(propiedad.getTipo());
 
                     propiedadDAO.save(propiedadExiste.get());

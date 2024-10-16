@@ -26,4 +26,6 @@ public class PropiedadDTO {
     private String propietario;
 
     private boolean habilitado;
+
+    private int superficie;
 }
