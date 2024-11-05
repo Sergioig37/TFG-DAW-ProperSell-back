@@ -2,15 +2,16 @@ package es.proyecto.sergio.dao;
 
 import es.proyecto.sergio.entity.Usuario;
 import es.proyecto.sergio.entity.Propiedad;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+
 
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface PropiedadDAO extends CrudRepository<Propiedad, Long>{
+public interface PropiedadDAO extends JpaRepository<Propiedad, Long> {
 
     @Query("SELECT p FROM Propiedad p WHERE p.precio > :precio")
     List<Propiedad> findPropiedadesByPrecioMayorQue(@Param("precio") Long precio);

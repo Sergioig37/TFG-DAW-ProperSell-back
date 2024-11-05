@@ -29,8 +29,7 @@ public class Propiedad {
 
 	private int superficie;
 
-	@Getter
-	@Setter
+
 	private boolean habilitado;
 
 

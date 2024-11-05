@@ -6,12 +6,12 @@ import java.util.Optional;
 
 import es.proyecto.sergio.entity.Usuario;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 
-public interface UsuarioDAO extends CrudRepository<Usuario, Long>{
+public interface UsuarioDAO extends JpaRepository<Usuario, Long> {
 
 	Optional<Usuario> findByUsername(String username);
 

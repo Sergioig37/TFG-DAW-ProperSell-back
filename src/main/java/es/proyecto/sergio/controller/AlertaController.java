@@ -37,7 +37,7 @@ public class AlertaController {
         List<Alerta> alertas = (List<Alerta>) alertaDAO.findAll();
 
         logger.info("Sacando alertas");
-        logger.error("No se pudo sacar las alertas");
+
 
         return ResponseEntity.status(HttpStatus.OK).body(alertas);
     }
